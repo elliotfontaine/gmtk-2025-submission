@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="gmtk-2025-submission"
-run/main_scene="uid://dgp8pbp6npv7k"
+run/main_scene="uid://cjpe1y1myvqbb"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
