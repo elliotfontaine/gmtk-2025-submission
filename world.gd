@@ -2,6 +2,8 @@ extends Node2D
 
 const CREATURE = preload("res://creature.tscn")
 
+const minimum_loop_size :int = 150
+
 var creatures :Array[Creature]
 
 
@@ -16,8 +18,8 @@ func add_creature(nb:int):
 	for creature :Creature in creatures:
 		var angle = (2 * PI * i) / creature_amount
 		i+= 1
-		creature.position.x = max(30*creature_amount,150) * cos(angle)
-		creature.position.y = max(30*creature_amount,150) * sin(angle)
+		creature.position.x = max(30*creature_amount,minimum_loop_size) * cos(angle)
+		creature.position.y = max(30*creature_amount,minimum_loop_size) * sin(angle)
 
 
 func _on_button_add_pressed() -> void:
