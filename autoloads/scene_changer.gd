@@ -1,10 +1,10 @@
 extends CanvasLayer
 
-enum MainScenes {HOME, MAIN}
+enum MainScenes {MAIN, WORLD}
 
 const _MAIN_SCENES_PATHS = {
-	MainScenes.HOME: "res://scenes/home.tscn",
-	MainScenes.MAIN: "res://scenes/main.tscn"
+	MainScenes.MAIN: "res://scenes/main.tscn",
+	MainScenes.WORLD: "res://world.tscn"
 }
 
 var _new_scene_path: String
