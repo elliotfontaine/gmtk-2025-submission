@@ -24,3 +24,9 @@ func add_creature(nb:int):
 
 func _on_button_add_pressed() -> void:
 	add_creature(1)
+
+func run_loop() -> void:
+	for creature :Creature in creatures:
+		#do creature's action here
+		#creature.do_action
+		pass
