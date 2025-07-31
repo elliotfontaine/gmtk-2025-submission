@@ -5,5 +5,7 @@
 
 [node name="FloatingCreature" type="Sprite2D"]
 z_index = 1
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_elyc1")
+offset = Vector2(100, 100)
 script = ExtResource("2_jjaem")

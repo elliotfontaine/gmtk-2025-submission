@@ -2,7 +2,7 @@ extends Sprite2D
 
 var species: SpeciesData:
 	set(new_species):
-		texture = new_species.texture
+		texture = new_species.texture if new_species != null else null
 		species = new_species
 
 func _ready() -> void:
