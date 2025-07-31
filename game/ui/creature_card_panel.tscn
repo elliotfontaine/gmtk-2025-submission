@@ -19,7 +19,7 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Sprite" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+[node name="CreatureSprite" type="TextureRect" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("1_ptfb3")
 stretch_mode = 2
