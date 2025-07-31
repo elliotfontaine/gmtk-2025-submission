@@ -1,6 +1,7 @@
 extends Node2D
 
 const CREATURE = preload("res://creature.tscn")
+const DOT = preload("res://assets/dot.png")
 
 const minimum_loop_size :int = 150
 
@@ -12,6 +13,8 @@ const minimum_loop_size :int = 150
 var game_speed :float = 1.0
 
 var creatures :Array[Creature]
+
+var dots_array :Array[Sprite2D]
 
 var iterator :int
 
@@ -35,7 +38,11 @@ func add_creature(nb:int,data:SpeciesData,pos:int=-1) -> void:
 
 
 ##to call whenever you affect the number of creatures in the loop 
-func update_creature_positions() -> void:
+func update_creature_positions(dots:bool=true) -> void:
+	for dot in dots_array:
+		dot.queue_free()
+	dots_array.clear()
+	
 	var creature_amount = creatures.size()
 	var i :int = 0
 	for creature :Creature in creatures:
@@ -43,6 +50,15 @@ func update_creature_positions() -> void:
 		i+= 1
 		creature.position.x = max(30*creature_amount,minimum_loop_size) * cos(angle)
 		creature.position.y = max(30*creature_amount,minimum_loop_size) * sin(angle)
+		
+		if dots:
+			var new_dot := Sprite2D.new()
+			add_child(new_dot)
+			new_dot.texture = DOT
+			new_dot.position.x = max(30*creature_amount,minimum_loop_size) * cos(angle+(PI/creature_amount))
+			new_dot.position.y = max(30*creature_amount,minimum_loop_size) * sin(angle+(PI/creature_amount))
+			dots_array.append(new_dot)
+	
 	
 	##adaptative zoom: to adjust further once we have a better idea of the size of assets
 	var zoom :float = max(1.0 - (0.015 * creature_amount),0.3)
