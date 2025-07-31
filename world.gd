@@ -40,8 +40,8 @@ func add_creature(nb: int, data: SpeciesData, pos: int = -1) -> void:
 
 ##to call whenever you affect the number of creatures in the loop 
 func update_creature_positions(show_empty_slots: bool = false) -> void:
-	for EMPTY_SLOT in empty_slots:
-		EMPTY_SLOT.queue_free()
+	for slot in empty_slots:
+		slot.queue_free()
 	empty_slots.clear()
 	
 	var creature_amount = creatures.size()

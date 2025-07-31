@@ -7,6 +7,10 @@
 script = ExtResource("1_u036w")
 id = "grass"
 title = "Grass"
-type = Array[int]([0, 3])
+type = 0
+size = 0
 texture = ExtResource("2_kohdr")
+rarity = 0
+range = 0
+value = 0
 metadata/_custom_type_script = "uid://mow41h46xu2s"

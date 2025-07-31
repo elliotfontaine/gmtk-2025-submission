@@ -5,11 +5,12 @@ const species_data_folder :String = "res://species_info/"
 var all_species :Array[SpeciesData]
 
 func _ready() -> void:
-	get_species()
+	all_species = [preload("res://species_info/bunny.tres"), preload("res://species_info/fox.tres"), preload("res://species_info/grass.tres"), preload("res://species_info/worm.tres")]
+	#get_species()
 	print(all_species)
 
 func get_species() -> void:
-	var dirc = DirAccess.open(species_data_folder)
+	var dirc = ResourceLoader.list_directory(species_data_folder)
 	
 	if dirc:
 		dirc.list_dir_begin()
