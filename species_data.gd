@@ -4,9 +4,11 @@ class_name SpeciesData
 @export var id :String
 @export var title :String
 
-enum TYPES {small, medium, large, plant, animal, insect}
+enum TYPES {plant, animal, insect, mushroom}
+@export var type :TYPES
 
-@export var type :Array[TYPES]
+enum SIZES {small, medium, large}
+@export var size :SIZES
 
 @export var texture :CompressedTexture2D
 
