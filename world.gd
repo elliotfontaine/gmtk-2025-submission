@@ -5,10 +5,14 @@ const CREATURE = preload("res://creature.tscn")
 const minimum_loop_size :int = 150
 
 @onready var camera_2d: Camera2D = %Camera2D
+@onready var label_score: Label = %LabelScore
+@onready var progress_bar_score: ProgressBar = %ProgressBarScore
 
 var creatures :Array[Creature]
 
 var iterator :int
+
+var level :int = 0
 
 func add_creature(nb:int,data:SpeciesData,pos:int=-1) -> void:
 	for i in nb:
@@ -48,6 +52,8 @@ func _ready() -> void:
 	add_creature(1,load("res://species_info/bunny.tres"))
 	add_creature(1,load("res://species_info/fox.tres"))
 	add_creature(1,load("res://species_info/bunny.tres"))
+	
+	next_level()
 
 
 func _on_button_add_pressed() -> void:
@@ -55,7 +61,8 @@ func _on_button_add_pressed() -> void:
 	add_creature(1,load("res://species_info/grass.tres"))
 
 func _on_button_run_pressed() -> void:
-	run_loop()
+	await run_loop()
+	next_level()
 
 func run_loop() -> void:
 	iterator = 0
@@ -165,3 +172,22 @@ func get_neighbours_in_range(who:Creature,range:int) -> Array[Creature]:
 					targets_in_range.append(creatures[position_to_check])
 	#print(targets_in_range)
 	return targets_in_range
+
+#region score manager
+
+var score_target :int
+var score_current :int
+
+func next_level():
+	level += 1
+	score_current = 0
+	score_target = level*10*max(level/3,1)
+	
+	progress_bar_score.max_value = score_target
+	update_score_display()
+
+func update_score_display() -> void:
+	label_score.text = "SCORE: %s / %s"%[score_current,score_target]
+	progress_bar_score.value = score_current
+
+#endregion
