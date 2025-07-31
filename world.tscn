@@ -120,7 +120,6 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_tlwt5")
 layout_mode = 2
 text = "Next Loop"
 
-
 [connection signal="pressed" from="ButtonAdd" to="." method="_on_button_add_pressed"]
 [connection signal="floating_creature_asked" from="UI/LeftSideUi/HBoxContainer/ShopPanel" to="." method="_on_shop_panel_floating_creature_asked"]
 [connection signal="pressed" from="UI/LeftSideUi/HBoxContainer/VBoxContainer/NextLoopButton" to="." method="_on_next_loop_button_pressed"]

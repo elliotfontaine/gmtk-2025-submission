@@ -66,7 +66,7 @@ func _on_button_add_pressed() -> void:
 
 func _on_next_loop_button_pressed() -> void:
 	await run_loop()
-  next_level()
+	next_level()
 
 func _on_shop_panel_floating_creature_asked(species: SpeciesData) -> void:
 	floating_creature.species = species
