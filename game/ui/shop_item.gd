@@ -1,4 +1,8 @@
-extends HBoxContainer
+extends Control
+
+signal pressed
+
+var species: SpeciesData
 
 var sprite: Texture:
 	get: return %CreatureSprite.texture
@@ -7,3 +11,6 @@ var sprite: Texture:
 var price: int:
 	get: return int(%Price.text)
 	set(value): %Price.text = str(value)
+
+func _on_texture_button_pressed() -> void:
+	pressed.emit()

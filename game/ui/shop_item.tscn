@@ -1,29 +1,44 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjl76cq3iw1n"]
+[gd_scene load_steps=4 format=3 uid="uid://bjl76cq3iw1n"]
 
 [ext_resource type="Script" uid="uid://c45oly7yg2ccw" path="res://game/ui/shop_item.gd" id="1_124sy"]
 [ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="1_d5n7g"]
 
-[node name="ShopItem" type="HBoxContainer"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_124sy"]
+
+[node name="ShopItem" type="PanelContainer"]
+offset_right = 168.0
+offset_bottom = 128.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_124sy")
 script = ExtResource("1_124sy")
 
-[node name="CreatureSprite" type="TextureRect" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="CreatureSprite" type="TextureRect" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("1_d5n7g")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="CurrencyTexture" type="TextureRect" parent="VBoxContainer"]
+[node name="CurrencyTexture" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("1_d5n7g")
 expand_mode = 5
 
-[node name="Price" type="Label" parent="VBoxContainer"]
+[node name="Price" type="Label" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 30
 text = "50"
 horizontal_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

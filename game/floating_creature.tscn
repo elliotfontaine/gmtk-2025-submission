@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxhthg1im0w32"]
+
+[ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="1_elyc1"]
+[ext_resource type="Script" uid="uid://bwmhakccajxnp" path="res://game/floating_creature.gd" id="2_jjaem"]
+
+[node name="FloatingCreature" type="Sprite2D"]
+z_index = 1
+texture = ExtResource("1_elyc1")
+script = ExtResource("2_jjaem")
