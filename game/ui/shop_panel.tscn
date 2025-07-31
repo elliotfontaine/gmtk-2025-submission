@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d288g7tvym65q"]
 
-[ext_resource type="Script" uid="uid://ilbv0ktx5rak" path="res://game/ui/shop_panel.gd" id="1_sblsc"]
+[ext_resource type="Script" path="res://game/ui/shop_panel.gd" id="1_sblsc"]
 [ext_resource type="PackedScene" uid="uid://bjl76cq3iw1n" path="res://game/ui/shop_item.tscn" id="1_wxg4i"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wxg4i"]

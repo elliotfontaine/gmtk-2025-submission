@@ -61,18 +61,25 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 			new_slot.position.y = max(30 * creature_amount, minimum_loop_size) * sin(angle + (PI / creature_amount))
 			empty_slots.append(new_slot)
 	
+	if creature_amount == 0 && show_empty_slots:
+		var new_slot := EMPTY_SLOT.instantiate()
+		new_slot.pressed.connect(_on_slot_pressed)
+		new_slot.index = 0
+		add_child(new_slot)
+		new_slot.position = Vector2.ZERO
+		empty_slots.append(new_slot)
 	
 	##adaptative zoom: to adjust further once we have a better idea of the size of assets
 	var zoom: float = max(1.0 - (0.015 * creature_amount), 0.3)
 	camera_2d.zoom = Vector2(zoom, zoom)
 
 func _ready() -> void:
-	add_creature(1, load("res://species_info/grass.tres"))
-	add_creature(1, load("res://species_info/worm.tres"))
-	add_creature(1, load("res://species_info/grass.tres"))
-	add_creature(1, load("res://species_info/bunny.tres"))
-	add_creature(1, load("res://species_info/fox.tres"))
-	add_creature(1, load("res://species_info/bunny.tres"))
+	#add_creature(1, load("res://species_info/grass.tres"))
+	#add_creature(1, load("res://species_info/worm.tres"))
+	#add_creature(1, load("res://species_info/grass.tres"))
+	#add_creature(1, load("res://species_info/bunny.tres"))
+	#add_creature(1, load("res://species_info/fox.tres"))
+	#add_creature(1, load("res://species_info/bunny.tres"))
 	
 	next_level()
 
