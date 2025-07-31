@@ -75,6 +75,10 @@ func _ready() -> void:
 	
 	next_level()
 
+func _unhandled_input(event):
+	if floating_creature.species != null:
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			unset_floating_creature()
 
 func _on_button_add_pressed() -> void:
 	#add_creature(1,load("res://species_info/bunny.tres"))
@@ -85,7 +89,7 @@ func _on_next_loop_button_pressed() -> void:
 	next_level()
 
 func _on_shop_panel_floating_creature_asked(species: SpeciesData) -> void:
-	floating_creature.species = species
+	set_floating_creature(species)
 
 func run_loop() -> void:
 	iterator = 0
@@ -218,4 +222,14 @@ func update_score_display() -> void:
 	label_score.text = "SCORE: %s / %s" % [score_current, score_target]
 	progress_bar_score.value = score_current
 
+#endregion
+
+#region floating_creature manager
+func set_floating_creature(species) -> void:
+	floating_creature.species = species
+	update_creature_positions(true)
+
+func unset_floating_creature() -> void:
+	floating_creature.species = null
+	update_creature_positions(false)
 #endregion
