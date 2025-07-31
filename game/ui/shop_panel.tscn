@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://d288g7tvym65q"]
+[gd_scene load_steps=4 format=3 uid="uid://d288g7tvym65q"]
 
+[ext_resource type="Script" uid="uid://ilbv0ktx5rak" path="res://game/ui/shop_panel.gd" id="1_sblsc"]
 [ext_resource type="PackedScene" uid="uid://bjl76cq3iw1n" path="res://game/ui/shop_item.tscn" id="1_wxg4i"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wxg4i"]
@@ -7,6 +8,7 @@
 [node name="ShopPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(600, 400)
 size_flags_horizontal = 4
+script = ExtResource("1_sblsc")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -38,6 +40,7 @@ text = "RE-ROLL"
 layout_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 columns = 2
 
