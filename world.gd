@@ -38,7 +38,7 @@ func add_creature(nb:int,data:SpeciesData,pos:int=-1) -> void:
 
 
 ##to call whenever you affect the number of creatures in the loop 
-func update_creature_positions(dots:bool=true) -> void:
+func update_creature_positions(dots:bool=false) -> void:
 	for dot in dots_array:
 		dot.queue_free()
 	dots_array.clear()
