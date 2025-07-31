@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=7 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://world.gd" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://game/floating_creature.tscn" id="2_036b0"]
 [ext_resource type="PackedScene" uid="uid://bbetjgrjbsdi8" path="res://game/ui/creature_card_panel.tscn" id="2_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://d288g7tvym65q" path="res://game/ui/shop_panel.tscn" id="3_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="4_aqk2v"]
@@ -27,13 +28,6 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "add new creature"
 
-[node name="ButtonRun" type="Button" parent="."]
-offset_left = 472.0
-offset_top = -320.0
-offset_right = 512.0
-offset_bottom = -289.0
-text = "run"
-
 [node name="ProgressBarScore" type="ProgressBar" parent="."]
 unique_name_in_owner = true
 offset_left = -192.0
@@ -56,6 +50,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="UI" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="FloatingCreature" parent="UI" instance=ExtResource("2_036b0")]
+unique_name_in_owner = true
+position = Vector2(0, 1)
 
 [node name="LeftSideUi" type="MarginContainer" parent="UI"]
 anchors_preset = 4
@@ -117,9 +116,10 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 10.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_tlwt5")
 
-[node name="NextTurnButton" type="Button" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer"]
+[node name="NextLoopButton" type="Button" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "Next Tur,n"
+text = "Next Loop"
 
 [connection signal="pressed" from="ButtonAdd" to="." method="_on_button_add_pressed"]
-[connection signal="pressed" from="ButtonRun" to="." method="_on_button_run_pressed"]
+[connection signal="floating_creature_asked" from="UI/LeftSideUi/HBoxContainer/ShopPanel" to="." method="_on_shop_panel_floating_creature_asked"]
+[connection signal="pressed" from="UI/LeftSideUi/HBoxContainer/VBoxContainer/NextLoopButton" to="." method="_on_next_loop_button_pressed"]

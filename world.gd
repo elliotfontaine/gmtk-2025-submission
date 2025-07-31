@@ -5,6 +5,7 @@ const CREATURE = preload("res://creature.tscn")
 const minimum_loop_size :int = 150
 
 @onready var camera_2d: Camera2D = %Camera2D
+@onready var floating_creature: Sprite2D = %FloatingCreature
 @onready var label_score: Label = %LabelScore
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 
@@ -63,9 +64,12 @@ func _on_button_add_pressed() -> void:
 	#add_creature(1,load("res://species_info/bunny.tres"))
 	add_creature(1,load("res://species_info/grass.tres"))
 
-func _on_button_run_pressed() -> void:
+func _on_next_loop_button_pressed() -> void:
 	await run_loop()
 	next_level()
+
+func _on_shop_panel_floating_creature_asked(species: SpeciesData) -> void:
+	floating_creature.species = species
 
 func run_loop() -> void:
 	iterator = 0
