@@ -5,10 +5,17 @@ const CREATURE = preload("res://creature.tscn")
 const minimum_loop_size :int = 150
 
 @onready var camera_2d: Camera2D = %Camera2D
+@onready var label_score: Label = %LabelScore
+@onready var progress_bar_score: ProgressBar = %ProgressBarScore
+
+##placeholder system: length of wait times 
+var game_speed :float = 1.0
 
 var creatures :Array[Creature]
 
 var iterator :int
+
+var level :int = 0
 
 func add_creature(nb:int,data:SpeciesData,pos:int=-1) -> void:
 	for i in nb:
@@ -48,6 +55,8 @@ func _ready() -> void:
 	add_creature(1,load("res://species_info/bunny.tres"))
 	add_creature(1,load("res://species_info/fox.tres"))
 	add_creature(1,load("res://species_info/bunny.tres"))
+	
+	next_level()
 
 
 func _on_button_add_pressed() -> void:
@@ -55,41 +64,45 @@ func _on_button_add_pressed() -> void:
 	add_creature(1,load("res://species_info/grass.tres"))
 
 func _on_button_run_pressed() -> void:
-	run_loop()
+	await run_loop()
+	next_level()
 
 func run_loop() -> void:
 	iterator = 0
 	while iterator < creatures.size():
 		var creature = creatures[iterator]
 		creature.modulate = Color.RED
-		await get_tree().create_timer(1.0).timeout
-		print(creature.name)
-		##do creature's actions here
+		print("%s's turn"%[creature.name])
+		await get_tree().create_timer(game_speed/2).timeout
+		score_current += 1
+		await get_tree().create_timer(game_speed).timeout
+		##do creature's actions here:
 		match creature.data.id:
 			##bunbun eats a plant then duplicates, if no plant, suicides
 			"bunny":
 				if eat(creature,1,[SpeciesData.TYPES.plant]):
-					await get_tree().create_timer(1.0).timeout
+					score_current += 5
+					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
-					await get_tree().create_timer(1.0).timeout
+					await get_tree().create_timer(game_speed).timeout
 					add_creature(1,load("res://species_info/bunny.tres"),creatures.find(creature))
-					await get_tree().create_timer(1.0).timeout
 				else:
 					suicide(creature)
-					await get_tree().create_timer(1.0).timeout
+					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
-					await get_tree().create_timer(1.0).timeout
 			##if grass has no plant neighbours, it duplicates
 			"grass":
 				if not check_neighbours_types(creature,1,[SpeciesData.TYPES.plant]):
 					add_creature(1,load("res://species_info/grass.tres"),creatures.find(creature))
-					await get_tree().create_timer(1.0).timeout
+					score_current += 2
 			#fox eats a neighbouring small animal :) yum
 			"fox":
 				if eat(creature,1,[SpeciesData.TYPES.animal]):
-					await get_tree().create_timer(1.0).timeout
+					score_current += 7
+					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
-					await get_tree().create_timer(1.0).timeout
+		
+		await get_tree().create_timer(game_speed).timeout
 		if creature:
 			creature.modulate = Color.WHITE
 		iterator += 1
@@ -165,3 +178,24 @@ func get_neighbours_in_range(who:Creature,range:int) -> Array[Creature]:
 					targets_in_range.append(creatures[position_to_check])
 	#print(targets_in_range)
 	return targets_in_range
+
+#region score manager
+
+var score_target :int
+var score_current :int:
+	set(val):
+		score_current=val
+		update_score_display()
+
+func next_level():
+	level += 1
+	score_current = 0
+	score_target = level*10*maxi(level/3,1) + maxi(0,(level-2) * 3)
+	progress_bar_score.max_value = score_target
+	update_score_display()
+
+func update_score_display() -> void:
+	label_score.text = "SCORE: %s / %s"%[score_current,score_target]
+	progress_bar_score.value = score_current
+
+#endregion

@@ -34,6 +34,27 @@ offset_right = 512.0
 offset_bottom = -289.0
 text = "run"
 
+[node name="ProgressBarScore" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -192.0
+offset_top = -496.0
+offset_right = 192.0
+offset_bottom = -448.0
+step = 1.0
+value = 50.0
+show_percentage = false
+
+[node name="LabelScore" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = -192.0
+offset_top = -496.0
+offset_right = 192.0
+offset_bottom = -448.0
+theme_override_font_sizes/font_size = 30
+text = "SCORE:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="LeftSideUi" type="MarginContainer" parent="UI"]
