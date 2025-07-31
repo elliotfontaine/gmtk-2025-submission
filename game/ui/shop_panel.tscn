@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://d288g7tvym65q"]
+
+[node name="ShopPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(600, 400)
+size_flags_horizontal = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+text = "Shop"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+text = "RE-ROLL"
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
