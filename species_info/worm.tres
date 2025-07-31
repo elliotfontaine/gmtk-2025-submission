@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SpeciesData" load_steps=3 format=3 uid="uid://bkauilehf1kj1"]
+
+[ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://species_data.gd" id="1_vxgyw"]
+[ext_resource type="Texture2D" uid="uid://dxxp24wqn8l4y" path="res://assets/worm.png" id="2_vxgyw"]
+
+[resource]
+script = ExtResource("1_vxgyw")
+id = "worm"
+title = "Worm"
+type = Array[int]([0, 5])
+texture = ExtResource("2_vxgyw")
+metadata/_custom_type_script = "uid://mow41h46xu2s"
