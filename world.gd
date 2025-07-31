@@ -4,7 +4,6 @@ const CREATURE = preload("res://creature.tscn")
 
 const minimum_loop_size :int = 150
 
-@onready var text_edit: TextEdit = %TextEdit
 @onready var camera_2d: Camera2D = %Camera2D
 
 var creatures :Array[Creature]
@@ -18,6 +17,7 @@ func add_creature(nb:int,data:SpeciesData,pos:int=-1) -> void:
 			creatures.append(new_creature)
 		else:
 			creatures.insert(pos,new_creature)
+			iterator += 1
 		new_creature.data = data
 		new_creature.get_child(0).texture = data.texture
 		new_creature.name = str(creatures.size())
@@ -46,7 +46,9 @@ func _ready() -> void:
 	add_creature(1,load("res://species_info/worm.tres"))
 	add_creature(1,load("res://species_info/grass.tres"))
 	add_creature(1,load("res://species_info/bunny.tres"))
-	
+	add_creature(1,load("res://species_info/fox.tres"))
+	add_creature(1,load("res://species_info/bunny.tres"))
+
 
 func _on_button_add_pressed() -> void:
 	#add_creature(1,load("res://species_info/bunny.tres"))
@@ -64,27 +66,30 @@ func run_loop() -> void:
 		print(creature.name)
 		##do creature's actions here
 		match creature.data.id:
+			##bunbun eats a plant then duplicates, if no plant, suicides
 			"bunny":
 				if eat(creature,1,[SpeciesData.TYPES.plant]):
 					await get_tree().create_timer(1.0).timeout
 					update_creature_positions()
 					await get_tree().create_timer(1.0).timeout
 					add_creature(1,load("res://species_info/bunny.tres"),creatures.find(creature))
-					iterator += 1
+					await get_tree().create_timer(1.0).timeout
 				else:
-					die(creature)
+					suicide(creature)
 					await get_tree().create_timer(1.0).timeout
 					update_creature_positions()
 					await get_tree().create_timer(1.0).timeout
+			##if grass has no plant neighbours, it duplicates
 			"grass":
 				if not check_neighbours_types(creature,1,[SpeciesData.TYPES.plant]):
 					add_creature(1,load("res://species_info/grass.tres"),creatures.find(creature))
-					iterator += 1
+					await get_tree().create_timer(1.0).timeout
+			#fox eats a neighbouring small animal :) yum
+			"fox":
+				if eat(creature,1,[SpeciesData.TYPES.animal]):
 					await get_tree().create_timer(1.0).timeout
 					update_creature_positions()
 					await get_tree().create_timer(1.0).timeout
-				else:
-					pass
 		if creature:
 			creature.modulate = Color.WHITE
 		iterator += 1
@@ -102,21 +107,23 @@ func eat(who:Creature,range:int,diet:Array[SpeciesData.TYPES]) -> bool:
 		var forward_distance = posmod(index_tar - index_who, creatures.size())
 		var backward_distance = posmod(index_who - index_tar, creatures.size())
 		if forward_distance <= backward_distance:
-			#iterator -= 1
 			pass
 		else:
 			iterator -= 1
 		
-		creatures.erase(target)
-		target.queue_free()
+		remove(target)
 		
 		return true
 	else:
 		return false
 
-##"who" spontaneously dies
-func die(who:Creature) -> void:
+##creature unalives itself spontaneously
+func suicide(who:Creature) -> void:
 	iterator -= 1
+	remove(who)
+
+##remove creature from loop
+func remove(who:Creature) -> void:
 	creatures.erase(who)
 	who.queue_free()
 
