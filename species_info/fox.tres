@@ -1,14 +1,14 @@
-[gd_resource type="Resource" script_class="SpeciesData" load_steps=3 format=3 uid="uid://twyq25kbklef"]
+[gd_resource type="Resource" script_class="SpeciesData" load_steps=3 format=3 uid="uid://c00lstosx27sn"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://species_data.gd" id="1_vxgyw"]
-[ext_resource type="Texture2D" uid="uid://dxxp24wqn8l4y" path="res://assets/worm.png" id="2_vxgyw"]
+[ext_resource type="Texture2D" uid="uid://bjirqy057ntrq" path="res://assets/fox.png" id="2_vxgyw"]
 
 [resource]
 script = ExtResource("1_vxgyw")
-id = "worm"
-title = "Worm"
+id = "fox"
+title = "Fox"
 type = 1
-size = 0
+size = 1
 texture = ExtResource("2_vxgyw")
 rarity = 0
 range = 0

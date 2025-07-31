@@ -4,14 +4,19 @@ const CREATURE = preload("res://creature.tscn")
 
 const minimum_loop_size :int = 150
 
-@onready var text_edit: TextEdit = %TextEdit
 @onready var camera_2d: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
+@onready var label_score: Label = %LabelScore
+@onready var progress_bar_score: ProgressBar = %ProgressBarScore
 
+##placeholder system: length of wait times 
+var game_speed :float = 1.0
 
 var creatures :Array[Creature]
 
 var iterator :int
+
+var level :int = 0
 
 func add_creature(nb:int,data:SpeciesData,pos:int=-1) -> void:
 	for i in nb:
@@ -20,6 +25,7 @@ func add_creature(nb:int,data:SpeciesData,pos:int=-1) -> void:
 			creatures.append(new_creature)
 		else:
 			creatures.insert(pos,new_creature)
+			iterator += 1
 		new_creature.data = data
 		new_creature.get_child(0).texture = data.texture
 		new_creature.name = str(creatures.size())
@@ -48,14 +54,19 @@ func _ready() -> void:
 	add_creature(1,load("res://species_info/worm.tres"))
 	add_creature(1,load("res://species_info/grass.tres"))
 	add_creature(1,load("res://species_info/bunny.tres"))
+	add_creature(1,load("res://species_info/fox.tres"))
+	add_creature(1,load("res://species_info/bunny.tres"))
 	
+	next_level()
+
 
 func _on_button_add_pressed() -> void:
 	#add_creature(1,load("res://species_info/bunny.tres"))
 	add_creature(1,load("res://species_info/grass.tres"))
 
 func _on_next_loop_button_pressed() -> void:
-	run_loop()
+	await run_loop()
+  next_level()
 
 func _on_shop_panel_floating_creature_asked(species: SpeciesData) -> void:
 	floating_creature.species = species
@@ -65,31 +76,37 @@ func run_loop() -> void:
 	while iterator < creatures.size():
 		var creature = creatures[iterator]
 		creature.modulate = Color.RED
-		await get_tree().create_timer(1.0).timeout
-		print(creature.name)
-		##do creature's actions here
+		print("%s's turn"%[creature.name])
+		await get_tree().create_timer(game_speed/2).timeout
+		score_current += 1
+		await get_tree().create_timer(game_speed).timeout
+		##do creature's actions here:
 		match creature.data.id:
+			##bunbun eats a plant then duplicates, if no plant, suicides
 			"bunny":
 				if eat(creature,1,[SpeciesData.TYPES.plant]):
-					await get_tree().create_timer(1.0).timeout
+					score_current += 5
+					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
-					await get_tree().create_timer(1.0).timeout
+					await get_tree().create_timer(game_speed).timeout
 					add_creature(1,load("res://species_info/bunny.tres"),creatures.find(creature))
-					iterator += 1
 				else:
-					die(creature)
-					await get_tree().create_timer(1.0).timeout
+					suicide(creature)
+					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
-					await get_tree().create_timer(1.0).timeout
+			##if grass has no plant neighbours, it duplicates
 			"grass":
 				if not check_neighbours_types(creature,1,[SpeciesData.TYPES.plant]):
 					add_creature(1,load("res://species_info/grass.tres"),creatures.find(creature))
-					iterator += 1
-					await get_tree().create_timer(1.0).timeout
+					score_current += 2
+			#fox eats a neighbouring small animal :) yum
+			"fox":
+				if eat(creature,1,[SpeciesData.TYPES.animal]):
+					score_current += 7
+					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
-					await get_tree().create_timer(1.0).timeout
-				else:
-					pass
+		
+		await get_tree().create_timer(game_speed).timeout
 		if creature:
 			creature.modulate = Color.WHITE
 		iterator += 1
@@ -107,21 +124,23 @@ func eat(who:Creature,range:int,diet:Array[SpeciesData.TYPES]) -> bool:
 		var forward_distance = posmod(index_tar - index_who, creatures.size())
 		var backward_distance = posmod(index_who - index_tar, creatures.size())
 		if forward_distance <= backward_distance:
-			#iterator -= 1
 			pass
 		else:
 			iterator -= 1
 		
-		creatures.erase(target)
-		target.queue_free()
+		remove(target)
 		
 		return true
 	else:
 		return false
 
-##"who" spontaneously dies
-func die(who:Creature) -> void:
+##creature unalives itself spontaneously
+func suicide(who:Creature) -> void:
 	iterator -= 1
+	remove(who)
+
+##remove creature from loop
+func remove(who:Creature) -> void:
 	creatures.erase(who)
 	who.queue_free()
 
@@ -163,3 +182,24 @@ func get_neighbours_in_range(who:Creature,range:int) -> Array[Creature]:
 					targets_in_range.append(creatures[position_to_check])
 	#print(targets_in_range)
 	return targets_in_range
+
+#region score manager
+
+var score_target :int
+var score_current :int:
+	set(val):
+		score_current=val
+		update_score_display()
+
+func next_level():
+	level += 1
+	score_current = 0
+	score_target = level*10*maxi(level/3,1) + maxi(0,(level-2) * 3)
+	progress_bar_score.max_value = score_target
+	update_score_display()
+
+func update_score_display() -> void:
+	label_score.text = "SCORE: %s / %s"%[score_current,score_target]
+	progress_bar_score.value = score_current
+
+#endregion

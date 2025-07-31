@@ -28,15 +28,26 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "add new creature"
 
-[node name="TextEdit" type="TextEdit" parent="."]
+[node name="ProgressBarScore" type="ProgressBar" parent="."]
 unique_name_in_owner = true
-offset_left = -72.0
-offset_top = 32.0
-offset_right = 71.0
-offset_bottom = 72.0
-text = "bunny"
-placeholder_text = "bunny"
-metadata/_edit_use_anchors_ = true
+offset_left = -192.0
+offset_top = -496.0
+offset_right = 192.0
+offset_bottom = -448.0
+step = 1.0
+value = 50.0
+show_percentage = false
+
+[node name="LabelScore" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = -192.0
+offset_top = -496.0
+offset_right = 192.0
+offset_bottom = -448.0
+theme_override_font_sizes/font_size = 30
+text = "SCORE:"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="UI" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -108,6 +119,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_tlwt5")
 [node name="NextLoopButton" type="Button" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Next Loop"
+
 
 [connection signal="pressed" from="ButtonAdd" to="." method="_on_button_add_pressed"]
 [connection signal="floating_creature_asked" from="UI/LeftSideUi/HBoxContainer/ShopPanel" to="." method="_on_shop_panel_floating_creature_asked"]
