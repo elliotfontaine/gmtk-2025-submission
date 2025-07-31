@@ -52,7 +52,7 @@ func _on_button_add_pressed() -> void:
 	#add_creature(1,load("res://species_info/bunny.tres"))
 	add_creature(1,load("res://species_info/grass.tres"))
 
-func _on_button_run_pressed() -> void:
+func _on_next_loop_button_pressed() -> void:
 	run_loop()
 
 func run_loop() -> void:

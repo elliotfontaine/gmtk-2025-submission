@@ -37,13 +37,6 @@ text = "bunny"
 placeholder_text = "bunny"
 metadata/_edit_use_anchors_ = true
 
-[node name="ButtonRun" type="Button" parent="."]
-offset_left = -688.0
-offset_top = -400.0
-offset_right = -652.0
-offset_bottom = -369.0
-text = "run"
-
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="LeftSideUi" type="MarginContainer" parent="UI"]
@@ -106,9 +99,9 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 10.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_tlwt5")
 
-[node name="NextTurnButton" type="Button" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer"]
+[node name="NextLoopButton" type="Button" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "Next Turn"
+text = "Next Loop"
 
 [connection signal="pressed" from="ButtonAdd" to="." method="_on_button_add_pressed"]
-[connection signal="pressed" from="ButtonRun" to="." method="_on_button_run_pressed"]
+[connection signal="pressed" from="UI/LeftSideUi/HBoxContainer/VBoxContainer/NextLoopButton" to="." method="_on_next_loop_button_pressed"]
