@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://world.gd" id="1_f3sb7"]
-[ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://game/floating_creature.tscn" id="2_036b0"]
+[ext_resource type="PackedScene" path="res://game/floating_creature.tscn" id="2_036b0"]
 [ext_resource type="PackedScene" uid="uid://bbetjgrjbsdi8" path="res://game/ui/creature_card_panel.tscn" id="2_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://d288g7tvym65q" path="res://game/ui/shop_panel.tscn" id="3_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="4_aqk2v"]
