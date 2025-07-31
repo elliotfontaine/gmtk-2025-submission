@@ -15,12 +15,12 @@ func _ready() -> void:
 		populate_debug_shop()
 
 func _on_item_hovered(item) -> void:
-	print(str(item.species.id) + " hovered !")
-	# show "- Price" after currency count
+	# TODO: show "- Price" after currency count
 	# set CreatureCard
+	pass
 
 func _on_item_exited(item) -> void:
-	# unshow "- Price"
+	# TODO: unshow "- Price"
 	pass
 	
 func _on_item_pressed(item) -> void:
@@ -47,4 +47,3 @@ func populate_debug_shop() -> void:
 		new_item.mouse_entered.connect(_on_item_hovered.bind(new_item))
 		new_item.mouse_exited.connect(_on_item_exited.bind(new_item))
 		new_item.pressed.connect(_on_item_pressed.bind(new_item))
-		
