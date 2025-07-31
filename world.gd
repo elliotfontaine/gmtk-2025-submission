@@ -1,12 +1,13 @@
 extends Node2D
 
 const CREATURE = preload("res://creature.tscn")
-const FLOATING_CREATURE = preload("res://game/floating_creature.tscn")
 
 const minimum_loop_size :int = 150
 
 @onready var text_edit: TextEdit = %TextEdit
 @onready var camera_2d: Camera2D = %Camera2D
+@onready var floating_creature: Sprite2D = %FloatingCreature
+
 
 var creatures :Array[Creature]
 
@@ -57,7 +58,7 @@ func _on_next_loop_button_pressed() -> void:
 	run_loop()
 
 func _on_shop_panel_floating_creature_asked(species: SpeciesData) -> void:
-	add_floating_creature(species)
+	floating_creature.species = species
 
 func run_loop() -> void:
 	iterator = 0
@@ -162,8 +163,3 @@ func get_neighbours_in_range(who:Creature,range:int) -> Array[Creature]:
 					targets_in_range.append(creatures[position_to_check])
 	#print(targets_in_range)
 	return targets_in_range
-
-func add_floating_creature(species: SpeciesData) -> void:
-	var fc: Sprite2D = FLOATING_CREATURE.instantiate()
-	fc.texture = species.texture
-	%UI.add_child(fc)
