@@ -6,6 +6,7 @@
 script = ExtResource("1_f3sb7")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
 
 [node name="ButtonAdd" type="Button" parent="."]
 anchors_preset = 8
