@@ -37,7 +37,6 @@ text = "bunny"
 placeholder_text = "bunny"
 metadata/_edit_use_anchors_ = true
 
-
 [node name="ButtonRun" type="Button" parent="."]
 offset_left = -688.0
 offset_top = -400.0
@@ -109,8 +108,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_tlwt5")
 
 [node name="NextTurnButton" type="Button" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "Next Tur,n"
-
+text = "Next Turn"
 
 [connection signal="pressed" from="ButtonAdd" to="." method="_on_button_add_pressed"]
 [connection signal="pressed" from="ButtonRun" to="." method="_on_button_run_pressed"]
