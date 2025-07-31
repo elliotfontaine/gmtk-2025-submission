@@ -21,4 +21,14 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "add new creature"
 
+[node name="TextEdit" type="TextEdit" parent="."]
+unique_name_in_owner = true
+offset_left = -72.0
+offset_top = 32.0
+offset_right = 71.0
+offset_bottom = 72.0
+text = "bunny"
+placeholder_text = "bunny"
+metadata/_edit_use_anchors_ = true
+
 [connection signal="pressed" from="ButtonAdd" to="." method="_on_button_add_pressed"]
