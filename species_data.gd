@@ -5,6 +5,7 @@ class_name SpeciesData
 @export var title :String
 
 enum TYPES {small, medium, large, plant, animal, insect}
+
 @export var type :Array[TYPES]
 
 @export var texture :CompressedTexture2D
