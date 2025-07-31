@@ -26,6 +26,11 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
 
+[gui]
+
+theme/custom="uid://ckb78edq3a5hf"
+theme/custom_font="uid://8c018rcht6qu"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

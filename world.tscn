@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=6 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://world.gd" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://bbetjgrjbsdi8" path="res://game/ui/creature_card_panel.tscn" id="2_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://d288g7tvym65q" path="res://game/ui/shop_panel.tscn" id="3_aqk2v"]
+[ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="4_aqk2v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tlwt5"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_f3sb7")
@@ -31,5 +36,71 @@ offset_bottom = 72.0
 text = "bunny"
 placeholder_text = "bunny"
 metadata/_edit_use_anchors_ = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="LeftSideUi" type="MarginContainer" parent="UI"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -539.0
+offset_right = 640.0
+offset_bottom = 541.0
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="VBoxContainer" parent="UI/LeftSideUi"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="CreatureCardPanel" parent="UI/LeftSideUi/HBoxContainer" instance=ExtResource("2_tlwt5")]
+layout_mode = 2
+
+[node name="NegativeSpace" type="Panel" parent="UI/LeftSideUi/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_tlwt5")
+
+[node name="ShopPanel" parent="UI/LeftSideUi/HBoxContainer" instance=ExtResource("3_aqk2v")]
+layout_mode = 2
+
+[node name="VBoxContainer" type="HBoxContainer" parent="UI/LeftSideUi/HBoxContainer"]
+layout_mode = 2
+
+[node name="CurrencyContainer" type="PanelContainer" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer/CurrencyContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer/CurrencyContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer/CurrencyContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_aqk2v")
+expand_mode = 3
+
+[node name="Count" type="Label" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer/CurrencyContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "150"
+vertical_alignment = 1
+
+[node name="NegativeSpace" type="Panel" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_tlwt5")
+
+[node name="NextTurnButton" type="Button" parent="UI/LeftSideUi/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Next Tur,n"
 
 [connection signal="pressed" from="ButtonAdd" to="." method="_on_button_add_pressed"]
