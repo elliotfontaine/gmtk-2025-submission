@@ -4,7 +4,6 @@ const CREATURE = preload("res://creature.tscn")
 
 const minimum_loop_size :int = 150
 
-@onready var text_edit: TextEdit = %TextEdit
 @onready var camera_2d: Camera2D = %Camera2D
 
 var creatures :Array[Creature]
