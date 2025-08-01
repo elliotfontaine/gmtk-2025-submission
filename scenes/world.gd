@@ -24,6 +24,9 @@ var iterator: int
 
 var level: int = 0
 
+##placeholder system for naming the creatures
+var creature_tracker :int = 0
+
 func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 	for i in nb:
 		var new_creature := CREATURE.instantiate()
@@ -33,7 +36,8 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 			creatures.insert(pos, new_creature)
 		new_creature.species = Constants.get_species_by_id(id)
 		new_creature.get_child(0).texture = new_creature.species.texture
-		new_creature.name = str(new_creature.species.title) + " "
+		creature_tracker += 1
+		new_creature.name = str(new_creature.species.title) +" " + str(creature_tracker)
 		add_child(new_creature)
 		print("creating %s at %s" % [new_creature.name, pos])
 	
