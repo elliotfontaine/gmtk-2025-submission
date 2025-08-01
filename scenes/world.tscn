@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=8 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
+[ext_resource type="Texture2D" uid="uid://dr1cqjdwtdh76" path="res://assets/sprites/bg.png" id="2_qfnet"]
 [ext_resource type="PackedScene" uid="uid://bbetjgrjbsdi8" path="res://scenes/ui/creature_card_panel.tscn" id="2_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://d288g7tvym65q" path="res://scenes/ui/shop_panel.tscn" id="3_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="4_aqk2v"]
@@ -14,6 +15,16 @@ script = ExtResource("1_f3sb7")
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
 offset = Vector2(-500, 0)
+
+[node name="BgLayer" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="bg" type="TextureRect" parent="BgLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("2_qfnet")
+metadata/_edit_use_anchors_ = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
