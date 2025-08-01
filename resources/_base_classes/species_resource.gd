@@ -11,5 +11,6 @@ extends Resource
 @export_range(1, 5) var default_range: int
 @export var value: int
 
+@export var sfx_placed :AudioStream
 #@export var sfx_trigger :AudioStream
 #@export var sfx_death :AudioStream
