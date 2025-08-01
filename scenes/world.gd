@@ -27,22 +27,8 @@ var level: int = 0
 ##placeholder system for naming the creatures
 var creature_tracker :int = 0
 
-func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
-	for i in nb:
-		var new_creature := CREATURE.instantiate()
-		if pos == -1:
-			creatures.append(new_creature)
-		else:
-			creatures.insert(pos, new_creature)
-		new_creature.species = Constants.get_species_by_id(id)
-		new_creature.get_child(0).texture = new_creature.species.texture
-		creature_tracker += 1
-		new_creature.name = str(new_creature.species.title) +" " + str(creature_tracker)
-		add_child(new_creature)
-		print("creating %s at %s" % [new_creature.name, pos])
-	
-	await update_creature_positions()
-
+func _ready() -> void:
+	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
 func update_creature_positions(show_empty_slots: bool = false) -> void:
@@ -79,27 +65,11 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 	var zoom: float = max(1.0 - (0.015 * creature_amount), 0.3)
 	camera_2d.zoom = Vector2(zoom, zoom)
 
-func _ready() -> void:
-	next_level()
-
-func _unhandled_input(event):
-	if floating_creature.species != null:
-		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			unset_floating_creature()
-
 func _on_next_loop_button_pressed() -> void:
 	sfx_player.stream = sfx_next_loop
 	sfx_player.play()
 	await run_loop()
 	next_level()
-
-func _on_shop_panel_floating_creature_asked(species: SpeciesResource) -> void:
-	set_floating_creature(species)
-
-func _on_slot_pressed(index: int) -> void:
-	if floating_creature.species != null:
-		add_creature(1, floating_creature.species.id, index)
-		unset_floating_creature()
 
 func run_loop() -> void:
 	iterator = 0
@@ -121,6 +91,8 @@ func run_loop() -> void:
 		await get_tree().create_timer(game_speed).timeout
 	
 	await do_on_loop_end_actions()
+
+#region creature actions
 
 func do_action(creature:Creature) -> void:
 	match creature.species.id:
@@ -230,6 +202,7 @@ func do_on_loop_end_actions() -> void:
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
 
+
 ##"who" attemps to eat a neighbour of the specified type in range
 func eat_something_in_range(who: Creature, range: int, species_diet: Array[Constants.FAMILIES], size_diet: Array[Constants.SIZES]) -> bool:
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
@@ -278,6 +251,26 @@ func suicide(who: Creature) -> void:
 	iterator -= 1
 	remove(who)
 
+#endregion
+
+#region creature creation and deletion
+
+func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
+	for i in nb:
+		var new_creature := CREATURE.instantiate()
+		if pos == -1:
+			creatures.append(new_creature)
+		else:
+			creatures.insert(pos, new_creature)
+		new_creature.species = Constants.get_species_by_id(id)
+		new_creature.get_child(0).texture = new_creature.species.texture
+		creature_tracker += 1
+		new_creature.name = str(new_creature.species.title) +" " + str(creature_tracker)
+		add_child(new_creature)
+		print("creating %s at %s" % [new_creature.name, pos])
+	
+	await update_creature_positions()
+
 ##remove creature from loop
 func remove(who: Creature) -> void:
 	creatures.erase(who)
@@ -296,6 +289,10 @@ func create(who: Creature, what:Constants.SPECIES,extra_range:int=0) -> void:
 		pos = -1
 	await add_creature(1, what, creatures.find(who)+1+extra_range)
 
+#endregion
+
+#region creatures array querying 
+
 ##checks whether "who" has a neighbour of "condition" family
 func check_neighbours_types(who: Creature, range: int, condition: Array[Constants.FAMILIES]) -> bool:
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
@@ -311,7 +308,6 @@ func check_neighbours_species(who: Creature, range: int, condition: Array[Consta
 		if creature.species.id in condition:
 			return true
 	return false
-
 
 func get_neighbours_in_range(who: Creature, range: int) -> Array[Creature]:
 	var origin: int = creatures.find(who)
@@ -358,6 +354,8 @@ func get_distance_between_two_creatures(one:Creature,two:Creature) -> int:
 			return distance
 	return 999
 
+#endregion
+
 #region score manager
 
 var score_target: int
@@ -387,4 +385,18 @@ func set_floating_creature(species) -> void:
 func unset_floating_creature() -> void:
 	floating_creature.species = null
 	update_creature_positions(false)
+
+func _on_shop_panel_floating_creature_asked(species: SpeciesResource) -> void:
+	set_floating_creature(species)
+
+func _on_slot_pressed(index: int) -> void:
+	if floating_creature.species != null:
+		add_creature(1, floating_creature.species.id, index)
+		unset_floating_creature()
+
+func _unhandled_input(event):
+	if floating_creature.species != null:
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			unset_floating_creature()
+
 #endregion
