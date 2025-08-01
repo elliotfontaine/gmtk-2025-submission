@@ -40,12 +40,17 @@ text = "RE-ROLL"
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 2
 
-[node name="ShopItem" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("1_wxg4i")]
+[node name="ShopItem" parent="MarginContainer/VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("1_wxg4i")]
 layout_mode = 2
 
 [node name="SFX_Click" type="AudioStreamPlayer" parent="."]
