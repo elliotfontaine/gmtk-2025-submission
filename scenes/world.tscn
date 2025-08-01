@@ -55,6 +55,7 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="CreatureCardPanel" parent="UI/MarginContainer/HBoxContainer/LeftSideUI" instance=ExtResource("2_tlwt5")]
+visible = false
 layout_mode = 2
 
 [node name="NegativeSpace" type="Panel" parent="UI/MarginContainer/HBoxContainer/LeftSideUI"]
