@@ -146,9 +146,13 @@ func eat(who: Creature, range: int, diet: Array[Constants.FAMILIES]) -> bool:
 		var forward_distance = posmod(index_tar - index_who, creatures.size())
 		var backward_distance = posmod(index_who - index_tar, creatures.size())
 		if forward_distance <= backward_distance:
+			print("ate in front")
 			pass
 		else:
-			iterator -= 1
+			print("ate behind")
+			##if target has already played, then regress iterator, but if target is in the future, no need to change the iterator because the creatures array did not shift
+			if not index_tar > index_who:
+				iterator -= 1
 		
 		remove(target)
 		
