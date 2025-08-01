@@ -8,7 +8,8 @@ extends Resource
 
 @export var title: String
 @export var texture: CompressedTexture2D
-@export_range(1, 5) var default_range: int
+##creatures that have no effects that use range have a range of 0:
+@export_range(0, 5) var default_range: int
 @export var value: int
 
 #@export var sfx_trigger :AudioStream
