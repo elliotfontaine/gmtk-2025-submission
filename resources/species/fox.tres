@@ -1,32 +1,7 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=11 format=3 uid="uid://c00lstosx27sn"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://c00lstosx27sn"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_vxgyw"]
-[ext_resource type="Script" uid="uid://dcitalpoeof4t" path="res://resources/_base_classes/action_conditions/action_condition.gd" id="1_ynvgh"]
-[ext_resource type="Script" uid="uid://bak5ojs7i4qg8" path="res://resources/_base_classes/action_conditions/typed_neighbors_condition.gd" id="2_kc12u"]
 [ext_resource type="Texture2D" uid="uid://bjirqy057ntrq" path="res://assets/sprites/creatures/fox.png" id="2_vxgyw"]
-[ext_resource type="Script" uid="uid://benfow6hypho6" path="res://resources/_base_classes/action_effects/action_effect.gd" id="3_fydj8"]
-[ext_resource type="Script" uid="uid://73jox1xf0sws" path="res://resources/_base_classes/action_effects/eat_effect.gd" id="4_3syw7"]
-[ext_resource type="Script" uid="uid://w5u213sgktwr" path="res://resources/_base_classes/action.gd" id="5_rtsbm"]
-
-[sub_resource type="Resource" id="Resource_2rwe3"]
-script = ExtResource("2_kc12u")
-is_blacklist = false
-types = Array[int]([1])
-metadata/_custom_type_script = "uid://bak5ojs7i4qg8"
-
-[sub_resource type="Resource" id="Resource_hbm54"]
-script = ExtResource("4_3syw7")
-diet = Array[int]([1])
-times = 1
-metadata/_custom_type_script = "uid://73jox1xf0sws"
-
-[sub_resource type="Resource" id="Resource_hl6d3"]
-script = ExtResource("5_rtsbm")
-type = 0
-value = 7
-conditions = Array[ExtResource("1_ynvgh")]([SubResource("Resource_2rwe3")])
-effects = Array[ExtResource("3_fydj8")]([SubResource("Resource_hbm54")])
-metadata/_custom_type_script = "uid://w5u213sgktwr"
 
 [resource]
 script = ExtResource("1_vxgyw")
@@ -36,8 +11,6 @@ size = 2
 rarity = 0
 title = "Fox"
 texture = ExtResource("2_vxgyw")
-effect_text = ""
 default_range = 1
-action = SubResource("Resource_hl6d3")
-base_value = 0
+value = 0
 metadata/_custom_type_script = "uid://mow41h46xu2s"

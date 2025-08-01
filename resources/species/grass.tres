@@ -1,31 +1,7 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=11 format=3 uid="uid://bnr020mddktae"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://bnr020mddktae"]
 
-[ext_resource type="Script" uid="uid://dcitalpoeof4t" path="res://resources/_base_classes/action_conditions/action_condition.gd" id="1_klame"]
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_u036w"]
-[ext_resource type="Script" uid="uid://bak5ojs7i4qg8" path="res://resources/_base_classes/action_conditions/typed_neighbors_condition.gd" id="2_3an1g"]
 [ext_resource type="Texture2D" uid="uid://pe4mkl2bufrb" path="res://assets/sprites/creatures/grass.png" id="2_kohdr"]
-[ext_resource type="Script" uid="uid://benfow6hypho6" path="res://resources/_base_classes/action_effects/action_effect.gd" id="3_28hav"]
-[ext_resource type="Script" uid="uid://bdahfecqcgp07" path="res://resources/_base_classes/action_effects/reproduce_effect.gd" id="4_3an1g"]
-[ext_resource type="Script" uid="uid://w5u213sgktwr" path="res://resources/_base_classes/action.gd" id="4_7ve0a"]
-
-[sub_resource type="Resource" id="Resource_kbdjv"]
-script = ExtResource("2_3an1g")
-is_blacklist = true
-types = Array[int]([0])
-metadata/_custom_type_script = "uid://bak5ojs7i4qg8"
-
-[sub_resource type="Resource" id="Resource_28hav"]
-script = ExtResource("4_3an1g")
-child_number = 1
-metadata/_custom_type_script = "uid://bdahfecqcgp07"
-
-[sub_resource type="Resource" id="Resource_l770o"]
-script = ExtResource("4_7ve0a")
-type = 0
-value = 2
-conditions = Array[ExtResource("1_klame")]([SubResource("Resource_kbdjv")])
-effects = Array[ExtResource("3_28hav")]([SubResource("Resource_28hav")])
-metadata/_custom_type_script = "uid://w5u213sgktwr"
 
 [resource]
 script = ExtResource("1_u036w")
@@ -35,8 +11,6 @@ size = 1
 rarity = 0
 title = "Grass"
 texture = ExtResource("2_kohdr")
-effect_text = ""
 default_range = 1
-action = SubResource("Resource_l770o")
-base_value = 0
+value = 0
 metadata/_custom_type_script = "uid://mow41h46xu2s"
