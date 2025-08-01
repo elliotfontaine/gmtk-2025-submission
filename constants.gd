@@ -10,6 +10,8 @@ enum SPECIES {
 	WORM,
 	HEDGEHOG,
 	CROW,
+	EGG,
+	SONGBIRD,
 	#MOLE,
 	#SQUIRREL,
 	#ROOSTER,
@@ -27,8 +29,6 @@ enum SPECIES {
 	#BEE,
 	#HONEY,
 	#ANT,
-	#SONGBIRD,
-	#EGG,
 	#SNAKE,
 	#VULTURE,
 	#CHICKEN

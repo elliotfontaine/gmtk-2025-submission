@@ -28,7 +28,6 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 			creatures.append(new_creature)
 		else:
 			creatures.insert(pos, new_creature)
-			iterator += 1
 		new_creature.species = Constants.get_species_by_id(id)
 		new_creature.get_child(0).texture = new_creature.species.texture
 		new_creature.name = str(new_creature.species.title) + " "
@@ -111,6 +110,8 @@ func run_loop() -> void:
 		if creature:
 			creature.modulate = Color.WHITE
 		await get_tree().create_timer(game_speed).timeout
+	
+	await do_on_loop_end_actions()
 
 func do_action(creature:Creature) -> void:
 	match creature.species.id:
@@ -143,6 +144,13 @@ func do_action(creature:Creature) -> void:
 				score_current += 4
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+		##sonbird eats an insect, if succesful he *creates* an egg
+		Constants.SPECIES.SONGBIRD:
+			if await eat(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.TINY]):
+				await get_tree().create_timer(game_speed).timeout
+				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
+				create(creature,Constants.SPECIES.EGG)
 	
 	await get_tree().create_timer(game_speed).timeout
 	return
@@ -154,6 +162,7 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 	
 	##check triggers
 	for creature in creatures:
+		##actions for when something else is eaten:
 		if not creature == to_be_eaten:
 			match creature.species.id:
 				##worm duplicates whenever an animal dies in its long range if not already adjacent to a worm:
@@ -166,6 +175,13 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL:
 						if get_distance_between_two_creatures(creature,to_be_eaten) <= creature.current_range:
 							triggered_creatures.append(creature)
+		##actions for when the creature itself is eaten:
+		else:
+			##when eaten, egg gives extra yum!:
+			match creature.species.id:
+				Constants.SPECIES.EGG:
+					score_current += 5
+	
 	
 	remove(to_be_eaten)
 	await get_tree().create_timer(game_speed / 2).timeout
@@ -181,6 +197,15 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 				await get_tree().create_timer(game_speed / 2).timeout
 				
 
+##called on loop end for end of loop effects
+func do_on_loop_end_actions() -> void:
+	for creature in creatures:
+		match creature.species.id:
+			##on loop end: if egg wasn't eaten or hatched or anything, it dies.
+			Constants.SPECIES.EGG:
+				remove(creature)
+				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
 
 ##"who" eats neighbours of the specified type in range
 func eat(who: Creature, range: int, diet: Array[Constants.FAMILIES], size: Array[Constants.SIZES]) -> bool:
@@ -223,8 +248,12 @@ func remove(who: Creature) -> void:
 ##creates a new creature with the same species as the specified creature at its position - eg. it will place it before.
 func duplicate_creature(who: Creature) -> void:
 	await add_creature(1, who.species.id, creatures.find(who))
-	#await get_tree().create_timer(game_speed).timeout
+	iterator += 1
+	return
 
+##creates a new creature after who's position. Doesn't increment iterator
+func create(who: Creature, what:Constants.SPECIES) -> void:
+	await add_creature(1, what, creatures.find(who)+1)
 
 ##checks whether "who" has a neighbour of "condition" family
 func check_neighbours_types(who: Creature, range: int, condition: Array[Constants.FAMILIES]) -> bool:

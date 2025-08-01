@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://0cit8u5r4udr"]
+
+[ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_e431m"]
+[ext_resource type="Texture2D" uid="uid://c0yrxjneg457d" path="res://assets/sprites/creatures/egg.png" id="2_e431m"]
+
+[resource]
+script = ExtResource("1_e431m")
+id = 7
+family = 1
+size = 1
+rarity = 0
+title = "Egg"
+texture = ExtResource("2_e431m")
+default_range = 0
+value = 0
+metadata/_custom_type_script = "uid://mow41h46xu2s"
