@@ -1,4 +1,5 @@
 extends Node2D
+@export var background_music: AudioStream
 
 const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
