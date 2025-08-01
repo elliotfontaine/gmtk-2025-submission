@@ -1,4 +1,3 @@
-class_name World
 extends Node2D
 
 const CREATURE = preload("res://scenes/creature.tscn")
@@ -103,12 +102,31 @@ func run_loop() -> void:
 		await get_tree().create_timer(game_speed / 2).timeout
 		score_current += 1
 		await get_tree().create_timer(game_speed).timeout
-		
 		##do creature's actions here:
-		if creature.species.has_action():
-			await creature.species.action.execute(creature, self)
-		else:
-			print_debug("Creature %s has no action !" % creature)
+		match creature.species.id:
+			##bunbun eats a plant then duplicates, if no plant, suicides
+			Constants.SPECIES.BUNNY:
+				if eat(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
+					score_current += 5
+					await get_tree().create_timer(game_speed).timeout
+					update_creature_positions()
+					await get_tree().create_timer(game_speed).timeout
+					add_creature(1, Constants.SPECIES.BUNNY, creatures.find(creature))
+				else:
+					suicide(creature)
+					await get_tree().create_timer(game_speed).timeout
+					update_creature_positions()
+			##if grass has no plant neighbours, it duplicates
+			Constants.SPECIES.GRASS:
+				if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
+					add_creature(1, Constants.SPECIES.GRASS, creatures.find(creature))
+					score_current += 2
+			#fox eats a neighbouring small animal :) yum
+			Constants.SPECIES.FOX:
+				if eat(creature, creature.current_range, [Constants.FAMILIES.ANIMAL]):
+					score_current += 7
+					await get_tree().create_timer(game_speed).timeout
+					update_creature_positions()
 		
 		await get_tree().create_timer(game_speed).timeout
 		if creature:
@@ -147,7 +165,6 @@ func suicide(who: Creature) -> void:
 func remove(who: Creature) -> void:
 	creatures.erase(who)
 	who.queue_free()
-	update_creature_positions()
 
 ##checks whether "who" has a neighbour of "condition" family
 func check_neighbours_types(who: Creature, range: int, condition: Array[Constants.FAMILIES]) -> bool:

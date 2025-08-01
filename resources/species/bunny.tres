@@ -1,38 +1,7 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=13 format=3 uid="uid://bwp55ptwbdoor"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://bwp55ptwbdoor"]
 
-[ext_resource type="Script" uid="uid://dcitalpoeof4t" path="res://resources/_base_classes/action_conditions/action_condition.gd" id="1_hp6wr"]
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_nnalx"]
-[ext_resource type="Script" uid="uid://bak5ojs7i4qg8" path="res://resources/_base_classes/action_conditions/typed_neighbors_condition.gd" id="2_1xcr1"]
 [ext_resource type="Texture2D" uid="uid://cv54ev2gbv1jy" path="res://assets/sprites/creatures/bunny.png" id="2_nnalx"]
-[ext_resource type="Script" uid="uid://benfow6hypho6" path="res://resources/_base_classes/action_effects/action_effect.gd" id="3_1xcr1"]
-[ext_resource type="Script" uid="uid://73jox1xf0sws" path="res://resources/_base_classes/action_effects/eat_effect.gd" id="4_rx24l"]
-[ext_resource type="Script" uid="uid://bdahfecqcgp07" path="res://resources/_base_classes/action_effects/reproduce_effect.gd" id="5_xm4ti"]
-[ext_resource type="Script" uid="uid://w5u213sgktwr" path="res://resources/_base_classes/action.gd" id="6_ef7kr"]
-
-[sub_resource type="Resource" id="Resource_gmy8s"]
-script = ExtResource("2_1xcr1")
-is_blacklist = false
-types = Array[int]([0])
-metadata/_custom_type_script = "uid://bak5ojs7i4qg8"
-
-[sub_resource type="Resource" id="Resource_574ec"]
-script = ExtResource("4_rx24l")
-diet = Array[int]([0])
-times = 1
-metadata/_custom_type_script = "uid://73jox1xf0sws"
-
-[sub_resource type="Resource" id="Resource_aolry"]
-script = ExtResource("5_xm4ti")
-child_number = 1
-metadata/_custom_type_script = "uid://bdahfecqcgp07"
-
-[sub_resource type="Resource" id="Resource_dn5fe"]
-script = ExtResource("6_ef7kr")
-type = 0
-value = 5
-conditions = Array[ExtResource("1_hp6wr")]([SubResource("Resource_gmy8s")])
-effects = Array[ExtResource("3_1xcr1")]([SubResource("Resource_574ec"), SubResource("Resource_aolry")])
-metadata/_custom_type_script = "uid://w5u213sgktwr"
 
 [resource]
 script = ExtResource("1_nnalx")
@@ -42,8 +11,6 @@ size = 1
 rarity = 0
 title = "Bunny"
 texture = ExtResource("2_nnalx")
-effect_text = ""
-default_range = 1
-action = SubResource("Resource_dn5fe")
-base_value = 0
+default_range = 0
+value = 0
 metadata/_custom_type_script = "uid://mow41h46xu2s"
