@@ -12,12 +12,13 @@ enum SPECIES {
 	CROW,
 	EGG,
 	SONGBIRD,
+	CHICKEN,
+	LYNX,
 	#MOLE,
 	#SQUIRREL,
 	#ROOSTER,
 	#OWL,
 	#BADGER,
-	#LYNX,
 	#WOLF,
 	#TIGER,
 	#BEAR,
@@ -31,7 +32,6 @@ enum SPECIES {
 	#ANT,
 	#SNAKE,
 	#VULTURE,
-	#CHICKEN
 }
 
 enum FAMILIES {

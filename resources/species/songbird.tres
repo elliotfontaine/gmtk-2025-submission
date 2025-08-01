@@ -11,6 +11,6 @@ size = 1
 rarity = 0
 title = "Songbird"
 texture = ExtResource("2_a3r3m")
-default_range = 1
+default_range = 2
 value = 0
 metadata/_custom_type_script = "uid://mow41h46xu2s"
