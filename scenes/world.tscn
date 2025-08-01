@@ -51,11 +51,10 @@ mouse_filter = 2
 
 [node name="LeftSideUI" type="VBoxContainer" parent="UI/MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 40
 alignment = 1
 
 [node name="CreatureCardPanel" parent="UI/MarginContainer/HBoxContainer/LeftSideUI" instance=ExtResource("2_tlwt5")]
-visible = false
 layout_mode = 2
 
 [node name="NegativeSpace" type="Panel" parent="UI/MarginContainer/HBoxContainer/LeftSideUI"]
