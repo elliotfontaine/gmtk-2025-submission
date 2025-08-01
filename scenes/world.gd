@@ -1,5 +1,6 @@
 extends Node2D
 @export var background_music: AudioStream
+@export var sfx_next_loop: AudioStream
 
 const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
@@ -10,6 +11,7 @@ const minimum_loop_size: int = 150
 @onready var floating_creature: Sprite2D = %FloatingCreature
 @onready var label_score: Label = %LabelScore
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
+@onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
 
 ##placeholder system: length of wait times 
 var game_speed: float = 1.0
@@ -83,6 +85,8 @@ func _unhandled_input(event):
 			unset_floating_creature()
 
 func _on_next_loop_button_pressed() -> void:
+	sfx_player.stream = sfx_next_loop
+	sfx_player.play()
 	await run_loop()
 	next_level()
 
