@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://758cmg36rndi"]
+
+[ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_74jqi"]
+[ext_resource type="Texture2D" uid="uid://2uaaceqtsihk" path="res://assets/sprites/creatures/crow.png" id="2_a3r3m"]
+
+[resource]
+script = ExtResource("1_74jqi")
+id = 8
+family = 1
+size = 1
+rarity = 0
+title = "Songbird"
+texture = ExtResource("2_a3r3m")
+default_range = 2
+value = 0
+metadata/_custom_type_script = "uid://mow41h46xu2s"

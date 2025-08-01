@@ -10,12 +10,15 @@ enum SPECIES {
 	WORM,
 	HEDGEHOG,
 	CROW,
+	EGG,
+	SONGBIRD,
+	CHICKEN,
+	LYNX,
 	#MOLE,
 	#SQUIRREL,
 	#ROOSTER,
 	#OWL,
 	#BADGER,
-	#LYNX,
 	#WOLF,
 	#TIGER,
 	#BEAR,
@@ -27,11 +30,8 @@ enum SPECIES {
 	#BEE,
 	#HONEY,
 	#ANT,
-	#SONGBIRD,
-	#EGG,
 	#SNAKE,
 	#VULTURE,
-	#CHICKEN
 }
 
 enum FAMILIES {

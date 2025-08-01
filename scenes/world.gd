@@ -28,7 +28,6 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 			creatures.append(new_creature)
 		else:
 			creatures.insert(pos, new_creature)
-			iterator += 1
 		new_creature.species = Constants.get_species_by_id(id)
 		new_creature.get_child(0).texture = new_creature.species.texture
 		new_creature.name = str(new_creature.species.title) + " "
@@ -111,12 +110,14 @@ func run_loop() -> void:
 		if creature:
 			creature.modulate = Color.WHITE
 		await get_tree().create_timer(game_speed).timeout
+	
+	await do_on_loop_end_actions()
 
 func do_action(creature:Creature) -> void:
 	match creature.species.id:
 		##bunbun eats a plant then duplicates, if no plant, suicides
 		Constants.SPECIES.BUNNY:
-			if await eat(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
+			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
 				score_current += 5
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
@@ -133,16 +134,37 @@ func do_action(creature:Creature) -> void:
 				score_current += 2
 		##fox eats a neighbouring small animal :) yum
 		Constants.SPECIES.FOX:
-			if await eat(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
+			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
 				score_current += 7
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 		## hedgehog eats a plant. and cannot be eaten! (see exception in eat method)
 		Constants.SPECIES.HEDGEHOG:
-			if await eat(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
+			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
 				score_current += 4
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+		##chimkin consumes an insect, if succesful creates an egg
+		Constants.SPECIES.CHICKEN:
+			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.TINY]):
+					await get_tree().create_timer(game_speed).timeout
+					await update_creature_positions()
+					await get_tree().create_timer(game_speed).timeout
+					create(creature,Constants.SPECIES.EGG)
+		##songbird eats an insect in a bigger range, if succesful he creates an egg and places it far away
+		Constants.SPECIES.SONGBIRD:
+			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.TINY]):
+				await get_tree().create_timer(game_speed).timeout
+				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
+				create(creature,Constants.SPECIES.EGG,3)
+		##lynx eats both of its neighbours if possible :3 yum
+		Constants.SPECIES.LYNX:
+			for neighbour in get_neighbours_in_range(creature,creature.current_range):
+				if await attempt_to_eat_target(creature, neighbour, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
+					score_current += 9
+					await get_tree().create_timer(game_speed).timeout
+					await update_creature_positions()
 	
 	await get_tree().create_timer(game_speed).timeout
 	return
@@ -154,6 +176,7 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 	
 	##check triggers
 	for creature in creatures:
+		##actions for when something else is eaten:
 		if not creature == to_be_eaten:
 			match creature.species.id:
 				##worm duplicates whenever an animal dies in its long range if not already adjacent to a worm:
@@ -166,6 +189,13 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL:
 						if get_distance_between_two_creatures(creature,to_be_eaten) <= creature.current_range:
 							triggered_creatures.append(creature)
+		##actions for when the creature itself is eaten:
+		else:
+			##when eaten, egg gives extra yum!:
+			match creature.species.id:
+				Constants.SPECIES.EGG:
+					score_current += 5
+	
 	
 	remove(to_be_eaten)
 	await get_tree().create_timer(game_speed / 2).timeout
@@ -181,34 +211,58 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 				await get_tree().create_timer(game_speed / 2).timeout
 				
 
+##called on loop end for end of loop effects
+func do_on_loop_end_actions() -> void:
+	for creature in creatures:
+		match creature.species.id:
+			##on loop end: if egg wasn't eaten or hatched or anything, it dies.
+			Constants.SPECIES.EGG:
+				remove(creature)
+				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
 
-##"who" eats neighbours of the specified type in range
-func eat(who: Creature, range: int, diet: Array[Constants.FAMILIES], size: Array[Constants.SIZES]) -> bool:
+##"who" attemps to eat a neighbour of the specified type in range
+func eat_something_in_range(who: Creature, range: int, species_diet: Array[Constants.FAMILIES], size_diet: Array[Constants.SIZES]) -> bool:
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
 	var target: Creature
-	for creature: Creature in neighbours:
-		if creature.species.family in diet && creature.species.size in size:
-			if not creature.species.id == Constants.SPECIES.HEDGEHOG:
-				target = creature
+	for neighbour: Creature in neighbours:
+		if check_if_fits_diet(neighbour,species_diet,size_diet):
+			target = neighbour
 	if not target:
 		return false
 	else:
-		var index_who = posmod(creatures.find(who), creatures.size())
-		var index_tar = posmod(creatures.find(target), creatures.size())
-		var forward_distance = posmod(index_tar - index_who, creatures.size())
-		var backward_distance = posmod(index_who - index_tar, creatures.size())
-		if forward_distance <= backward_distance:
-			print("ate in front")
-			pass
-		else:
-			print("ate behind")
-			##if target has already played, then regress iterator, but if target is in the future, no need to change the iterator because the creatures array did not shift
-			if not index_tar > index_who:
-				iterator -= 1
-		
-		await do_on_eat_actions(who,target)
-		
+		await do_eat(who,target)
 		return true
+
+func attempt_to_eat_target(who: Creature, target:Creature, species_diet: Array[Constants.FAMILIES], size_diet: Array[Constants.SIZES]) -> bool:
+	if check_if_fits_diet(target,species_diet,size_diet):
+		await do_eat(who,target)
+		return true
+	else:
+		return false
+
+func check_if_fits_diet(target:Creature,species_diet,size_diet) -> bool:
+	if target.species.family in species_diet && target.species.size in size_diet:
+		if not target.species.id == Constants.SPECIES.HEDGEHOG:
+			return true
+	return false
+
+##do eat the target
+func do_eat(who:Creature,target:Creature) -> void:
+	var index_who = posmod(creatures.find(who), creatures.size())
+	var index_tar = posmod(creatures.find(target), creatures.size())
+	var forward_distance = posmod(index_tar - index_who, creatures.size())
+	var backward_distance = posmod(index_who - index_tar, creatures.size())
+	if forward_distance <= backward_distance:
+		print("ate in front")
+		pass
+	else:
+		print("ate behind")
+		##if target has already played, then regress iterator, but if target is in the future, no need to change the iterator because the creatures array did not shift
+		if not index_tar > index_who:
+			iterator -= 1
+	
+	await do_on_eat_actions(who,target)
 
 ##creature unalives itself spontaneously
 func suicide(who: Creature) -> void:
@@ -223,8 +277,15 @@ func remove(who: Creature) -> void:
 ##creates a new creature with the same species as the specified creature at its position - eg. it will place it before.
 func duplicate_creature(who: Creature) -> void:
 	await add_creature(1, who.species.id, creatures.find(who))
-	#await get_tree().create_timer(game_speed).timeout
+	iterator += 1
+	return
 
+##creates a new creature after who's position. Doesn't increment iterator.
+func create(who: Creature, what:Constants.SPECIES,extra_range:int=0) -> void:
+	var pos :int = creatures.find(who)+1+extra_range
+	if pos > creatures.size():
+		pos = -1
+	await add_creature(1, what, creatures.find(who)+1+extra_range)
 
 ##checks whether "who" has a neighbour of "condition" family
 func check_neighbours_types(who: Creature, range: int, condition: Array[Constants.FAMILIES]) -> bool:
