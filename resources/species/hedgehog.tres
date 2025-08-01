@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://lsxsa4bc1324"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://nbxne507vtar"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_mylwq"]
-[ext_resource type="Texture2D" uid="uid://dxxp24wqn8l4y" path="res://assets/sprites/creatures/worm.png" id="2_ofaf3"]
+[ext_resource type="Texture2D" uid="uid://dpbdl0v86liqx" path="res://assets/sprites/creatures/hedgehog.png" id="2_mylwq"]
 
 [resource]
 script = ExtResource("1_mylwq")
@@ -10,7 +10,7 @@ family = 1
 size = 1
 rarity = 0
 title = "Hedgehog"
-texture = ExtResource("2_ofaf3")
+texture = ExtResource("2_mylwq")
 default_range = 0
 value = 0
 metadata/_custom_type_script = "uid://mow41h46xu2s"
