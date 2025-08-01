@@ -35,7 +35,7 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 		add_child(new_creature)
 		print("creating %s at %s" % [new_creature.name, pos])
 	
-	update_creature_positions()
+	await update_creature_positions()
 
 
 ##to call whenever you affect the number of creatures in the loop 
@@ -97,49 +97,90 @@ func run_loop() -> void:
 	iterator = 0
 	while iterator < creatures.size():
 		var creature = creatures[iterator]
-		creature.modulate = Color.RED
 		print("%s's turn" % [creature.name])
+		creature.modulate = Color.RED
 		
+		##do creature's actions here:
 		await get_tree().create_timer(game_speed / 2).timeout
 		score_current += 1
 		await get_tree().create_timer(game_speed / 2).timeout
+		await do_action(creature)
 		
-		##do creature's actions here:
-		match creature.species.id:
-			##bunbun eats a plant then duplicates, if no plant, suicides
-			Constants.SPECIES.BUNNY:
-				if eat(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
-					score_current += 5
-					await get_tree().create_timer(game_speed).timeout
-					update_creature_positions()
-					await get_tree().create_timer(game_speed).timeout
-					add_creature(1, Constants.SPECIES.BUNNY, creatures.find(creature))
-				else:
-					suicide(creature)
-					await get_tree().create_timer(game_speed).timeout
-					update_creature_positions()
-			##if grass has no plant neighbours, it duplicates
-			Constants.SPECIES.GRASS:
-				if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
-					add_creature(1, Constants.SPECIES.GRASS, creatures.find(creature))
-					score_current += 2
-			#fox eats a neighbouring small animal :) yum
-			Constants.SPECIES.FOX:
-				if eat(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
-					score_current += 7
-					await get_tree().create_timer(game_speed).timeout
-					update_creature_positions()
-			#fox eats a neighbouring small animal :) yum
-			Constants.SPECIES.HEDGEHOG:
-				if eat(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
-					score_current += 4
-					await get_tree().create_timer(game_speed).timeout
-					update_creature_positions()
+		iterator += 1
 		
-		await get_tree().create_timer(game_speed).timeout
 		if creature:
 			creature.modulate = Color.WHITE
-		iterator += 1
+		await get_tree().create_timer(game_speed).timeout
+
+func do_action(creature:Creature) -> void:
+	match creature.species.id:
+		##bunbun eats a plant then duplicates, if no plant, suicides
+		Constants.SPECIES.BUNNY:
+			if await eat(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
+				score_current += 5
+				await get_tree().create_timer(game_speed).timeout
+				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
+				await duplicate_creature(creature)
+			else:
+				await suicide(creature)
+				await get_tree().create_timer(game_speed).timeout
+				await update_creature_positions()
+		##if grass has no plant neighbours, it duplicates
+		Constants.SPECIES.GRASS:
+			if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
+				await duplicate_creature(creature)
+				score_current += 2
+		##fox eats a neighbouring small animal :) yum
+		Constants.SPECIES.FOX:
+			if await eat(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
+				score_current += 7
+				await get_tree().create_timer(game_speed).timeout
+				await update_creature_positions()
+		## hedgehog eats a plant. and cannot be eaten! (see exception in eat method)
+		Constants.SPECIES.HEDGEHOG:
+			if await eat(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
+				score_current += 4
+				await get_tree().create_timer(game_speed).timeout
+				await update_creature_positions()
+	
+	await get_tree().create_timer(game_speed).timeout
+	return
+
+##whenever a creature is to be eaten, run this method to trigger all _on_eat effects after eating it
+func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
+	##first check which effects are triggered, then eat, then do the effects (so that the effects do happen AFTER eating while still being able to use the previous game state's parameters)
+	var triggered_creatures :Array[Creature]
+	
+	##check triggers
+	for creature in creatures:
+		if not creature == to_be_eaten:
+			match creature.species.id:
+				##worm duplicates whenever an animal dies in its long range if not already adjacent to a worm:
+				Constants.SPECIES.WORM:
+					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL:
+						if get_distance_between_two_creatures(creature,to_be_eaten) <= creature.current_range:
+							triggered_creatures.append(creature)
+				##crow makes points whenever an animal dies in its long long range:
+				Constants.SPECIES.CROW:
+					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL:
+						if get_distance_between_two_creatures(creature,to_be_eaten) <= creature.current_range:
+							triggered_creatures.append(creature)
+	
+	remove(to_be_eaten)
+	await get_tree().create_timer(game_speed / 2).timeout
+	
+	##do triggered actions
+	for creature in triggered_creatures:
+		match creature.species.id:
+			Constants.SPECIES.WORM:
+				if not check_neighbours_species(creature, 1, [Constants.SPECIES.WORM]):
+					await duplicate_creature(creature)
+			Constants.SPECIES.CROW:
+				score_current += 3
+				await get_tree().create_timer(game_speed / 2).timeout
+				
+
 
 ##"who" eats neighbours of the specified type in range
 func eat(who: Creature, range: int, diet: Array[Constants.FAMILIES], size: Array[Constants.SIZES]) -> bool:
@@ -149,7 +190,9 @@ func eat(who: Creature, range: int, diet: Array[Constants.FAMILIES], size: Array
 		if creature.species.family in diet && creature.species.size in size:
 			if not creature.species.id == Constants.SPECIES.HEDGEHOG:
 				target = creature
-	if target:
+	if not target:
+		return false
+	else:
 		var index_who = posmod(creatures.find(who), creatures.size())
 		var index_tar = posmod(creatures.find(target), creatures.size())
 		var forward_distance = posmod(index_tar - index_who, creatures.size())
@@ -163,11 +206,9 @@ func eat(who: Creature, range: int, diet: Array[Constants.FAMILIES], size: Array
 			if not index_tar > index_who:
 				iterator -= 1
 		
-		remove(target)
+		await do_on_eat_actions(who,target)
 		
 		return true
-	else:
-		return false
 
 ##creature unalives itself spontaneously
 func suicide(who: Creature) -> void:
@@ -179,6 +220,12 @@ func remove(who: Creature) -> void:
 	creatures.erase(who)
 	who.queue_free()
 
+##creates a new creature with the same species as the specified creature at its position - eg. it will place it before.
+func duplicate_creature(who: Creature) -> void:
+	await add_creature(1, who.species.id, creatures.find(who))
+	#await get_tree().create_timer(game_speed).timeout
+
+
 ##checks whether "who" has a neighbour of "condition" family
 func check_neighbours_types(who: Creature, range: int, condition: Array[Constants.FAMILIES]) -> bool:
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
@@ -186,6 +233,15 @@ func check_neighbours_types(who: Creature, range: int, condition: Array[Constant
 		if creature.species.family in condition:
 			return true
 	return false
+	
+##checks whether "who" has a neighbour of "condition" species
+func check_neighbours_species(who: Creature, range: int, condition: Array[Constants.SPECIES]) -> bool:
+	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
+	for creature: Creature in neighbours:
+		if creature.species.id in condition:
+			return true
+	return false
+
 
 func get_neighbours_in_range(who: Creature, range: int) -> Array[Creature]:
 	var origin: int = creatures.find(who)
@@ -220,6 +276,17 @@ func get_neighbours_in_range(who: Creature, range: int) -> Array[Creature]:
 				targets_in_range.append(creatures[position_to_check])
 	#print(targets_in_range)
 	return targets_in_range
+
+func get_distance_between_two_creatures(one:Creature,two:Creature) -> int:
+	if one and two:
+		if one in creatures and two in creatures:
+			var index_one = posmod(creatures.find(one), creatures.size())
+			var index_two = posmod(creatures.find(two), creatures.size())
+			var forward_distance = posmod(index_two - index_one, creatures.size())
+			var backward_distance = posmod(index_one - index_two, creatures.size())
+			var distance :int = min(forward_distance,backward_distance)
+			return distance
+	return 999
 
 #region score manager
 

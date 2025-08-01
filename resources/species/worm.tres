@@ -11,6 +11,6 @@ size = 0
 rarity = 0
 title = "Worm"
 texture = ExtResource("2_vxgyw")
-default_range = 0
+default_range = 3
 value = 0
 metadata/_custom_type_script = "uid://mow41h46xu2s"
