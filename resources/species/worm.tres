@@ -1,7 +1,18 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://twyq25kbklef"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=7 format=3 uid="uid://twyq25kbklef"]
 
+[ext_resource type="Script" uid="uid://dcitalpoeof4t" path="res://resources/_base_classes/action_conditions/action_condition.gd" id="1_2ip3v"]
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_vxgyw"]
+[ext_resource type="Script" uid="uid://benfow6hypho6" path="res://resources/_base_classes/action_effects/action_effect.gd" id="2_vkyik"]
 [ext_resource type="Texture2D" uid="uid://dxxp24wqn8l4y" path="res://assets/sprites/creatures/worm.png" id="2_vxgyw"]
+[ext_resource type="Script" uid="uid://w5u213sgktwr" path="res://resources/_base_classes/action.gd" id="3_7t4s8"]
+
+[sub_resource type="Resource" id="Resource_fv5wn"]
+script = ExtResource("3_7t4s8")
+type = 0
+value = 0
+conditions = Array[ExtResource("1_2ip3v")]([])
+effects = Array[ExtResource("2_vkyik")]([])
+metadata/_custom_type_script = "uid://w5u213sgktwr"
 
 [resource]
 script = ExtResource("1_vxgyw")
@@ -11,6 +22,8 @@ size = 0
 rarity = 0
 title = "Worm"
 texture = ExtResource("2_vxgyw")
-default_range = 0
-value = 0
+effect_text = ""
+default_range = 1
+action = SubResource("Resource_fv5wn")
+base_value = 0
 metadata/_custom_type_script = "uid://mow41h46xu2s"

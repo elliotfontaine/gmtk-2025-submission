@@ -32,6 +32,11 @@ enum RARITIES {
 	LEGENDARY
 }
 
+enum ACTION_REWARD_TYPES {
+	SCORE,
+	ECOS
+}
+
 static func get_species_by_id(id: SPECIES) -> SpeciesResource:
 	assert(SPECIES.values().has(id), "Unknown species ID")
 	return load(species_dir + SPECIES.keys()[id].to_lower() + ".tres")
