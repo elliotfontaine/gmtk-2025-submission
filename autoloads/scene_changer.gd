@@ -4,7 +4,7 @@ enum MainScenes {MAIN, WORLD}
 
 const _MAIN_SCENES_PATHS = {
 	MainScenes.MAIN: "res://scenes/main.tscn",
-	MainScenes.WORLD: "res://world.tscn"
+	MainScenes.WORLD: "res://scenes/world.tscn"
 }
 
 var _new_scene_path: String
