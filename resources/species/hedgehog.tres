@@ -11,6 +11,6 @@ size = 1
 rarity = 0
 title = "Hedgehog"
 texture = ExtResource("2_mylwq")
-default_range = 0
+default_range = 1
 value = 0
 metadata/_custom_type_script = "uid://mow41h46xu2s"
