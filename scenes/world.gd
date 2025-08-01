@@ -192,7 +192,6 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 				Constants.SPECIES.EGG:
 					score_current += 5
 	
-	
 	remove(to_be_eaten)
 	await get_tree().create_timer(game_speed / 2).timeout
 	
@@ -205,7 +204,14 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 			Constants.SPECIES.CROW:
 				score_current += 3
 				await get_tree().create_timer(game_speed / 2).timeout
-				
+
+##whenever a creature duplicates, trigger _on_duplicate effects
+func do_on_duplicate_actions(duplicator:Creature) -> void:
+	for creature in creatures:
+		match creature.species.id:
+			##Badger scores on duplicate
+			Constants.SPECIES.BADGER:
+				score_current += 2
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
@@ -298,6 +304,7 @@ func remove(who: Creature) -> void:
 ##creates a new creature with the same species as the specified creature at its position - eg. it will place it before.
 func duplicate_creature(who: Creature) -> void:
 	await add_creature(1, who.species.id, creatures.find(who))
+	await do_on_duplicate_actions(who)
 	iterator += 1
 	return
 
