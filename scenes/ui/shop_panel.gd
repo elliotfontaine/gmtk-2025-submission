@@ -6,6 +6,7 @@ signal floating_creature_asked(species: SpeciesResource)
 @export var debug: bool = true
 
 @onready var grid_container := %GridContainer
+@onready var sfx_click: AudioStreamPlayer = $SFX_Click
 
 const ITEM_SCENE := preload("res://scenes/ui/shop_item.tscn")
 
@@ -25,6 +26,7 @@ func _on_item_exited(item) -> void:
 	
 func _on_item_pressed(item) -> void:
 	floating_creature_asked.emit(item.species)
+	sfx_click.play() 
 
 func add_shop_item(shop_item: Control) -> void:
 	grid_container.add_child(shop_item)

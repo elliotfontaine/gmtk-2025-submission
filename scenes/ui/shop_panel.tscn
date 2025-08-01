@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://d288g7tvym65q"]
+[gd_scene load_steps=5 format=3 uid="uid://d288g7tvym65q"]
 
 [ext_resource type="Script" uid="uid://ilbv0ktx5rak" path="res://scenes/ui/shop_panel.gd" id="1_sblsc"]
 [ext_resource type="PackedScene" uid="uid://bjl76cq3iw1n" path="res://scenes/ui/shop_item.tscn" id="1_wxg4i"]
+[ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/Click.wav" id="3_qecyp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wxg4i"]
 
@@ -46,3 +47,8 @@ columns = 2
 
 [node name="ShopItem" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("1_wxg4i")]
 layout_mode = 2
+
+[node name="SFX_Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_qecyp")
+volume_db = -12.0
+bus = &"SFX"
