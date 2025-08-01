@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 SceneChanger="*res://autoloads/scene_changer.tscn"
-CreatureDataManager="*res://creature_data_manager.gd"
 
 [display]
 

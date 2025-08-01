@@ -1,7 +1,7 @@
 extends Node2D
 
-const CREATURE = preload("res://creature.tscn")
-const EMPTY_SLOT = preload("res://game/empty_slot.tscn")
+const CREATURE = preload("res://scenes/creature.tscn")
+const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
 
 const minimum_loop_size: int = 150
 
@@ -21,7 +21,7 @@ var iterator: int
 
 var level: int = 0
 
-func add_creature(nb: int, data: SpeciesResource, pos: int = -1) -> void:
+func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 	for i in nb:
 		var new_creature := CREATURE.instantiate()
 		if pos == -1:
@@ -29,8 +29,8 @@ func add_creature(nb: int, data: SpeciesResource, pos: int = -1) -> void:
 		else:
 			creatures.insert(pos, new_creature)
 			iterator += 1
-		new_creature.data = data
-		new_creature.get_child(0).texture = data.texture
+		new_creature.species = Constants.get_species_by_id(id)
+		new_creature.get_child(0).texture = new_creature.species.texture
 		new_creature.name = str(creatures.size())
 		add_child(new_creature)
 		print("creating %s at %s" % [new_creature.name, pos])
@@ -74,22 +74,12 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 	camera_2d.zoom = Vector2(zoom, zoom)
 
 func _ready() -> void:
-	#add_creature(1, load("res://species_info/grass.tres"))
-	#add_creature(1, load("res://species_info/worm.tres"))
-	#add_creature(1, load("res://species_info/grass.tres"))
-	#add_creature(1, load("res://species_info/bunny.tres"))
-	#add_creature(1, load("res://species_info/fox.tres"))
-	#add_creature(1, load("res://species_info/bunny.tres"))
 	next_level()
 
 func _unhandled_input(event):
 	if floating_creature.species != null:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			unset_floating_creature()
-
-func _on_button_add_pressed() -> void:
-	#add_creature(1,load("res://species_info/bunny.tres"))
-	add_creature(1, load("res://species_info/grass.tres"))
 
 func _on_next_loop_button_pressed() -> void:
 	await run_loop()
@@ -100,7 +90,7 @@ func _on_shop_panel_floating_creature_asked(species: SpeciesResource) -> void:
 
 func _on_slot_pressed(index: int) -> void:
 	if floating_creature.species != null:
-		add_creature(1, floating_creature.species, index)
+		add_creature(1, floating_creature.species.id, index)
 		unset_floating_creature()
 
 func run_loop() -> void:
@@ -113,27 +103,27 @@ func run_loop() -> void:
 		score_current += 1
 		await get_tree().create_timer(game_speed).timeout
 		##do creature's actions here:
-		match creature.data.id:
+		match creature.species.id:
 			##bunbun eats a plant then duplicates, if no plant, suicides
-			"bunny":
-				if eat(creature, 1, [SpeciesResource.TYPES.plant]):
+			Constants.SPECIES.BUNNY:
+				if eat(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
 					score_current += 5
 					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
 					await get_tree().create_timer(game_speed).timeout
-					add_creature(1, load("res://species_info/bunny.tres"), creatures.find(creature))
+					add_creature(1, Constants.SPECIES.BUNNY, creatures.find(creature))
 				else:
 					suicide(creature)
 					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
 			##if grass has no plant neighbours, it duplicates
-			"grass":
-				if not check_neighbours_types(creature, 1, [SpeciesResource.TYPES.plant]):
-					add_creature(1, load("res://species_info/grass.tres"), creatures.find(creature))
+			Constants.SPECIES.GRASS:
+				if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
+					add_creature(1, Constants.SPECIES.GRASS, creatures.find(creature))
 					score_current += 2
 			#fox eats a neighbouring small animal :) yum
-			"fox":
-				if eat(creature, 1, [SpeciesResource.TYPES.animal]):
+			Constants.SPECIES.FOX:
+				if eat(creature, creature.current_range, [Constants.FAMILIES.ANIMAL]):
 					score_current += 7
 					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
@@ -144,11 +134,11 @@ func run_loop() -> void:
 		iterator += 1
 
 ##"who" eats neighbours of the specified type in range
-func eat(who: Creature, range: int, diet: Array[SpeciesResource.TYPES]) -> bool:
+func eat(who: Creature, range: int, diet: Array[Constants.FAMILIES]) -> bool:
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
 	var target: Creature
 	for creature: Creature in neighbours:
-		if creature.data.type in diet:
+		if creature.species.family in diet:
 			target = creature
 	if target:
 		var index_who = posmod(creatures.find(who), creatures.size())
@@ -176,12 +166,11 @@ func remove(who: Creature) -> void:
 	creatures.erase(who)
 	who.queue_free()
 
-##checks whether "who" has a neighbour of "condition" type
-func check_neighbours_types(who: Creature, range: int, condition: Array[SpeciesResource.TYPES]) -> bool:
+##checks whether "who" has a neighbour of "condition" family
+func check_neighbours_types(who: Creature, range: int, condition: Array[Constants.FAMILIES]) -> bool:
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
-	var target: Creature
 	for creature: Creature in neighbours:
-		if creature.data.type in condition:
+		if creature.species.family in condition:
 			return true
 	return false
 
@@ -194,24 +183,28 @@ func get_neighbours_in_range(who: Creature, range: int) -> Array[Creature]:
 		targets_in_range = creatures.duplicate()
 		targets_in_range.erase(who)
 	else:
-		for i: int in range:
-			for sign: int in [-1, 1]:
-				#print(i)
-				var position_to_check: int = origin + ((i + 1) * sign)
-				#print(position_to_check)
-				##regular
-				if position_to_check < creatures.size() and position_to_check >= 0:
-					pass
-				##wrap around on the rightmost edge of the array:
-				elif position_to_check >= 0:
-					position_to_check -= creatures.size()
-				##wrap around on the leftmost edge of the array:
-				elif position_to_check < creatures.size():
-					position_to_check += creatures.size()
-				
-				#print("  ->",position_to_check)
-				if not creatures[position_to_check] in targets_in_range:
-					targets_in_range.append(creatures[position_to_check])
+		var offsets := []
+		for i in range:
+			offsets.append(i + 1)
+			offsets.append(-(i + 1))
+		print(offsets)
+		for offset in offsets:
+			#print(offset)
+			var position_to_check: int = origin + offset
+			#print(position_to_check)
+			##regular
+			if position_to_check < creatures.size() and position_to_check >= 0:
+				pass
+			##wrap around on the rightmost edge of the array:
+			elif position_to_check >= 0:
+				position_to_check -= creatures.size()
+			##wrap around on the leftmost edge of the array:
+			elif position_to_check < creatures.size():
+				position_to_check += creatures.size()
+			
+			#print("  ->",position_to_check)
+			if not creatures[position_to_check] in targets_in_range:
+				targets_in_range.append(creatures[position_to_check])
 	#print(targets_in_range)
 	return targets_in_range
 
