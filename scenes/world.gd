@@ -31,7 +31,7 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 			iterator += 1
 		new_creature.species = Constants.get_species_by_id(id)
 		new_creature.get_child(0).texture = new_creature.species.texture
-		new_creature.name = str(creatures.size())
+		new_creature.name = str(new_creature.species.title) + " "
 		add_child(new_creature)
 		print("creating %s at %s" % [new_creature.name, pos])
 	
@@ -99,14 +99,16 @@ func run_loop() -> void:
 		var creature = creatures[iterator]
 		creature.modulate = Color.RED
 		print("%s's turn" % [creature.name])
+		
 		await get_tree().create_timer(game_speed / 2).timeout
 		score_current += 1
-		await get_tree().create_timer(game_speed).timeout
+		await get_tree().create_timer(game_speed / 2).timeout
+		
 		##do creature's actions here:
 		match creature.species.id:
 			##bunbun eats a plant then duplicates, if no plant, suicides
 			Constants.SPECIES.BUNNY:
-				if eat(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
+				if eat(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
 					score_current += 5
 					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
@@ -123,8 +125,14 @@ func run_loop() -> void:
 					score_current += 2
 			#fox eats a neighbouring small animal :) yum
 			Constants.SPECIES.FOX:
-				if eat(creature, creature.current_range, [Constants.FAMILIES.ANIMAL]):
+				if eat(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
 					score_current += 7
+					await get_tree().create_timer(game_speed).timeout
+					update_creature_positions()
+			#fox eats a neighbouring small animal :) yum
+			Constants.SPECIES.HEDGEHOG:
+				if eat(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
+					score_current += 4
 					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
 		
@@ -134,12 +142,13 @@ func run_loop() -> void:
 		iterator += 1
 
 ##"who" eats neighbours of the specified type in range
-func eat(who: Creature, range: int, diet: Array[Constants.FAMILIES]) -> bool:
+func eat(who: Creature, range: int, diet: Array[Constants.FAMILIES], size: Array[Constants.SIZES]) -> bool:
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
 	var target: Creature
 	for creature: Creature in neighbours:
-		if creature.species.family in diet:
-			target = creature
+		if creature.species.family in diet && creature.species.size in size:
+			if not creature.species.id == Constants.SPECIES.HEDGEHOG:
+				target = creature
 	if target:
 		var index_who = posmod(creatures.find(who), creatures.size())
 		var index_tar = posmod(creatures.find(target), creatures.size())
