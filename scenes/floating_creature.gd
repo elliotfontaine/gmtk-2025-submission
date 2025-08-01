@@ -9,5 +9,5 @@ func _ready() -> void:
 	if species == null:
 		texture = null
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	position = get_global_mouse_position()

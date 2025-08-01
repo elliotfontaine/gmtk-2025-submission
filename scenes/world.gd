@@ -106,7 +106,7 @@ func run_loop() -> void:
 		match creature.species.id:
 			##bunbun eats a plant then duplicates, if no plant, suicides
 			Constants.SPECIES.BUNNY:
-				if eat(creature, 1, [Constants.FAMILIES.PLANT]):
+				if eat(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
 					score_current += 5
 					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
@@ -118,12 +118,12 @@ func run_loop() -> void:
 					update_creature_positions()
 			##if grass has no plant neighbours, it duplicates
 			Constants.SPECIES.GRASS:
-				if not check_neighbours_types(creature, 1, [Constants.FAMILIES.PLANT]):
+				if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
 					add_creature(1, Constants.SPECIES.GRASS, creatures.find(creature))
 					score_current += 2
 			#fox eats a neighbouring small animal :) yum
 			Constants.SPECIES.FOX:
-				if eat(creature, 1, [Constants.FAMILIES.ANIMAL]):
+				if eat(creature, creature.current_range, [Constants.FAMILIES.ANIMAL]):
 					score_current += 7
 					await get_tree().create_timer(game_speed).timeout
 					update_creature_positions()
@@ -169,7 +169,6 @@ func remove(who: Creature) -> void:
 ##checks whether "who" has a neighbour of "condition" family
 func check_neighbours_types(who: Creature, range: int, condition: Array[Constants.FAMILIES]) -> bool:
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
-	var target: Creature
 	for creature: Creature in neighbours:
 		if creature.species.family in condition:
 			return true
@@ -184,24 +183,28 @@ func get_neighbours_in_range(who: Creature, range: int) -> Array[Creature]:
 		targets_in_range = creatures.duplicate()
 		targets_in_range.erase(who)
 	else:
-		for i: int in range:
-			for sign: int in [-1, 1]:
-				#print(i)
-				var position_to_check: int = origin + ((i + 1) * sign)
-				#print(position_to_check)
-				##regular
-				if position_to_check < creatures.size() and position_to_check >= 0:
-					pass
-				##wrap around on the rightmost edge of the array:
-				elif position_to_check >= 0:
-					position_to_check -= creatures.size()
-				##wrap around on the leftmost edge of the array:
-				elif position_to_check < creatures.size():
-					position_to_check += creatures.size()
-				
-				#print("  ->",position_to_check)
-				if not creatures[position_to_check] in targets_in_range:
-					targets_in_range.append(creatures[position_to_check])
+		var offsets := []
+		for i in range:
+			offsets.append(i + 1)
+			offsets.append(-(i + 1))
+		print(offsets)
+		for offset in offsets:
+			#print(offset)
+			var position_to_check: int = origin + offset
+			#print(position_to_check)
+			##regular
+			if position_to_check < creatures.size() and position_to_check >= 0:
+				pass
+			##wrap around on the rightmost edge of the array:
+			elif position_to_check >= 0:
+				position_to_check -= creatures.size()
+			##wrap around on the leftmost edge of the array:
+			elif position_to_check < creatures.size():
+				position_to_check += creatures.size()
+			
+			#print("  ->",position_to_check)
+			if not creatures[position_to_check] in targets_in_range:
+				targets_in_range.append(creatures[position_to_check])
 	#print(targets_in_range)
 	return targets_in_range
 
