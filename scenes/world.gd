@@ -14,7 +14,7 @@ const minimum_loop_size: int = 150
 @onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
 
 ##placeholder system: length of wait times 
-var game_speed: float = 1.0
+var game_speed: float = 0.8
 
 var creatures: Array[Creature]
 
@@ -92,10 +92,15 @@ func run_loop() -> void:
 	
 	await do_on_loop_end_actions()
 
-#region creature actions
+#region creature action matchers
 
 func do_action(creature:Creature) -> void:
 	match creature.species.id:
+		##if grass has no plant neighbours, it duplicates
+		Constants.SPECIES.GRASS:
+			if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
+				await duplicate_creature(creature)
+				score_current += 2
 		##bunbun eats a plant then duplicates, if no plant, suicides
 		Constants.SPECIES.BUNNY:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
@@ -108,11 +113,6 @@ func do_action(creature:Creature) -> void:
 				await suicide(creature)
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
-		##if grass has no plant neighbours, it duplicates
-		Constants.SPECIES.GRASS:
-			if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
-				await duplicate_creature(creature)
-				score_current += 2
 		##fox eats a neighbouring small animal :) yum
 		Constants.SPECIES.FOX:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
@@ -146,6 +146,21 @@ func do_action(creature:Creature) -> void:
 					score_current += 9
 					await get_tree().create_timer(game_speed).timeout
 					await update_creature_positions()
+		##wolf is the basic medium generator, but may also be all-ined on to maximum its "pack" flavor bonus
+		Constants.SPECIES.WOLF:
+			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
+				score_current += 3 + 3 * count_how_many_in_loop(Constants.SPECIES.WOLF)
+				await get_tree().create_timer(game_speed).timeout
+				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
+				if not check_neighbours_species(creature, creature.current_range, [Constants.SPECIES.WOLF]):
+					await duplicate_creature(creature)
+		##tiger is the basic large predator - eats a medium dude in 2 range
+		Constants.SPECIES.TIGER:
+			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.MEDIUM]):
+				score_current += 20
+				await get_tree().create_timer(game_speed).timeout
+				await update_creature_positions()
 	
 	await get_tree().create_timer(game_speed).timeout
 	return
@@ -177,7 +192,6 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 				Constants.SPECIES.EGG:
 					score_current += 5
 	
-	
 	remove(to_be_eaten)
 	await get_tree().create_timer(game_speed / 2).timeout
 	
@@ -190,7 +204,14 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 			Constants.SPECIES.CROW:
 				score_current += 3
 				await get_tree().create_timer(game_speed / 2).timeout
-				
+
+##whenever a creature duplicates, trigger _on_duplicate effects
+func do_on_duplicate_actions(duplicator:Creature) -> void:
+	for creature in creatures:
+		match creature.species.id:
+			##Badger scores on duplicate
+			Constants.SPECIES.BADGER:
+				score_current += 2
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
@@ -202,6 +223,9 @@ func do_on_loop_end_actions() -> void:
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
 
+#endregion
+
+#region creature actions
 
 ##"who" attemps to eat a neighbour of the specified type in range
 func eat_something_in_range(who: Creature, range: int, species_diet: Array[Constants.FAMILIES], size_diet: Array[Constants.SIZES]) -> bool:
@@ -210,6 +234,7 @@ func eat_something_in_range(who: Creature, range: int, species_diet: Array[Const
 	for neighbour: Creature in neighbours:
 		if check_if_fits_diet(neighbour,species_diet,size_diet):
 			target = neighbour
+			break
 	if not target:
 		return false
 	else:
@@ -279,6 +304,7 @@ func remove(who: Creature) -> void:
 ##creates a new creature with the same species as the specified creature at its position - eg. it will place it before.
 func duplicate_creature(who: Creature) -> void:
 	await add_creature(1, who.species.id, creatures.find(who))
+	await do_on_duplicate_actions(who)
 	iterator += 1
 	return
 
@@ -320,8 +346,9 @@ func get_neighbours_in_range(who: Creature, range: int) -> Array[Creature]:
 	else:
 		var offsets := []
 		for i in range:
-			offsets.append(i + 1)
+			##start with negatives so that the neighbours start with the closest creature BEHIND, and then goes up by proximity, (eg. [-1, 1, -2, 2, ...])
 			offsets.append(-(i + 1))
+			offsets.append(i + 1)
 		print(offsets)
 		for offset in offsets:
 			#print(offset)
@@ -353,6 +380,13 @@ func get_distance_between_two_creatures(one:Creature,two:Creature) -> int:
 			var distance :int = min(forward_distance,backward_distance)
 			return distance
 	return 999
+
+func count_how_many_in_loop(what:Constants.SPECIES) -> int:
+	var count :int = 0
+	for creature in creatures:
+		if creature.species.id == what:
+			count += 1
+	return count
 
 #endregion
 

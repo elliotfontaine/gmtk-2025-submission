@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://biaj8l2hd8kum"]
+
+[ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_uc20y"]
+[ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="2_hwvkv"]
+
+[resource]
+script = ExtResource("1_uc20y")
+id = 13
+family = 1
+size = 2
+rarity = 0
+title = "Badger"
+texture = ExtResource("2_hwvkv")
+default_range = 0
+value = 0
+metadata/_custom_type_script = "uid://mow41h46xu2s"
