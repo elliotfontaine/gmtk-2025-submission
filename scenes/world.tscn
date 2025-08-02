@@ -58,8 +58,8 @@ unique_name_in_owner = true
 
 [node name="FloatingCreature" parent="UI" instance=ExtResource("2_036b0")]
 unique_name_in_owner = true
-position = Vector2(0, 1)
 scale = Vector2(0.25, 0.25)
+offset = Vector2(160, 160)
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
 anchors_preset = 15

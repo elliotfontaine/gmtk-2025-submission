@@ -23,7 +23,7 @@ var game_speed: float = 0.8
 
 var creatures: Array[Creature]
 
-var empty_slots: Array[Node2D]
+var empty_slots: Array[Slot]
 
 var iterator: int
 
@@ -32,19 +32,22 @@ var level: int = 0
 ##placeholder system for naming the creatures
 var creature_tracker :int = 0
 
+var ghost_index :int = 0
+
 func _ready() -> void:
 	next_level()
-	set_ghost()
+	init_ghost()
 
-func set_ghost() -> void:
+func init_ghost() -> void:
 	ghost_creature.modulate = Color.html("a9dfd799")
 	ghost_creature.hide()
 
 ##to call whenever you affect the number of creatures in the loop 
-func update_creature_positions(show_empty_slots: bool = false) -> void:
-	for slot in empty_slots:
-		slot.queue_free()
-	empty_slots.clear()
+func update_creature_positions(show_empty_slots: bool = false, show_ghost :bool = false) -> void:
+	if not empty_slots.size() == 1:
+		for slot in empty_slots:
+			slot.queue_free()
+		empty_slots.clear()
 		
 	var creature_amount :int = creatures.size()
 	
@@ -55,15 +58,18 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 	if creature_amount == 1 && not show_empty_slots:
 		creatures[0].position = Vector2.ZERO
 	
-	elif creature_amount == 0 && show_empty_slots:
+	if creature_amount == 0 && show_empty_slots && not show_ghost:
 		var new_slot := EMPTY_SLOT.instantiate()
 		new_slot.pressed.connect(_on_slot_pressed)
+		new_slot.hovered.connect(_on_slot_hovered)
+		new_slot.unhovered.connect(_on_slot_unhovered)
 		new_slot.index = 0
 		add_child(new_slot)
 		new_slot.position = Vector2.ZERO
 		empty_slots.append(new_slot)
 	
-	else:
+	elif not show_ghost:
+		ghost_creature.hide()
 		var i: int = 0
 		for creature: Creature in creatures:
 			var angle = ((2 * PI * i) / creature_amount) - PI / 2
@@ -74,12 +80,44 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 			if show_empty_slots:
 				var new_slot := EMPTY_SLOT.instantiate()
 				new_slot.pressed.connect(_on_slot_pressed)
+				new_slot.hovered.connect(_on_slot_hovered)
+				new_slot.unhovered.connect(_on_slot_unhovered)
 				new_slot.index = i
 				add_child(new_slot)
 				new_slot.position.x = radius * cos(angle + (PI / creature_amount))
 				new_slot.position.y = radius * sin(angle + (PI / creature_amount))
 				empty_slots.append(new_slot)
+	
+	else:
 		
+		ghost_creature.show()
+		var haunted_creatures = creatures.duplicate()
+		haunted_creatures.insert(ghost_index,ghost_creature)
+		creature_amount = haunted_creatures.size()
+		radius = (get_viewport().get_visible_rect().size.y/2.0) * creature_amount * initial_radius
+		radius = max(radius,200.0)
+		var i: int = 0
+		for creature: Creature in haunted_creatures:
+			var angle = ((2 * PI * i) / creature_amount) - PI / 2
+			creature.position.x = radius * cos(angle)
+			creature.position.y = radius * sin(angle)
+			
+			var offset :float = PI / creature_amount
+			#if i == ghost_index:
+				#offset = 0
+			
+			i += 1
+			if show_empty_slots && not i == ghost_index+1:
+				var new_slot := EMPTY_SLOT.instantiate()
+				new_slot.pressed.connect(_on_slot_pressed)
+				new_slot.hovered.connect(_on_slot_hovered)
+				new_slot.unhovered.connect(_on_slot_unhovered)
+				new_slot.index = i
+				add_child(new_slot)
+				new_slot.position.x = radius * cos(angle + offset)
+				new_slot.position.y = radius * sin(angle + offset)
+				empty_slots.append(new_slot)
+	
 	
 	##adaptative zoom:
 	var zoom :float = (get_viewport().get_visible_rect().size.y/2.0) / radius * zoom_factor
@@ -522,6 +560,19 @@ func _unhandled_input(event):
 	if floating_creature.species != null:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			unset_floating_creature()
+
+#endregion
+
+#region ghost manager
+
+func _on_slot_hovered(slot:Slot) -> void:
+	ghost_index = slot.index -1
+	update_creature_positions(true,true)
+
+func _on_slot_unhovered(slot:Slot) -> void:
+	ghost_index = 0
+	ghost_creature.hide()
+	update_creature_positions(true)
 
 #endregion
 
