@@ -1,7 +1,10 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://biaj8l2hd8kum"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=4 format=3 uid="uid://biaj8l2hd8kum"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_uc20y"]
+
 [ext_resource type="Texture2D" uid="uid://d2xmf4jj4h6v1" path="res://assets/sprites/creatures/badger.png" id="2_hwvkv"]
+[ext_resource type="AudioStream" uid="uid://b44hadfhsd4j4" path="res://assets/audio/sfx/BadgerPlaced.wav" id="2_boyqf"]
+
 
 [resource]
 script = ExtResource("1_uc20y")
@@ -13,4 +16,5 @@ title = "Badger"
 texture = ExtResource("2_hwvkv")
 default_range = 0
 value = 0
+sfx_placed = ExtResource("2_boyqf")
 metadata/_custom_type_script = "uid://mow41h46xu2s"

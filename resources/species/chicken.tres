@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://cgx1d8qunmy4e"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=4 format=3 uid="uid://ctndv2muqf35f"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_pptde"]
+[ext_resource type="AudioStream" uid="uid://cbvph1rgx4qbf" path="res://assets/audio/sfx/ChickenPlaced.wav" id="2_brxfg"]
 [ext_resource type="Texture2D" uid="uid://2uaaceqtsihk" path="res://assets/sprites/creatures/crow.png" id="2_u7gny"]
 
 [resource]
@@ -13,4 +14,5 @@ title = "Chicken"
 texture = ExtResource("2_u7gny")
 default_range = 1
 value = 0
+sfx_placed = ExtResource("2_brxfg")
 metadata/_custom_type_script = "uid://mow41h46xu2s"
