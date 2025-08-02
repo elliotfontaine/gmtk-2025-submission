@@ -38,10 +38,10 @@ var bgm_calm = 1
 var bgm_action = 2
 
 func set_action_music():
-	_fade_music(bgm_action, 0)
+	_fade_music(bgm_action, 0, 1)
 
 func set_calm_music():
-	_fade_music(bgm_action, -30)
+	_fade_music(bgm_action, -30, 2)
 	
 
 func _fade_music(stream_index, volume: float, speed: float = 1):

@@ -14,6 +14,6 @@ dest_files=["res://.godot/imported/bgm_calm.mp3-965655116e929203ab42797190683dca
 
 loop=true
 loop_offset=0.0
-bpm=0.0
+bpm=118.0
 beat_count=0
 bar_beats=4

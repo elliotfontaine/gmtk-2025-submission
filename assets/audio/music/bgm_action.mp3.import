@@ -14,6 +14,6 @@ dest_files=["res://.godot/imported/bgm_action.mp3-5ddd5e4c24bb5347390b83469835e6
 
 loop=true
 loop_offset=0.0
-bpm=0.0
+bpm=118.0
 beat_count=0
 bar_beats=4
