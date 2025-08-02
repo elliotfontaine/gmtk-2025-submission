@@ -75,7 +75,7 @@ func populate_shop() -> void:
 		var randnb :int = randi() % Constants.SPECIES.size()
 		while Constants.get_species_by_id(randnb).rarity == Constants.RARITIES.NONE:
 			randnb = randi() % Constants.SPECIES.size()
-			print("rolled a not-available creature, rerolling")
+			#print("rolled a not-available creature, rerolling")
 		new_items.append(randnb)
 	for id in new_items:
 		create_new_shop_item(id)
