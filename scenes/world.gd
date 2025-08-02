@@ -79,9 +79,9 @@ func run_loop() -> void:
 		creature.modulate = Color.RED
 		
 		##do creature's actions here:
-		await get_tree().create_timer(game_speed / 2).timeout
-		score_current += 1
-		await get_tree().create_timer(game_speed / 2).timeout
+		#await get_tree().create_timer(game_speed / 2).timeout
+		#score_current += 1
+		await get_tree().create_timer(game_speed).timeout
 		await do_action(creature)
 		
 		iterator += 1
@@ -91,6 +91,8 @@ func run_loop() -> void:
 		await get_tree().create_timer(game_speed).timeout
 	
 	await do_on_loop_end_actions()
+	
+	print("scored this loop: ",score_current)
 
 #region creature action matchers
 
@@ -161,6 +163,8 @@ func do_action(creature:Creature) -> void:
 				score_current += 20
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+		Constants.SPECIES.ANT:
+			score_current += count_how_many_connected(creature,creature.species.id)
 	
 	await get_tree().create_timer(game_speed).timeout
 	return
@@ -191,6 +195,8 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 			match creature.species.id:
 				Constants.SPECIES.EGG:
 					score_current += 5
+				Constants.SPECIES.BERRY:
+					score_current += 5
 	
 	remove(to_be_eaten)
 	await get_tree().create_timer(game_speed / 2).timeout
@@ -213,12 +219,24 @@ func do_on_duplicate_actions(duplicator:Creature) -> void:
 			Constants.SPECIES.BADGER:
 				score_current += 2
 
+##called on loop start for start of loop effects
+func do_on_loop_start_actions() -> void:
+	for creature in creatures:
+		match creature.species.id:
+			Constants.SPECIES.BUSH:
+				create(creature,Constants.SPECIES.BERRY,-2)
+				create(creature,Constants.SPECIES.BERRY)
+
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
 	for creature in creatures:
 		match creature.species.id:
 			##on loop end: if egg wasn't eaten or hatched or anything, it dies.
 			Constants.SPECIES.EGG:
+				remove(creature)
+				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
+			Constants.SPECIES.BERRY:
 				remove(creature)
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
@@ -286,7 +304,11 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 		if pos == -1:
 			creatures.append(new_creature)
 		else:
-			creatures.insert(pos, new_creature)
+			if pos > creatures.size():
+				creatures.append(new_creature)
+			else:
+				pos = max(pos,0)
+				creatures.insert(pos, new_creature)
 		new_creature.species = Constants.get_species_by_id(id)
 		new_creature.get_child(0).texture = new_creature.species.texture
 		creature_tracker += 1
@@ -387,6 +409,39 @@ func count_how_many_in_loop(what:Constants.SPECIES) -> int:
 		if creature.species.id == what:
 			count += 1
 	return count
+
+##counts itself then backwards then forwards and wraps around if needed and blabla
+func count_how_many_connected(who:Creature,what:Constants.SPECIES) -> int:
+	var count :int = 1
+	var pos :int = creatures.find(who)
+	#count those frontwards
+	for i in range(1,creatures.size()):
+		if pos + i < creatures.size():
+			if creatures[i + pos].species.id == what:
+				count += 1
+			else:
+				break
+		else:
+			if creatures[i + pos - creatures.size()].species.id == what:
+				count += 1
+			else:
+				break
+	
+	for i in range(1,creatures.size()):
+		if pos - i >= 0:
+			if creatures[-i + pos].species.id == what:
+				count += 1
+			else:
+				break
+		else:
+			if creatures[-i + pos + creatures.size()].species.id == what:
+				count += 1
+			else:
+				break
+	
+	print(count," in a row")
+	##if the whole loop is only made up of what: only return the length of the loop:
+	return min(count,creatures.size())
 
 #endregion
 
