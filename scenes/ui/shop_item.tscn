@@ -38,10 +38,17 @@ grow_vertical = 2
 expand_mode = 3
 stretch_mode = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 5
-alignment = 1
+theme_override_constants/separation = 0
+
+[node name="Price" type="Label" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 28
+text = "101"
+horizontal_alignment = 1
 
 [node name="CurrencyTexture" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(30, 30)
@@ -49,14 +56,6 @@ layout_mode = 2
 texture = ExtResource("3_jol1k")
 expand_mode = 1
 stretch_mode = 5
-
-[node name="Price" type="Label" parent="HBoxContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 30
-text = "101"
-horizontal_alignment = 1
 
 [node name="TextureButton" type="TextureButton" parent="."]
 unique_name_in_owner = true

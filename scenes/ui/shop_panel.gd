@@ -5,7 +5,7 @@ signal floating_creature_asked(species: SpeciesResource)
 ## Creative for the shop means you can add any registered creature for free
 @export var creative: bool = true
 ## Should the creature count stop at the 6 first instead of all registered
-@export var stop_at_six: bool = true
+@export var stop_at_six: bool = false
 
 @onready var grid_container := %GridContainer
 @onready var sfx_click: AudioStreamPlayer = %SFX_Click
@@ -14,8 +14,10 @@ const ITEM_SCENE := preload("res://scenes/ui/shop_item.tscn")
 
 func _ready() -> void:
 	clear_items()
-	if creative:
-		populate_creative_shop()
+	#if creative:
+		#populate_creative_shop()
+	for id in [Constants.SPECIES.BUNNY,Constants.SPECIES.ANT,Constants.SPECIES.GRASS,Constants.SPECIES.ANT,Constants.SPECIES.BUNNY,Constants.SPECIES.GRASS]:
+		create_new_shop_item(id)
 
 func _on_item_hovered(item) -> void:
 	# TODO: show "- Price" after currency count
@@ -49,11 +51,14 @@ func populate_creative_shop() -> void:
 			break
 		if id == Constants.SPECIES.NONE:
 			continue
-		var species: SpeciesResource = Constants.get_species_by_id(id)
-		var new_item: Control = ITEM_SCENE.instantiate()
-		new_item.species = species
-		new_item.price = 0
-		add_shop_item(new_item)
-		new_item.mouse_entered.connect(_on_item_hovered.bind(new_item))
-		new_item.mouse_exited.connect(_on_item_exited.bind(new_item))
-		new_item.pressed.connect(_on_item_pressed.bind(new_item))
+		create_new_shop_item(id)
+
+func create_new_shop_item(id:int) -> void:
+	var species: SpeciesResource = Constants.get_species_by_id(id)
+	var new_item: Control = ITEM_SCENE.instantiate()
+	new_item.species = species
+	new_item.price = randi_range(10,999)
+	add_shop_item(new_item)
+	new_item.mouse_entered.connect(_on_item_hovered.bind(new_item))
+	new_item.mouse_exited.connect(_on_item_exited.bind(new_item))
+	new_item.pressed.connect(_on_item_pressed.bind(new_item))
