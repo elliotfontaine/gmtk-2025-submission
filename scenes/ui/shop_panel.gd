@@ -13,11 +13,13 @@ signal floating_creature_asked(species: SpeciesResource)
 const ITEM_SCENE := preload("res://scenes/ui/shop_item.tscn")
 
 func _ready() -> void:
-	clear_items()
-	#if creative:
-		#populate_creative_shop()
-	for id in [Constants.SPECIES.BUNNY,Constants.SPECIES.ANT,Constants.SPECIES.GRASS,Constants.SPECIES.TIGER,Constants.SPECIES.BADGER,Constants.SPECIES.GRASS]:
-		create_new_shop_item(id)
+	if creative:
+		clear_items()
+		populate_creative_shop()
+	else:
+		pass
+		# TODO: iDK, I guess maybe it should me managed by the World Scene, since
+		# it's gonna fill it mutiple times.
 
 func _on_item_hovered(item) -> void:
 	# TODO: show "- Price" after currency count
