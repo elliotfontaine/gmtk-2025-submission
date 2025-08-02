@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://d288g7tvym65q"]
+[gd_scene load_steps=12 format=3 uid="uid://d288g7tvym65q"]
 
 [ext_resource type="Script" uid="uid://ilbv0ktx5rak" path="res://scenes/ui/shop_panel.gd" id="1_sblsc"]
 [ext_resource type="PackedScene" uid="uid://bjl76cq3iw1n" path="res://scenes/ui/shop_item.tscn" id="1_wxg4i"]
+[ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="3_g0um3"]
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/Click.wav" id="3_qecyp"]
 [ext_resource type="Resource" uid="uid://0cit8u5r4udr" path="res://resources/species/egg.tres" id="4_j21la"]
 [ext_resource type="Resource" uid="uid://bwp55ptwbdoor" path="res://resources/species/bunny.tres" id="4_sjk1b"]
@@ -37,9 +38,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_wxg4i")
 
-[node name="Button" type="Button" parent="VBoxContainer/Header"]
+[node name="ReRoll" type="Button" parent="VBoxContainer/Header"]
 layout_mode = 2
-text = "RE-ROLL"
+theme_type_variation = &"SmallPurpleButton"
+theme_override_constants/h_separation = 0
+theme_override_constants/icon_max_width = 28
+text = "RE-ROLL:  30"
+icon = ExtResource("3_g0um3")
+icon_alignment = 2
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2

@@ -1,12 +1,8 @@
 [gd_resource type="Theme" load_steps=6 format=3 uid="uid://ckb78edq3a5hf"]
 
+[ext_resource type="StyleBox" uid="uid://bob7fj3qse4ng" path="res://resources/ui/stylebox_button_large_red.tres" id="1_7js3m"]
 [ext_resource type="StyleBox" uid="uid://oh1e8e101who" path="res://resources/ui/stylebox_panel_default.tres" id="1_g5ddp"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8yr7r"]
-bg_color = Color(0.861587, 0.490645, 0.248214, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_43q72"]
-bg_color = Color(0.861587, 0.490645, 0.248214, 1)
+[ext_resource type="StyleBox" uid="uid://c3rol8tfn5jr1" path="res://resources/ui/stylebox_button_small_purple.tres" id="3_l6nee"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_g5ddp"]
 thickness = 3
@@ -16,8 +12,11 @@ thickness = 2
 vertical = true
 
 [resource]
-Button/styles/hover = SubResource("StyleBoxFlat_8yr7r")
-Button/styles/normal = SubResource("StyleBoxFlat_43q72")
+Button/styles/disabled = ExtResource("1_7js3m")
+Button/styles/hover = ExtResource("1_7js3m")
+Button/styles/hover_pressed = ExtResource("1_7js3m")
+Button/styles/normal = ExtResource("1_7js3m")
+Button/styles/pressed = ExtResource("1_7js3m")
 Control/colors/font_color = Color(0, 0, 0, 1)
 Control/font_sizes/font_size = 32
 GridContainer/constants/h_separation = 20
@@ -35,5 +34,11 @@ RichTextLabel/font_sizes/bold_italics_font_size = 32
 RichTextLabel/font_sizes/italics_font_size = 32
 RichTextLabel/font_sizes/mono_font_size = 32
 RichTextLabel/font_sizes/normal_font_size = 32
+SmallPurpleButton/base_type = &"Button"
+SmallPurpleButton/styles/disabled = ExtResource("3_l6nee")
+SmallPurpleButton/styles/hover = ExtResource("3_l6nee")
+SmallPurpleButton/styles/hover_pressed = ExtResource("3_l6nee")
+SmallPurpleButton/styles/normal = ExtResource("3_l6nee")
+SmallPurpleButton/styles/pressed = ExtResource("3_l6nee")
 VBoxContainer/constants/separation = 20
 VSeparator/styles/separator = SubResource("StyleBoxLine_y52cd")
