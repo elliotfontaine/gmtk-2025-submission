@@ -25,12 +25,10 @@ stream_2/volume = -60.0
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_f3sb7")
-
-initial_radius = 0.077
-zoom_factor = 0.75
-
 background_music = SubResource("AudioStreamSynchronized_w7kh3")
 sfx_next_loop = ExtResource("5_w7kh3")
+initial_radius = 0.077
+zoom_factor = 0.75
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
