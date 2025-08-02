@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=4 format=3 uid="uid://nbxne507vtar"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=5 format=3 uid="uid://nbxne507vtar"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_mylwq"]
 [ext_resource type="Texture2D" uid="uid://dpbdl0v86liqx" path="res://assets/sprites/creatures/hedgehog.png" id="2_mylwq"]
-[ext_resource type="AudioStream" uid="uid://deegnhxh2f58n" path="res://assets/audio/sfx/HedgehogPlaced.wav" id="2_ofaf3"]
+[ext_resource type="AudioStream" uid="uid://deegnhxh2f58n" path="res://assets/audio/sfx/placed/HedgehogPlaced.wav" id="2_ofaf3"]
+[ext_resource type="AudioStream" uid="uid://dtbt8hr4g5x3b" path="res://assets/audio/sfx/eat/eat_hi.wav" id="2_y15g6"]
 
 [resource]
 script = ExtResource("1_mylwq")
@@ -15,4 +16,5 @@ texture = ExtResource("2_mylwq")
 default_range = 1
 value = 0
 sfx_placed = ExtResource("2_ofaf3")
+sfx_eat = ExtResource("2_y15g6")
 metadata/_custom_type_script = "uid://mow41h46xu2s"

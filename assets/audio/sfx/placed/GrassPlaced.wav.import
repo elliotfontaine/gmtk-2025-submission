@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://co7rvnlxuac82"
-path="res://.godot/imported/GrassPlaced.wav-f71051e125a89664b074a57aef8aa616.sample"
+path="res://.godot/imported/GrassPlaced.wav-e65e5c5be43cccd74c4c208babe80176.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/GrassPlaced.wav"
-dest_files=["res://.godot/imported/GrassPlaced.wav-f71051e125a89664b074a57aef8aa616.sample"]
+source_file="res://assets/audio/sfx/placed/GrassPlaced.wav"
+dest_files=["res://.godot/imported/GrassPlaced.wav-e65e5c5be43cccd74c4c208babe80176.sample"]
 
 [params]
 

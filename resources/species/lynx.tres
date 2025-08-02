@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=4 format=3 uid="uid://cwru1df0i3v57"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=5 format=3 uid="uid://0acss731enqo"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_cg51f"]
+[ext_resource type="AudioStream" uid="uid://cm7v1c1a4vvdt" path="res://assets/audio/sfx/eat/eat_low.wav" id="2_4u8cb"]
 [ext_resource type="Texture2D" uid="uid://bjirqy057ntrq" path="res://assets/sprites/creatures/fox.png" id="2_d45eb"]
-[ext_resource type="AudioStream" uid="uid://dbammgugrvp5c" path="res://assets/audio/sfx/LynxPlaced.wav" id="2_mb0m7"]
+[ext_resource type="AudioStream" uid="uid://dbammgugrvp5c" path="res://assets/audio/sfx/placed/LynxPlaced.wav" id="2_mb0m7"]
 
 [resource]
 script = ExtResource("1_cg51f")
@@ -15,4 +16,5 @@ texture = ExtResource("2_d45eb")
 default_range = 1
 value = 0
 sfx_placed = ExtResource("2_mb0m7")
+sfx_eat = ExtResource("2_4u8cb")
 metadata/_custom_type_script = "uid://mow41h46xu2s"

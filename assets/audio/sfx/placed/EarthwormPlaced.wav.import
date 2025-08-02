@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bevld5rvgyc55"
-path="res://.godot/imported/EarthwormPlaced.wav-969aa74ded79a9b0bf436f280e440a21.sample"
+path="res://.godot/imported/EarthwormPlaced.wav-a53807c48059f20e56b79ee4555ae195.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/EarthwormPlaced.wav"
-dest_files=["res://.godot/imported/EarthwormPlaced.wav-969aa74ded79a9b0bf436f280e440a21.sample"]
+source_file="res://assets/audio/sfx/placed/EarthwormPlaced.wav"
+dest_files=["res://.godot/imported/EarthwormPlaced.wav-a53807c48059f20e56b79ee4555ae195.sample"]
 
 [params]
 
