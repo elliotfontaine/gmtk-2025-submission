@@ -94,6 +94,7 @@ func _on_next_loop_button_pressed() -> void:
 	next_level()
 
 func run_loop() -> void:
+	_set_action_music()
 	
 	await do_on_loop_start_actions()
 	
@@ -246,11 +247,18 @@ func do_on_duplicate_actions(duplicator:Creature) -> void:
 
 ##called on loop start for start of loop effects
 func do_on_loop_start_actions() -> void:
-	_set_action_music()
+	var triggered_creatures :Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
 			Constants.SPECIES.BUSH:
-				create(creature,Constants.SPECIES.BERRY,-2)
+				triggered_creatures.append(creature)
+	
+	
+	##do triggered actions
+	for creature in triggered_creatures:
+		match creature.species.id:
+			Constants.SPECIES.BUSH:
+				create(creature,Constants.SPECIES.BERRY,-1)
 				create(creature,Constants.SPECIES.BERRY)
 
 ##called on loop end for end of loop effects
