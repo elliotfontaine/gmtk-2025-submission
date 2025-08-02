@@ -14,10 +14,10 @@ const ITEM_SCENE := preload("res://scenes/ui/shop_item.tscn")
 
 func _ready() -> void:
 	clear_items()
-	if creative:
-		populate_creative_shop()
-	#for id in [Constants.SPECIES.BUNNY,Constants.SPECIES.ANT,Constants.SPECIES.GRASS,Constants.SPECIES.ANT,Constants.SPECIES.BUNNY,Constants.SPECIES.GRASS]:
-		#create_new_shop_item(id)
+	#if creative:
+		#populate_creative_shop()
+	for id in [Constants.SPECIES.BUNNY,Constants.SPECIES.ANT,Constants.SPECIES.GRASS,Constants.SPECIES.ANT,Constants.SPECIES.BUNNY,Constants.SPECIES.GRASS]:
+		create_new_shop_item(id)
 
 func _on_item_hovered(item) -> void:
 	# TODO: show "- Price" after currency count
