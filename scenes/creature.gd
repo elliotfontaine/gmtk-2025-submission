@@ -13,9 +13,10 @@ var species: SpeciesResource:
 var current_range: int
 
 func _ready() -> void:
-	label.text = name
-	sfx_player.stream = species.sfx_placed
-	sfx_player.play()
+	#label.text = name
+	if species:
+		sfx_player.stream = species.sfx_placed
+		sfx_player.play()
 
 func set_texture() -> void:
 	var tex :CompressedTexture2D = species.texture

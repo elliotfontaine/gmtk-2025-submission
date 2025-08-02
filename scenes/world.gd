@@ -16,8 +16,7 @@ const base_creature_distance: int = 60
 @onready var label_score: Label = %LabelScore
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
-
-@onready var initial_camera_zoom :float = camera.zoom.x
+@onready var ghost_creature: Creature = %GhostCreature
 
 ##placeholder system: length of wait times 
 var game_speed: float = 0.8
@@ -35,6 +34,11 @@ var creature_tracker :int = 0
 
 func _ready() -> void:
 	next_level()
+	set_ghost()
+
+func set_ghost() -> void:
+	ghost_creature.modulate = Color.html("a9dfd799")
+	ghost_creature.hide()
 
 ##to call whenever you affect the number of creatures in the loop 
 func update_creature_positions(show_empty_slots: bool = false) -> void:
