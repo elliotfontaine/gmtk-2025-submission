@@ -18,7 +18,7 @@ func _ready() -> void:
 	sfx_player.play()
 
 func do_action() -> void:
-	sfx_player.stream = species.sfx_trigger
+	sfx_player.stream = species.sfx_action
 	sfx_player.play()
 
 func set_texture() -> void:

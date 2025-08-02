@@ -16,5 +16,5 @@ texture = ExtResource("2_nnalx")
 default_range = 1
 value = 0
 sfx_placed = ExtResource("2_8j0ix")
-sfx_trigger = ExtResource("3_txs7y")
+sfx_action = ExtResource("3_txs7y")
 metadata/_custom_type_script = "uid://mow41h46xu2s"
