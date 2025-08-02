@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://4wl4boa2xasu"
-path="res://.godot/imported/Thud.wav-c4185a5499c52c3a3ce5c6dd5a0db4f1.sample"
+uid="uid://c5ry6064rxlyr"
+path="res://.godot/imported/EggPlaced.wav-2cfa194127a644525e75e96483e7b840.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/Thud.wav"
-dest_files=["res://.godot/imported/Thud.wav-c4185a5499c52c3a3ce5c6dd5a0db4f1.sample"]
+source_file="res://assets/audio/sfx/EggPlaced.wav"
+dest_files=["res://.godot/imported/EggPlaced.wav-2cfa194127a644525e75e96483e7b840.sample"]
 
 [params]
 

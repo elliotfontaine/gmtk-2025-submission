@@ -1,20 +1,31 @@
-[gd_scene load_steps=10 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=13 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
 [ext_resource type="Texture2D" uid="uid://dr1cqjdwtdh76" path="res://assets/sprites/bg.png" id="2_qfnet"]
 [ext_resource type="PackedScene" uid="uid://bbetjgrjbsdi8" path="res://scenes/ui/creature_card_panel.tscn" id="2_tlwt5"]
-[ext_resource type="AudioStream" uid="uid://cbwlovwtan8pm" path="res://assets/audio/sfx/Accept.wav" id="3_4mrxx"]
+[ext_resource type="AudioStream" uid="uid://dvk76pxx164w" path="res://assets/audio/music/game_always.mp3" id="2_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://d288g7tvym65q" path="res://scenes/ui/shop_panel.tscn" id="3_aqk2v"]
-[ext_resource type="AudioStream" uid="uid://lqde4vcgctqf" path="res://assets/audio/music/game.mp3" id="7_i7141"]
+[ext_resource type="AudioStream" uid="uid://dfhm58pekfyhb" path="res://assets/audio/music/game_calm.mp3" id="3_e3hyu"]
+[ext_resource type="AudioStream" uid="uid://diqluyepoardq" path="res://assets/audio/music/game_action.mp3" id="4_q5onr"]
+[ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/Click.wav" id="5_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_w7kh3"]
+stream_count = 3
+stream_0/stream = ExtResource("2_w7kh3")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("3_e3hyu")
+stream_1/volume = 0.0
+stream_2/stream = ExtResource("4_q5onr")
+stream_2/volume = -60.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tlwt5"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_f3sb7")
-background_music = ExtResource("7_i7141")
-sfx_next_loop = ExtResource("3_4mrxx")
+background_music = SubResource("AudioStreamSynchronized_w7kh3")
+sfx_next_loop = ExtResource("5_w7kh3")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true

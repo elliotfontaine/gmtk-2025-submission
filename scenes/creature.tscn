@@ -22,3 +22,4 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SFX_Player" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
