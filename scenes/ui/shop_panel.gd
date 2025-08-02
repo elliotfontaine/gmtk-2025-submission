@@ -63,7 +63,7 @@ func create_new_shop_item(id:int) -> void:
 	var species: SpeciesResource = Constants.get_species_by_id(id)
 	var new_item: Control = ITEM_SCENE.instantiate()
 	new_item.species = species
-	new_item.price = randi_range(40,199)
+	new_item.price = randi_range(20,60)
 	add_shop_item(new_item)
 	new_item.mouse_entered.connect(_on_item_hovered.bind(new_item))
 	new_item.mouse_exited.connect(_on_item_exited.bind(new_item))
