@@ -6,7 +6,7 @@ signal floating_creature_asked(species: SpeciesResource)
 @export var debug: bool = true
 
 @onready var grid_container := %GridContainer
-@onready var sfx_click: AudioStreamPlayer = $SFX_Click
+@onready var sfx_click: AudioStreamPlayer = %SFX_Click
 
 const ITEM_SCENE := preload("res://scenes/ui/shop_item.tscn")
 
