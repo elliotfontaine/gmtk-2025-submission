@@ -29,7 +29,8 @@ func _ready() -> void:
 
 func _on_item_hovered(item:ShopItem) -> void:
 	# TODO: show "- Price" after currency count
-	item_hovered.emit(item.species)
+	if not item.sold:
+		item_hovered.emit(item.species)
 
 func _on_item_exited(item:ShopItem) -> void:
 	item_exited.emit()

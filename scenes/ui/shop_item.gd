@@ -2,6 +2,8 @@
 extends Control
 class_name ShopItem
 
+@onready var h_box_container: HBoxContainer = %HBoxContainer
+
 signal pressed
 
 @export var species: SpeciesResource:
@@ -13,5 +15,12 @@ signal pressed
 	get: return int(%Price.text)
 	set(value): %Price.text = str(value)
 
+var sold :bool = false:
+	set(val):
+		if val:
+			h_box_container.hide()
+
+
 func _on_texture_button_pressed() -> void:
-	pressed.emit()
+	if not sold:
+		pressed.emit()
