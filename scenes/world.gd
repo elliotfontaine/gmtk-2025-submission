@@ -17,10 +17,10 @@ const base_creature_distance: int = 60
 @onready var creature_card: CreatureCard = %CreatureCard
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
-
 @onready var initial_camera_zoom :float = camera.zoom.x
 @onready var currency_count: Label = %CurrencyCount
 @onready var shop_panel: ShopPanel = %ShopPanel
+@onready var next_loop_button: Button = %NextLoopButton
 
 ##placeholder system: length of wait times 
 var game_speed: float = 0.8
@@ -39,6 +39,8 @@ var creature_tracker :int = 0
 # to prevent race condition coming from Area2D mouse_exited not triggering in order
 ## buffer used for SpeciesCard display when hovering loop creatures
 var hovered_creature: Creature
+
+var currently_looping :bool = false
 
 func _ready() -> void:
 	money = money #(to trigger label update)
@@ -97,8 +99,13 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 func _on_next_loop_button_pressed() -> void:
 	sfx_player.stream = sfx_next_loop
 	sfx_player.play()
-	await run_loop()
-	next_level()
+	if not currently_looping:
+		currently_looping = true
+		next_loop_button.modulate = Color.DIM_GRAY
+		await run_loop()
+		next_level()
+		currently_looping = false
+		next_loop_button.modulate = Color.WHITE
 
 func run_loop() -> void:
 	_set_action_music()
