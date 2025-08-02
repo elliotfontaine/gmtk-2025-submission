@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ptfwhjqgya6x"
-path="res://.godot/imported/CrowPlaced.wav-3c9c554c37c0c00d2c421b061b62423a.sample"
+path="res://.godot/imported/CrowPlaced.wav-ee29fb2e62b8e73a69af681c23c1d2ad.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/CrowPlaced.wav"
-dest_files=["res://.godot/imported/CrowPlaced.wav-3c9c554c37c0c00d2c421b061b62423a.sample"]
+source_file="res://assets/audio/sfx/placed/CrowPlaced.wav"
+dest_files=["res://.godot/imported/CrowPlaced.wav-ee29fb2e62b8e73a69af681c23c1d2ad.sample"]
 
 [params]
 

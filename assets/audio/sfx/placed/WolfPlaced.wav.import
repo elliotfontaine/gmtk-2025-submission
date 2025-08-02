@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ttlgn4n213r6"
-path="res://.godot/imported/WolfPlaced.wav-7b80d0a28d1729c9c242fbbc6f13a69d.sample"
+path="res://.godot/imported/WolfPlaced.wav-d90f7fd7f908767b6f7677de8c2bcbe7.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/WolfPlaced.wav"
-dest_files=["res://.godot/imported/WolfPlaced.wav-7b80d0a28d1729c9c242fbbc6f13a69d.sample"]
+source_file="res://assets/audio/sfx/placed/WolfPlaced.wav"
+dest_files=["res://.godot/imported/WolfPlaced.wav-d90f7fd7f908767b6f7677de8c2bcbe7.sample"]
 
 [params]
 

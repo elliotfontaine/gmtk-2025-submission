@@ -27,6 +27,10 @@ func _ready() -> void:
 	_sfx_player.stream = species.sfx_placed
 	_sfx_player.play()
 
+func do_eat() -> void:
+	_sfx_player.stream = species.sfx_eat
+	_sfx_player.play()
+
 func is_hovered():
 	var mouse_pos = get_global_mouse_position()
 	return %Sprite2D.get_rect().has_point(to_local(mouse_pos))

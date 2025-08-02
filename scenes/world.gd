@@ -1,5 +1,4 @@
 extends Node2D
-@export var background_music: AudioStreamSynchronized
 @export var sfx_next_loop: AudioStream
 
 const CREATURE = preload("res://scenes/creature.tscn")
@@ -101,8 +100,6 @@ func _on_next_loop_button_pressed() -> void:
 	next_level()
 
 func run_loop() -> void:
-	_set_action_music()
-	
 	await do_on_loop_start_actions()
 	
 	iterator = 0
@@ -135,6 +132,7 @@ func run_loop() -> void:
 #region creature action matchers
 
 func do_action(creature:Creature) -> void:
+	
 	match creature.species.id:
 		##if grass has no plant neighbours, it duplicates
 		Constants.SPECIES.GRASS:
@@ -259,6 +257,7 @@ func do_on_duplicate_actions(duplicator:Creature) -> void:
 
 ##called on loop start for start of loop effects
 func do_on_loop_start_actions() -> void:
+	SceneChanger.set_action_music()
 	var triggered_creatures :Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
@@ -275,7 +274,7 @@ func do_on_loop_start_actions() -> void:
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
-	_set_calm_music()
+	SceneChanger.set_calm_music()
 	var remove_queue :Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
@@ -326,6 +325,9 @@ func check_if_fits_diet(target:Creature,species_diet,size_diet) -> bool:
 
 ##do eat the target
 func do_eat(who:Creature,target:Creature) -> void:
+
+	who.do_eat()
+	
 	var index_who = posmod(creatures.find(who), creatures.size())
 	var index_tar = posmod(creatures.find(target), creatures.size())
 	var forward_distance = posmod(index_tar - index_who, creatures.size())
@@ -574,34 +576,6 @@ func _unhandled_input(event):
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			unset_floating_creature()
 #endregion
-
-#region music controls
-
-var bgm_calm = 1
-var bgm_action = 2
-
-func _set_action_music():
-	_fade_music(bgm_action, 0)
-	_fade_music(bgm_calm, -18)
-
-func _set_calm_music():
-	_fade_music(bgm_action, -18)
-	_fade_music(bgm_calm, 0)
-
-
-func _fade_music(stream_index, volume: float, speed: float = 1.5):
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_SINE)
-	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.tween_method(
-		func(volume_tween: float) -> void:
-			background_music. set_sync_stream_volume(stream_index, volume_tween),
-		background_music.get_sync_stream_volume(stream_index),
-		volume, 
-		speed
-	)
-
-#endregion 
 
 #region money management
 

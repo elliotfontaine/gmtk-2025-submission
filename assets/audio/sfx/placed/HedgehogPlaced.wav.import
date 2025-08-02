@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://deegnhxh2f58n"
-path="res://.godot/imported/HedgehogPlaced.wav-d4dcdd238d1eb430ee9b1014819a194d.sample"
+path="res://.godot/imported/HedgehogPlaced.wav-b6c5765a7ba550338f42129bec2901c0.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/HedgehogPlaced.wav"
-dest_files=["res://.godot/imported/HedgehogPlaced.wav-d4dcdd238d1eb430ee9b1014819a194d.sample"]
+source_file="res://assets/audio/sfx/placed/HedgehogPlaced.wav"
+dest_files=["res://.godot/imported/HedgehogPlaced.wav-b6c5765a7ba550338f42129bec2901c0.sample"]
 
 [params]
 

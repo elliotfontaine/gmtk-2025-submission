@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dhu2buenkk41"
-path="res://.godot/imported/SongbirdPlaced.wav-1249a31eced8fab6215a943ff7769963.sample"
+path="res://.godot/imported/SongbirdPlaced.wav-f010cde779cb9b862e3aaa352ce286dd.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/SongbirdPlaced.wav"
-dest_files=["res://.godot/imported/SongbirdPlaced.wav-1249a31eced8fab6215a943ff7769963.sample"]
+source_file="res://assets/audio/sfx/placed/SongbirdPlaced.wav"
+dest_files=["res://.godot/imported/SongbirdPlaced.wav-f010cde779cb9b862e3aaa352ce286dd.sample"]
 
 [params]
 

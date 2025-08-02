@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=4 format=3 uid="uid://bwp55ptwbdoor"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=5 format=3 uid="uid://bwp55ptwbdoor"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_nnalx"]
-[ext_resource type="AudioStream" uid="uid://gl3l15sxwf3q" path="res://assets/audio/sfx/BunnyPlaced.wav" id="2_8j0ix"]
+[ext_resource type="AudioStream" uid="uid://gl3l15sxwf3q" path="res://assets/audio/sfx/placed/BunnyPlaced.wav" id="2_8j0ix"]
 [ext_resource type="Texture2D" uid="uid://cv54ev2gbv1jy" path="res://assets/sprites/creatures/bunny.png" id="2_nnalx"]
+[ext_resource type="AudioStream" uid="uid://dtbt8hr4g5x3b" path="res://assets/audio/sfx/eat/eat_hi.wav" id="3_txs7y"]
 
 [resource]
 script = ExtResource("1_nnalx")
@@ -16,4 +17,5 @@ default_range = 1
 effect_text = "Eat a plant and reproduce or die."
 value = 0
 sfx_placed = ExtResource("2_8j0ix")
+sfx_eat = ExtResource("3_txs7y")
 metadata/_custom_type_script = "uid://mow41h46xu2s"

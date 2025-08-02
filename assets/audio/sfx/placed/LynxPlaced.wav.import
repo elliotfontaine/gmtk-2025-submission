@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dbammgugrvp5c"
-path="res://.godot/imported/LynxPlaced.wav-0339b72f4dfd3a53ff63df53e0e4b1df.sample"
+path="res://.godot/imported/LynxPlaced.wav-6f933abb10942fcd2252daae18306260.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/LynxPlaced.wav"
-dest_files=["res://.godot/imported/LynxPlaced.wav-0339b72f4dfd3a53ff63df53e0e4b1df.sample"]
+source_file="res://assets/audio/sfx/placed/LynxPlaced.wav"
+dest_files=["res://.godot/imported/LynxPlaced.wav-6f933abb10942fcd2252daae18306260.sample"]
 
 [params]
 
