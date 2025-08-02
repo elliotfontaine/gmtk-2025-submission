@@ -248,6 +248,7 @@ func do_on_loop_end_actions() -> void:
 	for creature in remove_queue:
 		await remove(creature)
 
+
 #endregion
 
 #region creature actions
