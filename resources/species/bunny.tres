@@ -13,7 +13,11 @@ rarity = 1
 title = "Bunny"
 texture = ExtResource("2_nnalx")
 default_range = 1
-effect_text = "Eat a plant and reproduce or die."
+effect_text = "If plant in range: eat it and score 3 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]."
+score_reward_1 = 3
+score_reward_2 = 0
+money_reward_1 = 0
+money_reward_2 = 0
 base_price = 1
 sfx_placed = ExtResource("2_8j0ix")
 metadata/_custom_type_script = "uid://mow41h46xu2s"
