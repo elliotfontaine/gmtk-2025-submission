@@ -10,6 +10,7 @@ extends Resource
 @export var texture: CompressedTexture2D
 ##creatures that have no effects that use range have a range of 0:
 @export_range(0, 5) var default_range: int
+@export var effect_text: String = "No effect text."
 @export var value: int
 
 @export var sfx_placed :AudioStream
