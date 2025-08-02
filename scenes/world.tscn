@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=15 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
@@ -9,7 +9,9 @@
 [ext_resource type="AudioStream" uid="uid://dfhm58pekfyhb" path="res://assets/audio/music/game_calm.mp3" id="3_e3hyu"]
 [ext_resource type="AudioStream" uid="uid://diqluyepoardq" path="res://assets/audio/music/game_action.mp3" id="4_q5onr"]
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/Click.wav" id="5_w7kh3"]
+[ext_resource type="Texture2D" uid="uid://cv54ev2gbv1jy" path="res://assets/sprites/creatures/bunny.png" id="7_q5onr"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
+[ext_resource type="PackedScene" uid="uid://cvcjduc4ty1ob" path="res://scenes/creature.tscn" id="11_e3hyu"]
 
 [sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_w7kh3"]
 stream_count = 3
@@ -29,6 +31,12 @@ background_music = SubResource("AudioStreamSynchronized_w7kh3")
 sfx_next_loop = ExtResource("5_w7kh3")
 initial_radius = 0.077
 zoom_factor = 0.75
+
+[node name="GhostCreature" parent="." instance=ExtResource("11_e3hyu")]
+unique_name_in_owner = true
+
+[node name="Sprite2D" parent="GhostCreature" index="0"]
+texture = ExtResource("7_q5onr")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
@@ -50,6 +58,7 @@ unique_name_in_owner = true
 
 [node name="FloatingCreature" parent="UI" instance=ExtResource("2_036b0")]
 unique_name_in_owner = true
+position = Vector2(0, 1)
 scale = Vector2(0.25, 0.25)
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
@@ -143,3 +152,5 @@ bus = &"SFX"
 
 [connection signal="floating_creature_asked" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_floating_creature_asked"]
 [connection signal="pressed" from="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/NextLoopButton" to="." method="_on_next_loop_button_pressed"]
+
+[editable path="GhostCreature"]
