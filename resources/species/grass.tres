@@ -13,6 +13,7 @@ rarity = 0
 title = "Grass"
 texture = ExtResource("2_kohdr")
 default_range = 1
+effect_text = "No effect text."
 value = 0
 sfx_placed = ExtResource("2_3dibr")
 metadata/_custom_type_script = "uid://mow41h46xu2s"

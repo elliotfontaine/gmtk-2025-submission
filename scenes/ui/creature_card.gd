@@ -1,17 +1,22 @@
 @tool
-extends PanelContainer
+class_name CreatureCard extends PanelContainer
 
-@export var current_species: SpeciesResource:
+@export var species: SpeciesResource:
 	set(value):
-		current_species = value
+		species = value
 		_set_species(value)
 
 func _set_species(sp: SpeciesResource) -> void:
 	if sp == null:
 		%CreatureSprite.texture = null
+		%CreatureTitle.text = ""
+		%Size.text = ""
+		%Family.text = ""
+		%Effect.text = "Hover over a creature to view its information."
+		%RangeValue.text = ""
 		%CreatureTitle.hide()
 		%MiddleLine.hide()
-		%Effect.text = "click on a creature to show its info."
+		%RangeIcon.hide()
 	else:
 		%CreatureSprite.texture = sp.texture
 		%CreatureTitle.text = sp.title

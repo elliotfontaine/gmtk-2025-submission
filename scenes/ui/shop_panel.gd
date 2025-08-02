@@ -1,6 +1,8 @@
 extends PanelContainer
 
 signal floating_creature_asked(species: SpeciesResource)
+signal item_hovered(species: SpeciesResource)
+signal item_exited
 
 ## Creative for the shop means you can add any registered creature for free
 @export var creative: bool = true
@@ -23,12 +25,10 @@ func _ready() -> void:
 
 func _on_item_hovered(item) -> void:
 	# TODO: show "- Price" after currency count
-	# set CreatureCard
-	pass
+	item_hovered.emit(item.species)
 
 func _on_item_exited(item) -> void:
-	# TODO: unshow "- Price"
-	pass
+	item_exited.emit()
 	
 func _on_item_pressed(item) -> void:
 	floating_creature_asked.emit(item.species)
