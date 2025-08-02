@@ -14,6 +14,6 @@ title = "Bunny"
 texture = ExtResource("2_nnalx")
 default_range = 1
 effect_text = "Eat a plant and reproduce or die."
-value = 0
+base_price = 1
 sfx_placed = ExtResource("2_8j0ix")
 metadata/_custom_type_script = "uid://mow41h46xu2s"

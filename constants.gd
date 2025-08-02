@@ -53,7 +53,7 @@ enum SIZES {
 }
 
 enum RARITIES {
-	NONE,
+	TOKEN,
 	COMMON,
 	UNCOMMON,
 	RARE,

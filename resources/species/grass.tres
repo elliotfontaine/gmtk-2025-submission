@@ -13,7 +13,7 @@ rarity = 1
 title = "Grass"
 texture = ExtResource("2_kohdr")
 default_range = 1
-effect_text = "No effect text."
-value = 0
+effect_text = "If no other plant in range: duplicate and score  3[img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]"
+base_price = 1
 sfx_placed = ExtResource("2_3dibr")
 metadata/_custom_type_script = "uid://mow41h46xu2s"
