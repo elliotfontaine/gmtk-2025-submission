@@ -13,7 +13,7 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wxg4i"]
 
 [node name="ShopPanel" type="PanelContainer"]
-size_flags_horizontal = 4
+custom_minimum_size = Vector2(480, 0)
 script = ExtResource("1_sblsc")
 
 [node name="SFX_Click" type="AudioStreamPlayer" parent="."]
@@ -45,13 +45,16 @@ text = "RE-ROLL"
 layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(356, 426)
+custom_minimum_size = Vector2(430, 426)
 layout_mode = 2
 horizontal_scroll_mode = 0
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/v_separation = 10
 columns = 2
 
 [node name="ShopItem" parent="VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("1_wxg4i")]
@@ -65,7 +68,7 @@ species = ExtResource("4_sjk1b")
 [node name="ShopItem3" parent="VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("1_wxg4i")]
 layout_mode = 2
 species = ExtResource("6_qeixu")
-price = 2
+price = 1
 
 [node name="ShopItem4" parent="VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("1_wxg4i")]
 layout_mode = 2
@@ -74,6 +77,7 @@ species = ExtResource("7_4i0u3")
 [node name="ShopItem5" parent="VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("1_wxg4i")]
 layout_mode = 2
 species = ExtResource("8_udh10")
+price = 1077
 
 [node name="ShopItem6" parent="VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("1_wxg4i")]
 layout_mode = 2

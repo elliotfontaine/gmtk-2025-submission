@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://ckb78edq3a5hf"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://ckb78edq3a5hf"]
 
 [ext_resource type="StyleBox" uid="uid://oh1e8e101who" path="res://resources/ui/stylebox_panel_default.tres" id="1_g5ddp"]
 
@@ -8,6 +8,13 @@ bg_color = Color(0.861587, 0.490645, 0.248214, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_43q72"]
 bg_color = Color(0.861587, 0.490645, 0.248214, 1)
 
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_g5ddp"]
+thickness = 3
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_y52cd"]
+thickness = 2
+vertical = true
+
 [resource]
 Button/styles/hover = SubResource("StyleBoxFlat_8yr7r")
 Button/styles/normal = SubResource("StyleBoxFlat_43q72")
@@ -16,6 +23,7 @@ Control/font_sizes/font_size = 32
 GridContainer/constants/h_separation = 20
 GridContainer/constants/v_separation = 20
 HBoxContainer/constants/separation = 20
+HSeparator/styles/separator = SubResource("StyleBoxLine_g5ddp")
 MarginContainer/constants/margin_bottom = 40
 MarginContainer/constants/margin_left = 40
 MarginContainer/constants/margin_right = 40
@@ -28,3 +36,4 @@ RichTextLabel/font_sizes/italics_font_size = 32
 RichTextLabel/font_sizes/mono_font_size = 32
 RichTextLabel/font_sizes/normal_font_size = 32
 VBoxContainer/constants/separation = 20
+VSeparator/styles/separator = SubResource("StyleBoxLine_y52cd")

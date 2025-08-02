@@ -6,8 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bbetjgrjbsdi8" path="res://scenes/ui/creature_card_panel.tscn" id="2_tlwt5"]
 [ext_resource type="AudioStream" uid="uid://cbwlovwtan8pm" path="res://assets/audio/sfx/Accept.wav" id="3_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://d288g7tvym65q" path="res://scenes/ui/shop_panel.tscn" id="3_aqk2v"]
-[ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="4_aqk2v"]
 [ext_resource type="AudioStream" uid="uid://lqde4vcgctqf" path="res://assets/audio/music/game.mp3" id="7_i7141"]
+[ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tlwt5"]
 
@@ -58,7 +58,6 @@ alignment = 1
 layout_mode = 2
 
 [node name="NegativeSpace" type="Panel" parent="UI/MarginContainer/HBoxContainer/LeftSideUI"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 10.0
@@ -72,30 +71,23 @@ layout_mode = 2
 
 [node name="CurrencyContainer" type="PanelContainer" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/CurrencyContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/CurrencyContainer"]
 layout_mode = 2
+theme_override_constants/separation = 7
+alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/CurrencyContainer/MarginContainer"]
+[node name="CurrencySymbol" type="TextureRect" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/CurrencyContainer/HBoxContainer"]
 layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/CurrencyContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("4_aqk2v")
+texture = ExtResource("8_4mrxx")
 expand_mode = 3
 
-[node name="Count" type="Label" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/CurrencyContainer/MarginContainer/HBoxContainer"]
+[node name="CurrencyCount" type="Label" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/CurrencyContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "150"
 vertical_alignment = 1
-
-[node name="NegativeSpace" type="Panel" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 10.0
-theme_override_styles/panel = SubResource("StyleBoxEmpty_tlwt5")
 
 [node name="NextLoopButton" type="Button" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer"]
 layout_mode = 2
