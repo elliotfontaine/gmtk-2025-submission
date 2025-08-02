@@ -7,15 +7,14 @@
 script = ExtResource("1_fd6ru")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_nugsn")
 
 [node name="Label" type="Label" parent="."]
 unique_name_in_owner = true
 offset_left = -64.0
-offset_top = -88.0
+offset_top = -112.0
 offset_right = 64.0
-offset_bottom = -48.0
+offset_bottom = -72.0
 theme_override_font_sizes/font_size = 20
 text = "1"
 horizontal_alignment = 1
