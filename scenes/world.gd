@@ -128,6 +128,7 @@ func run_loop() -> void:
 	
 	print("scored this loop: ",score_current)
 	reroll_price = 30
+	shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
 	money += 50
 	shop_panel.do_reroll()
 
@@ -564,6 +565,7 @@ func _on_slot_pressed(index: int) -> void:
 		money -= current_item_price
 		if current_held_item:
 			current_held_item.sold = true
+			print(current_held_item.sold)
 		add_creature(1, floating_creature.species.id, index)
 		unset_floating_creature()
 
