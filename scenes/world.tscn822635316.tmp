@@ -18,7 +18,7 @@ sfx_next_loop = ExtResource("3_4mrxx")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
-offset = Vector2(-480, -50)
+offset = Vector2(-600, 0)
 
 [node name="BgLayer" type="CanvasLayer" parent="."]
 layer = -10
@@ -41,11 +41,9 @@ position = Vector2(0, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-metadata/_edit_lock_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/MarginContainer"]
 layout_mode = 2
