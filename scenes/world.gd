@@ -14,6 +14,7 @@ const base_creature_distance: int = 60
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
 @onready var label_score: Label = %LabelScore
+@onready var creature_card: CreatureCard = %CreatureCard
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
 
@@ -342,10 +343,9 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 				creatures.insert(pos, new_creature)
 		new_creature.species = Constants.get_species_by_id(id)
 		creature_tracker += 1
-		new_creature.name = str(new_creature.species.title) +" " + str(creature_tracker)
+		new_creature.creature_name = str(new_creature.species.title) +" [" + str(creature_tracker) + "]"
 		add_child(new_creature)
-		new_creature.set_texture()
-		print("creating %s at %s" % [new_creature.name, pos])
+		print("creating '%s' at position %s" % [new_creature.name, pos])
 	
 	await update_creature_positions()
 
@@ -497,18 +497,30 @@ func update_score_display() -> void:
 
 #endregion
 
+#region creature_card manager
+func _on_shop_panel_item_hovered(species: SpeciesResource) -> void:
+	if floating_creature.species == null:
+		creature_card.species = species
+
+func _on_shop_panel_item_exited() -> void:
+	if floating_creature.species == null:
+		creature_card.species = null
+#endregion
+
 #region floating_creature manager
 func set_floating_creature(species) -> void:
 	floating_creature.species = species
+	creature_card.species = species
 	update_creature_positions(true)
 
 func unset_floating_creature() -> void:
 	floating_creature.species = null
+	creature_card.species = null
 	update_creature_positions(false)
 
 func _on_shop_panel_floating_creature_asked(species: SpeciesResource) -> void:
 	set_floating_creature(species)
-
+	
 func _on_slot_pressed(index: int) -> void:
 	if floating_creature.species != null:
 		add_creature(1, floating_creature.species.id, index)
@@ -518,7 +530,6 @@ func _unhandled_input(event):
 	if floating_creature.species != null:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			unset_floating_creature()
-
 #endregion
 
 #region music controls

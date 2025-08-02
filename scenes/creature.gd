@@ -1,23 +1,23 @@
-extends Node2D
-class_name Creature
-@onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
-
-@onready var label: Label = %Label
-@onready var sprite: Sprite2D = %Sprite2D
+class_name Creature extends Node2D
 
 var species: SpeciesResource:
 	set(value):
 		current_range = value.default_range
+		%Sprite2D.texture = value.texture
 		species = value
+		#_sprite.position.y -= tex.get_height() * _sprite.scale.y /4
+
+## Creature's name is displayed above it in a label
+var creature_name: String:
+	set(value):
+		%Label.text = value
+		name = value # Node.name
+		creature_name = value
 
 var current_range: int
 
-func _ready() -> void:
-	label.text = name
-	sfx_player.stream = species.sfx_placed
-	sfx_player.play()
+@onready var _sfx_player: AudioStreamPlayer2D = $SFX_Player
 
-func set_texture() -> void:
-	var tex :CompressedTexture2D = species.texture
-	sprite.texture = tex
-	#sprite.position.y -= tex.get_height() * sprite.scale.y /4
+func _ready() -> void:
+	_sfx_player.stream = species.sfx_placed
+	_sfx_player.play()

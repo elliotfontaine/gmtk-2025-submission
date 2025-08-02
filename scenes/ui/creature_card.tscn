@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://bbetjgrjbsdi8"]
 
+[ext_resource type="Script" uid="uid://k63iphdos8jf" path="res://scenes/ui/creature_card.gd" id="1_6615u"]
 [ext_resource type="Texture2D" uid="uid://dxubv1qlao35k" path="res://assets/sprites/ui/creature_background.png" id="1_nx1no"]
 [ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="1_ptfb3"]
-[ext_resource type="Texture2D" uid="uid://cv54ev2gbv1jy" path="res://assets/sprites/creatures/bunny.png" id="2_egjp0"]
 
 [sub_resource type="Theme" id="Theme_0agqf"]
 Label/font_sizes/font_size = 16
@@ -11,6 +11,7 @@ Label/font_sizes/font_size = 16
 
 [node name="CreatureCardPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 200)
+script = ExtResource("1_6615u")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -23,6 +24,7 @@ expand_mode = 3
 stretch_mode = 5
 
 [node name="CreatureSprite" type="TextureRect" parent="HBoxContainer/CreatureBackground"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.1
@@ -31,7 +33,6 @@ anchor_right = 0.9
 anchor_bottom = 0.9
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_egjp0")
 expand_mode = 3
 stretch_mode = 6
 
@@ -45,52 +46,58 @@ layout_mode = 2
 theme_override_constants/separation = 2
 
 [node name="CreatureTitle" type="Label" parent="HBoxContainer/VBoxContainer/Header"]
+unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(270, 0)
 layout_mode = 2
-text = "ORNITHORYNQUE"
 clip_text = true
 
-[node name="Mid" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="MiddleLine" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme = SubResource("Theme_0agqf")
 theme_override_constants/separation = 3
 
-[node name="Range" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Mid"]
+[node name="Range" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/MiddleLine"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Title" type="Label" parent="HBoxContainer/VBoxContainer/Mid/Range"]
+[node name="RangeTitle" type="Label" parent="HBoxContainer/VBoxContainer/MiddleLine/Range"]
 layout_mode = 2
 text = "Range: "
 
-[node name="Value" type="Label" parent="HBoxContainer/VBoxContainer/Mid/Range"]
+[node name="RangeValue" type="Label" parent="HBoxContainer/VBoxContainer/MiddleLine/Range"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "3"
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/VBoxContainer/Mid/Range"]
+[node name="RangeIcon" type="TextureRect" parent="HBoxContainer/VBoxContainer/MiddleLine/Range"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 texture = ExtResource("1_ptfb3")
 expand_mode = 3
 
-[node name="NegativeSpace" type="Panel" parent="HBoxContainer/VBoxContainer/Mid"]
+[node name="NegativeSpace" type="Panel" parent="HBoxContainer/VBoxContainer/MiddleLine"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ptfb3")
 
-[node name="Size" type="Label" parent="HBoxContainer/VBoxContainer/Mid"]
-layout_mode = 2
-text = "large"
-
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer/VBoxContainer/Mid"]
+[node name="Size" type="Label" parent="HBoxContainer/VBoxContainer/MiddleLine"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Type" type="Label" parent="HBoxContainer/VBoxContainer/Mid"]
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer/VBoxContainer/MiddleLine"]
 layout_mode = 2
-text = "Animal"
+
+[node name="Family" type="Label" parent="HBoxContainer/VBoxContainer/MiddleLine"]
+unique_name_in_owner = true
+layout_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Effect" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(270, 80)
 layout_mode = 2
 theme_override_font_sizes/bold_italics_font_size = 20
@@ -98,6 +105,6 @@ theme_override_font_sizes/italics_font_size = 16
 theme_override_font_sizes/mono_font_size = 16
 theme_override_font_sizes/normal_font_size = 20
 theme_override_font_sizes/bold_font_size = 16
-text = "Lorem ipsum dolor sit amet, adipiscing elit consectetur, sed do eiusmod."
+text = "Hover over a creature to view its information."
 horizontal_alignment = 3
 justification_flags = 35
