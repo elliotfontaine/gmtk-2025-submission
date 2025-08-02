@@ -3,7 +3,8 @@ class_name Constants
 const species_dir: String = "res://resources/species/"
 
 enum SPECIES {
-	NONE,
+	#NONE, why is there none? this fucks up crawling through so the enum
+	MOLE,
 	BUNNY,
 	FOX,
 	GRASS,
@@ -20,7 +21,6 @@ enum SPECIES {
 	BUSH,
 	BERRY,
 	ANT,
-	#MOLE,
 	#SQUIRREL,
 	#ROOSTER,
 	#OWL,
@@ -52,6 +52,7 @@ enum SIZES {
 }
 
 enum RARITIES {
+	NONE,
 	COMMON,
 	UNCOMMON,
 	RARE,
