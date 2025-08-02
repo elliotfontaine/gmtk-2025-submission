@@ -60,7 +60,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 2
+theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 10
 columns = 2
 
@@ -84,7 +84,7 @@ species = ExtResource("7_4i0u3")
 [node name="ShopItem5" parent="VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("1_wxg4i")]
 layout_mode = 2
 species = ExtResource("8_udh10")
-price = 1077
+price = 107
 
 [node name="ShopItem6" parent="VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("1_wxg4i")]
 layout_mode = 2
