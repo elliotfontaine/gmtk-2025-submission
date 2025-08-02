@@ -13,10 +13,13 @@ const base_creature_distance: int = 60
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
 @onready var label_score: Label = %LabelScore
+@onready var creature_card: CreatureCard = %CreatureCard
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
 
 @onready var initial_camera_zoom :float = camera.zoom.x
+@onready var currency_count: Label = %CurrencyCount
+@onready var shop_panel: ShopPanel = %ShopPanel
 
 ##placeholder system: length of wait times 
 var game_speed: float = 0.8
@@ -32,7 +35,12 @@ var level: int = 0
 ##placeholder system for naming the creatures
 var creature_tracker :int = 0
 
+# to prevent race condition coming from Area2D mouse_exited not triggering in order
+## buffer used for SpeciesCard display when hovering loop creatures
+var hovered_creature: Creature
+
 func _ready() -> void:
+	money = money #(to trigger label update)
 	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
@@ -92,7 +100,6 @@ func _on_next_loop_button_pressed() -> void:
 	next_level()
 
 func run_loop() -> void:
-	
 	await do_on_loop_start_actions()
 	
 	iterator = 0
@@ -115,7 +122,12 @@ func run_loop() -> void:
 	
 	await do_on_loop_end_actions()
 	
+	
 	print("scored this loop: ",score_current)
+	reroll_price = 30
+	shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
+	money += 50
+	shop_panel.do_reroll()
 
 #region creature action matchers
 
@@ -246,10 +258,18 @@ func do_on_duplicate_actions(duplicator:Creature) -> void:
 ##called on loop start for start of loop effects
 func do_on_loop_start_actions() -> void:
 	SceneChanger.set_action_music()
+	var triggered_creatures :Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
 			Constants.SPECIES.BUSH:
-				create(creature,Constants.SPECIES.BERRY,-2)
+				triggered_creatures.append(creature)
+	
+	
+	##do triggered actions
+	for creature in triggered_creatures:
+		match creature.species.id:
+			Constants.SPECIES.BUSH:
+				create(creature,Constants.SPECIES.BERRY,-1)
 				create(creature,Constants.SPECIES.BERRY)
 
 ##called on loop end for end of loop effects
@@ -345,10 +365,11 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 				creatures.insert(pos, new_creature)
 		new_creature.species = Constants.get_species_by_id(id)
 		creature_tracker += 1
-		new_creature.name = str(new_creature.species.title) +" " + str(creature_tracker)
+		new_creature.creature_name = str(new_creature.species.title) +" [" + str(creature_tracker) + "]"
 		add_child(new_creature)
-		new_creature.set_texture()
-		print("creating %s at %s" % [new_creature.name, pos])
+		new_creature.mouse_entered.connect(_on_creature_mouse_entered.bind(new_creature))
+		new_creature.mouse_exited.connect(_on_creature_mouse_exited.bind(new_creature))
+		print("creating '%s' at position %s" % [new_creature.name, pos])
 	
 	await update_creature_positions()
 
@@ -500,20 +521,53 @@ func update_score_display() -> void:
 
 #endregion
 
+#region creature_card manager
+func _on_shop_panel_item_hovered(species: SpeciesResource) -> void:
+	if floating_creature.species == null:
+		creature_card.species = species
+
+func _on_shop_panel_item_exited() -> void:
+	if floating_creature.species == null:
+		creature_card.species = null
+
+func _on_creature_mouse_entered(creature: Creature) -> void:
+	if floating_creature.species == null:
+		hovered_creature = creature
+		creature_card.species = creature.species
+
+func _on_creature_mouse_exited(creature: Creature) -> void:
+	if floating_creature.species == null:
+		if creature == hovered_creature:
+			creature_card.species = null
+		else:
+			return # because that mean another thing already got hovered
+#endregion
+
 #region floating_creature manager
 func set_floating_creature(species) -> void:
 	floating_creature.species = species
+	creature_card.species = species
 	update_creature_positions(true)
 
 func unset_floating_creature() -> void:
 	floating_creature.species = null
+	creature_card.species = null
 	update_creature_positions(false)
 
-func _on_shop_panel_floating_creature_asked(species: SpeciesResource) -> void:
-	set_floating_creature(species)
+func _on_shop_panel_floating_creature_asked(item: ShopItem) -> void:
+	if money > item.price:
+		current_held_item = item
+		current_item_price = item.price
+		set_floating_creature(item.species)
+	else:
+		pass
 
 func _on_slot_pressed(index: int) -> void:
 	if floating_creature.species != null:
+		money -= current_item_price
+		if current_held_item:
+			current_held_item.sold = true
+			print(current_held_item.sold)
 		add_creature(1, floating_creature.species.id, index)
 		unset_floating_creature()
 
@@ -521,5 +575,27 @@ func _unhandled_input(event):
 	if floating_creature.species != null:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			unset_floating_creature()
+#endregion
+
+#region money management
+
+var money :int = 500:
+	set(val):
+		money = val
+		currency_count.text = str(money)
+
+var current_item_price :int = 0
+var current_held_item :ShopItem
+
+var reroll_price :int = 30
 
 #endregion
+
+
+func _on_shop_panel_rerolled() -> void:
+	if money > reroll_price:
+		money -= reroll_price
+		shop_panel.do_reroll()
+		
+		reroll_price += (reroll_price/5)
+		shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
