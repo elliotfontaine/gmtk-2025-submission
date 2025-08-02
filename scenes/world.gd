@@ -34,6 +34,10 @@ var level: int = 0
 ##placeholder system for naming the creatures
 var creature_tracker :int = 0
 
+# to prevent race condition coming from Area2D mouse_exited not triggering in order
+## buffer used for SpeciesCard display when hovering loop creatures
+var hovered_creature: Creature
+
 func _ready() -> void:
 	next_level()
 
@@ -353,6 +357,8 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 		creature_tracker += 1
 		new_creature.creature_name = str(new_creature.species.title) +" [" + str(creature_tracker) + "]"
 		add_child(new_creature)
+		new_creature.mouse_entered.connect(_on_creature_mouse_entered.bind(new_creature))
+		new_creature.mouse_exited.connect(_on_creature_mouse_exited.bind(new_creature))
 		print("creating '%s' at position %s" % [new_creature.name, pos])
 	
 	await update_creature_positions()
@@ -513,6 +519,18 @@ func _on_shop_panel_item_hovered(species: SpeciesResource) -> void:
 func _on_shop_panel_item_exited() -> void:
 	if floating_creature.species == null:
 		creature_card.species = null
+
+func _on_creature_mouse_entered(creature: Creature) -> void:
+	if floating_creature.species == null:
+		hovered_creature = creature
+		creature_card.species = creature.species
+
+func _on_creature_mouse_exited(creature: Creature) -> void:
+	if floating_creature.species == null:
+		if creature == hovered_creature:
+			creature_card.species = null
+		else:
+			return # because that mean another thing already got hovered
 #endregion
 
 #region floating_creature manager
