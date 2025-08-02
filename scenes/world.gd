@@ -129,6 +129,7 @@ func run_loop() -> void:
 	print("scored this loop: ",score_current)
 	reroll_price = 30
 	money += 50
+	shop_panel.do_reroll()
 
 #region creature action matchers
 
@@ -552,6 +553,7 @@ func unset_floating_creature() -> void:
 
 func _on_shop_panel_floating_creature_asked(item: ShopItem) -> void:
 	if money > item.price:
+		current_held_item = item
 		current_item_price = item.price
 		set_floating_creature(item.species)
 	else:
@@ -560,6 +562,8 @@ func _on_shop_panel_floating_creature_asked(item: ShopItem) -> void:
 func _on_slot_pressed(index: int) -> void:
 	if floating_creature.species != null:
 		money -= current_item_price
+		if current_held_item:
+			current_held_item.sold = true
 		add_creature(1, floating_creature.species.id, index)
 		unset_floating_creature()
 
@@ -605,6 +609,7 @@ var money :int = 500:
 		currency_count.text = str(money)
 
 var current_item_price :int = 0
+var current_held_item :ShopItem
 
 var reroll_price :int = 30
 
