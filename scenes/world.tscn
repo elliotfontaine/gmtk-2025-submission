@@ -1,4 +1,5 @@
-[gd_scene load_steps=9 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=12 format=3 uid="uid://tcckc601ceki"]
+
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
@@ -63,12 +64,7 @@ alignment = 1
 [node name="CreatureCard" parent="UI/MarginContainer/HBoxContainer/LeftSideUI" instance=ExtResource("2_tlwt5")]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="NegativeSpace" type="Panel" parent="UI/MarginContainer/HBoxContainer/LeftSideUI"]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 10.0
-theme_override_styles/panel = SubResource("StyleBoxEmpty_tlwt5")
+size_flags_vertical = 2
 
 [node name="ShopPanel" parent="UI/MarginContainer/HBoxContainer/LeftSideUI" instance=ExtResource("3_aqk2v")]
 unique_name_in_owner = true
@@ -99,6 +95,7 @@ texture = ExtResource("8_4mrxx")
 expand_mode = 3
 
 [node name="NextLoopButton" type="Button" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "Next Loop"
