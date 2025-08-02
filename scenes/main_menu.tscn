@@ -13,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ig7tw")
 background_music = ExtResource("3_bqqt6")
+metadata/_edit_lock_ = true
 
 [node name="ButtonPlay" type="Button" parent="."]
 custom_minimum_size = Vector2(400, 400)
@@ -28,6 +29,7 @@ offset_right = -196.0
 offset_bottom = -196.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
 theme_override_font_sizes/font_size = 50
 text = "play."
 metadata/_edit_use_anchors_ = true

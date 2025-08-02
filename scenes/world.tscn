@@ -110,6 +110,7 @@ vertical_alignment = 1
 
 [node name="NextLoopButton" type="Button" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer"]
 layout_mode = 2
+focus_mode = 0
 text = "Next Loop"
 
 [node name="ScoreContainer" type="CenterContainer" parent="UI/MarginContainer/HBoxContainer"]
