@@ -46,7 +46,6 @@ func populate_debug_shop() -> void:
 		var species: SpeciesResource = Constants.get_species_by_id(id)
 		var new_item: Control = ITEM_SCENE.instantiate()
 		new_item.species = species
-		new_item.sprite = species.texture
 		new_item.price = 0
 		add_shop_item(new_item)
 		new_item.mouse_entered.connect(_on_item_hovered.bind(new_item))
