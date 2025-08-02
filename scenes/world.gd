@@ -307,6 +307,7 @@ func check_if_fits_diet(target:Creature,species_diet,size_diet) -> bool:
 func do_eat(who:Creature,target:Creature) -> void:
 
 	who.do_eat()
+	
 	var index_who = posmod(creatures.find(who), creatures.size())
 	var index_tar = posmod(creatures.find(target), creatures.size())
 	var forward_distance = posmod(index_tar - index_who, creatures.size())

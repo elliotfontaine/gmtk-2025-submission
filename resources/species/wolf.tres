@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=4 format=3 uid="uid://diwl6ogeir0ua"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=5 format=3 uid="uid://diwl6ogeir0ua"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_h36fp"]
 [ext_resource type="Texture2D" uid="uid://bjirqy057ntrq" path="res://assets/sprites/creatures/fox.png" id="2_ajddr"]
 [ext_resource type="AudioStream" uid="uid://ttlgn4n213r6" path="res://assets/audio/sfx/placed/WolfPlaced.wav" id="2_g7ack"]
+[ext_resource type="AudioStream" uid="uid://dvt8ipe4lww0m" path="res://assets/audio/sfx/eat/eat_med.wav" id="2_q107r"]
 
 [resource]
 script = ExtResource("1_h36fp")
@@ -15,4 +16,5 @@ texture = ExtResource("2_ajddr")
 default_range = 1
 value = 0
 sfx_placed = ExtResource("2_g7ack")
+sfx_eat = ExtResource("2_q107r")
 metadata/_custom_type_script = "uid://mow41h46xu2s"
