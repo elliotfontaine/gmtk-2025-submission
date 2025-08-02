@@ -343,10 +343,9 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 				creatures.insert(pos, new_creature)
 		new_creature.species = Constants.get_species_by_id(id)
 		creature_tracker += 1
-		new_creature.name = str(new_creature.species.title) +" " + str(creature_tracker)
+		new_creature.creature_name = str(new_creature.species.title) +" [" + str(creature_tracker) + "]"
 		add_child(new_creature)
-		new_creature.set_texture()
-		print("creating %s at %s" % [new_creature.name, pos])
+		print("creating '%s' at position %s" % [new_creature.name, pos])
 	
 	await update_creature_positions()
 
