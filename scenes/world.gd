@@ -72,6 +72,9 @@ func _on_next_loop_button_pressed() -> void:
 	next_level()
 
 func run_loop() -> void:
+	
+	await do_on_loop_start_actions()
+	
 	iterator = 0
 	while iterator < creatures.size():
 		var creature = creatures[iterator]
@@ -229,17 +232,22 @@ func do_on_loop_start_actions() -> void:
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
+	var remove_queue :Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
 			##on loop end: if egg wasn't eaten or hatched or anything, it dies.
 			Constants.SPECIES.EGG:
-				remove(creature)
+				remove_queue.append(creature)
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
 			Constants.SPECIES.BERRY:
-				remove(creature)
+				remove_queue.append(creature)
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
+	
+	for creature in remove_queue:
+		await remove(creature)
+
 
 #endregion
 
