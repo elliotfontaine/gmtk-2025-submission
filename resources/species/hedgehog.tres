@@ -14,7 +14,8 @@ rarity = 1
 title = "Hedgehog"
 texture = ExtResource("2_mylwq")
 default_range = 1
-value = 0
+effect_text = "If plant in range: eat it and score 3[img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]. [br] Cannot be eaten."
+base_price = 1
 sfx_placed = ExtResource("2_ofaf3")
 sfx_eat = ExtResource("2_y15g6")
 metadata/_custom_type_script = "uid://mow41h46xu2s"
