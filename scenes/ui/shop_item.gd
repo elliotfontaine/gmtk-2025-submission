@@ -1,14 +1,14 @@
+@tool
 extends Control
 
 signal pressed
 
-var species: SpeciesResource
+@export var species: SpeciesResource:
+	set(value):
+		species = value
+		%CreatureSprite.texture = value.texture if value != null else null
 
-var sprite: Texture:
-	get: return %CreatureSprite.texture
-	set(value): %CreatureSprite.texture = value
-
-var price: int:
+@export var price: int = 101:
 	get: return int(%Price.text)
 	set(value): %Price.text = str(value)
 
