@@ -5,7 +5,7 @@ extends CanvasLayer
 enum MainScenes {MAIN, WORLD}
 
 const _MAIN_SCENES_PATHS = {
-	MainScenes.MAIN: "res://scenes/main.tscn",
+	MainScenes.MAIN: "res://scenes/main_menu.tscn",
 	MainScenes.WORLD: "res://scenes/world.tscn"
 }
 

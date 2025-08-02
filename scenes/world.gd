@@ -20,6 +20,7 @@ const base_creature_distance: int = 60
 @onready var currency_count: Label = %CurrencyCount
 @onready var shop_panel: ShopPanel = %ShopPanel
 @onready var next_loop_button: Button = %NextLoopButton
+@onready var defeat_ui: ColorRect = %Defeat
 
 ##placeholder system: length of wait times 
 var game_speed: float = 0.8
@@ -103,10 +104,15 @@ func _on_next_loop_button_pressed() -> void:
 		next_loop_button.modulate = Color.DIM_GRAY
 		shop_panel.modulate = Color.DIM_GRAY
 		await run_loop()
-		next_level()
-		currently_looping = false
-		next_loop_button.modulate = Color.WHITE
-		shop_panel.modulate = Color.WHITE
+		
+		if score_current > score_target:
+			next_loop_button.modulate = Color.WHITE
+			shop_panel.modulate = Color.WHITE
+			currently_looping = false
+			money += 50
+			next_level()
+		else:
+			defeat()
 
 func run_loop() -> void:
 	await do_on_loop_start_actions()
@@ -131,12 +137,10 @@ func run_loop() -> void:
 	
 	await do_on_loop_end_actions()
 	
-	
 	print("scored this loop: ",score_current)
-	reroll_price = 30
-	shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
-	money += 50
-	shop_panel.do_reroll()
+
+func defeat() -> void:
+	defeat_ui.show()
 
 #region creature action matchers
 
@@ -523,6 +527,10 @@ func next_level():
 	score_target = level * 10 * maxi(level / 3, 1) + maxi(0, (level - 2) * 3)
 	progress_bar_score.max_value = score_target
 	update_score_display()
+	
+	reroll_price = 30
+	shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
+	shop_panel.do_reroll()
 
 func update_score_display() -> void:
 	label_score.text = "SCORE: %s / %s" % [score_current, score_target]
@@ -600,9 +608,6 @@ var current_held_item :ShopItem
 
 var reroll_price :int = 30
 
-#endregion
-
-
 func _on_shop_panel_rerolled() -> void:
 	if not currently_looping:
 		if money > reroll_price:
@@ -611,3 +616,13 @@ func _on_shop_panel_rerolled() -> void:
 			
 			reroll_price += (reroll_price/5)
 			shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
+
+#endregion
+
+
+func _on_retry_pressed() -> void:
+	SceneChanger.change_to(SceneChanger.MainScenes.WORLD)
+
+
+func _on_exit_pressed() -> void:
+	SceneChanger.change_to(SceneChanger.MainScenes.MAIN)
