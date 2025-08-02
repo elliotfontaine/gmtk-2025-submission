@@ -5,13 +5,19 @@ extends Node2D
 const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
 
-const minimum_loop_size: int = 150
+##change this value to dictate the creature size you want:
+@export var initial_radius :float = 1.0/13
+##change this value to dictate how much space the loop should take:
+@export var zoom_factor :float = 0.7
+const base_creature_distance: int = 60
 
-@onready var camera_2d: Camera2D = %Camera2D
+@onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
 @onready var label_score: Label = %LabelScore
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
+
+@onready var initial_camera_zoom :float = camera.zoom.x
 
 ##placeholder system: length of wait times 
 var game_speed: float = 0.8
@@ -35,25 +41,17 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 	for slot in empty_slots:
 		slot.queue_free()
 	empty_slots.clear()
-	
-	var creature_amount = creatures.size()
-	var i: int = 0
-	for creature: Creature in creatures:
-		var angle = ((2 * PI * i) / creature_amount) - PI / 2
-		i += 1
-		creature.position.x = max(30 * creature_amount, minimum_loop_size) * cos(angle)
-		creature.position.y = max(30 * creature_amount, minimum_loop_size) * sin(angle)
 		
-		if show_empty_slots:
-			var new_slot := EMPTY_SLOT.instantiate()
-			new_slot.pressed.connect(_on_slot_pressed)
-			new_slot.index = i
-			add_child(new_slot)
-			new_slot.position.x = max(30 * creature_amount, minimum_loop_size) * cos(angle + (PI / creature_amount))
-			new_slot.position.y = max(30 * creature_amount, minimum_loop_size) * sin(angle + (PI / creature_amount))
-			empty_slots.append(new_slot)
+	var creature_amount :int = creatures.size()
 	
-	if creature_amount == 0 && show_empty_slots:
+	var radius :float = (get_viewport().get_visible_rect().size.y/2.0) * creature_amount * initial_radius
+	
+	radius = max(radius,200.0)
+	
+	if creature_amount == 1 && not show_empty_slots:
+		creatures[0].position = Vector2.ZERO
+	
+	elif creature_amount == 0 && show_empty_slots:
 		var new_slot := EMPTY_SLOT.instantiate()
 		new_slot.pressed.connect(_on_slot_pressed)
 		new_slot.index = 0
@@ -61,9 +59,32 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 		new_slot.position = Vector2.ZERO
 		empty_slots.append(new_slot)
 	
-	##adaptative zoom: to adjust further once we have a better idea of the size of assets
-	var zoom: float = max(1.0 - (0.015 * creature_amount), 0.3)
-	camera_2d.zoom = Vector2(zoom, zoom)
+	else:
+		var i: int = 0
+		for creature: Creature in creatures:
+			var angle = ((2 * PI * i) / creature_amount) - PI / 2
+			i += 1
+			creature.position.x = radius * cos(angle)
+			creature.position.y = radius * sin(angle)
+			
+			if show_empty_slots:
+				var new_slot := EMPTY_SLOT.instantiate()
+				new_slot.pressed.connect(_on_slot_pressed)
+				new_slot.index = i
+				add_child(new_slot)
+				new_slot.position.x = radius * cos(angle + (PI / creature_amount))
+				new_slot.position.y = radius * sin(angle + (PI / creature_amount))
+				empty_slots.append(new_slot)
+		
+	
+	##adaptative zoom:
+	var zoom :float = (get_viewport().get_visible_rect().size.y/2.0) / radius * zoom_factor
+	zoom = clampf(zoom,0.0,0.8)
+	camera.zoom = Vector2(zoom, zoom)
+	##screen is 1920, minus about 480 for the left panel.  Therefore the offset for the camera if screen is 1920 is (-480/2) = -240.
+	##however is the camera's zoom is 0.5, then the offset should be (-480/2) * (1/0.5) = -480
+	##therefore: camera.offset = (-480/2) * (1/camera.zoom)
+	camera.offset.x = (-480/2) * (1/camera.zoom.x)
 
 func _on_next_loop_button_pressed() -> void:
 	sfx_player.stream = sfx_next_loop
@@ -320,10 +341,10 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 				pos = max(pos,0)
 				creatures.insert(pos, new_creature)
 		new_creature.species = Constants.get_species_by_id(id)
-		new_creature.get_child(0).texture = new_creature.species.texture
 		creature_tracker += 1
 		new_creature.name = str(new_creature.species.title) +" " + str(creature_tracker)
 		add_child(new_creature)
+		new_creature.set_texture()
 		print("creating %s at %s" % [new_creature.name, pos])
 	
 	await update_creature_positions()
