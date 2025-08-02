@@ -17,6 +17,7 @@ signal pressed
 
 var sold :bool = false:
 	set(val):
+		sold = val
 		if val:
 			h_box_container.hide()
 
