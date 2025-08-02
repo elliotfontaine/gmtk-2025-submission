@@ -16,14 +16,12 @@ const base_creature_distance: int = 60
 @onready var label_score: Label = %LabelScore
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
-@onready var ghost_creature: Creature = %GhostCreature
-
 ##placeholder system: length of wait times 
 var game_speed: float = 0.8
 
 var creatures: Array[Creature]
 
-var empty_slots: Array[Node2D]
+var empty_slots: Array[Slot]
 
 var iterator: int
 
@@ -34,11 +32,6 @@ var creature_tracker :int = 0
 
 func _ready() -> void:
 	next_level()
-	set_ghost()
-
-func set_ghost() -> void:
-	ghost_creature.modulate = Color.html("a9dfd799")
-	ghost_creature.hide()
 
 ##to call whenever you affect the number of creatures in the loop 
 func update_creature_positions(show_empty_slots: bool = false) -> void:
@@ -58,6 +51,8 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 	elif creature_amount == 0 && show_empty_slots:
 		var new_slot := EMPTY_SLOT.instantiate()
 		new_slot.pressed.connect(_on_slot_pressed)
+		new_slot.hovered.connect(_on_slot_hovered)
+		new_slot.unhovered.connect(_on_slot_unhovered)
 		new_slot.index = 0
 		add_child(new_slot)
 		new_slot.position = Vector2.ZERO
@@ -74,6 +69,8 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 			if show_empty_slots:
 				var new_slot := EMPTY_SLOT.instantiate()
 				new_slot.pressed.connect(_on_slot_pressed)
+				new_slot.hovered.connect(_on_slot_hovered)
+				new_slot.unhovered.connect(_on_slot_unhovered)
 				new_slot.index = i
 				add_child(new_slot)
 				new_slot.position.x = radius * cos(angle + (PI / creature_amount))
@@ -502,6 +499,7 @@ func update_score_display() -> void:
 #endregion
 
 #region floating_creature manager
+
 func set_floating_creature(species) -> void:
 	floating_creature.species = species
 	update_creature_positions(true)
@@ -522,6 +520,18 @@ func _unhandled_input(event):
 	if floating_creature.species != null:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			unset_floating_creature()
+
+#endregion
+
+#region ghost manager
+
+func _on_slot_hovered(slot:Slot) -> void:
+	if floating_creature.species != null:
+		slot.set_texture(floating_creature.texture)
+
+func _on_slot_unhovered(slot:Slot) -> void:
+	if floating_creature.species != null:
+		slot.reset_texture()
 
 #endregion
 
