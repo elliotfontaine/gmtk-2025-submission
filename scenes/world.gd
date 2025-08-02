@@ -19,6 +19,8 @@ const base_creature_distance: int = 60
 @onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
 
 @onready var initial_camera_zoom :float = camera.zoom.x
+@onready var currency_count: Label = %CurrencyCount
+@onready var shop_panel: ShopPanel = %ShopPanel
 
 ##placeholder system: length of wait times 
 var game_speed: float = 0.8
@@ -39,6 +41,7 @@ var creature_tracker :int = 0
 var hovered_creature: Creature
 
 func _ready() -> void:
+	money = money #(to trigger label update)
 	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
@@ -122,7 +125,10 @@ func run_loop() -> void:
 	
 	await do_on_loop_end_actions()
 	
+	
 	print("scored this loop: ",score_current)
+	reroll_price = 30
+	money += 50
 
 #region creature action matchers
 
@@ -544,11 +550,16 @@ func unset_floating_creature() -> void:
 	creature_card.species = null
 	update_creature_positions(false)
 
-func _on_shop_panel_floating_creature_asked(species: SpeciesResource) -> void:
-	set_floating_creature(species)
-	
+func _on_shop_panel_floating_creature_asked(item: ShopItem) -> void:
+	if money > item.price:
+		current_item_price = item.price
+		set_floating_creature(item.species)
+	else:
+		pass
+
 func _on_slot_pressed(index: int) -> void:
 	if floating_creature.species != null:
+		money -= current_item_price
 		add_creature(1, floating_creature.species.id, index)
 		unset_floating_creature()
 
@@ -585,3 +596,25 @@ func _fade_music(stream_index, volume: float, speed: float = 1.5):
 	)
 
 #endregion 
+
+#region money management
+
+var money :int = 500:
+	set(val):
+		money = val
+		currency_count.text = str(money)
+
+var current_item_price :int = 0
+
+var reroll_price :int = 30
+
+#endregion
+
+
+func _on_shop_panel_rerolled() -> void:
+	if money > reroll_price:
+		money -= reroll_price
+		shop_panel.do_reroll()
+		
+		reroll_price += (reroll_price/5)
+		shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
