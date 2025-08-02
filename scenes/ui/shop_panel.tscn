@@ -12,7 +12,7 @@
 [ext_resource type="Resource" uid="uid://biaj8l2hd8kum" path="res://resources/species/badger.tres" id="9_qjhny"]
 
 [node name="ShopPanel" type="PanelContainer"]
-custom_minimum_size = Vector2(480, 0)
+custom_minimum_size = Vector2(480, 591)
 script = ExtResource("1_sblsc")
 
 [node name="SFX_Click" type="AudioStreamPlayer" parent="."]
@@ -26,10 +26,13 @@ layout_mode = 2
 
 [node name="Header" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Title" type="Label" parent="VBoxContainer/Header"]
 layout_mode = 2
+size_flags_vertical = 1
 text = "Shop"
+vertical_alignment = 1
 
 [node name="ReRoll" type="Button" parent="VBoxContainer/Header"]
 unique_name_in_owner = true

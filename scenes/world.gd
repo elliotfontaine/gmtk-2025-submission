@@ -23,7 +23,7 @@ const base_creature_distance: int = 60
 @onready var defeat_ui: ColorRect = %Defeat
 
 ##placeholder system: length of wait times 
-var game_speed: float = 0.8
+var game_speed: float = 0.7
 
 var creatures: Array[Creature]
 
@@ -524,13 +524,14 @@ var score_current: int:
 func next_level():
 	level += 1
 	score_current = 0
-	score_target = level * 10 * maxi(level / 3, 1) + maxi(0, (level - 2) * 3)
+	score_target = level * 1 * maxi(level / 3, 1) + maxi(0, (level - 2) * 3)
 	progress_bar_score.max_value = score_target
 	update_score_display()
 	
+	shop_panel.level = level
 	reroll_price = 30
 	shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
-	shop_panel.do_reroll()
+	shop_panel.populate_shop()
 
 func update_score_display() -> void:
 	label_score.text = "SCORE: %s / %s" % [score_current, score_target]
