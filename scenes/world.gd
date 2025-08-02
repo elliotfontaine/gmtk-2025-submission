@@ -102,10 +102,12 @@ func _on_next_loop_button_pressed() -> void:
 	if not currently_looping:
 		currently_looping = true
 		next_loop_button.modulate = Color.DIM_GRAY
+		shop_panel.modulate = Color.DIM_GRAY
 		await run_loop()
 		next_level()
 		currently_looping = false
 		next_loop_button.modulate = Color.WHITE
+		shop_panel.modulate = Color.WHITE
 
 func run_loop() -> void:
 	_set_action_music()
@@ -560,21 +562,23 @@ func unset_floating_creature() -> void:
 	update_creature_positions(false)
 
 func _on_shop_panel_floating_creature_asked(item: ShopItem) -> void:
-	if money > item.price:
-		current_held_item = item
-		current_item_price = item.price
-		set_floating_creature(item.species)
-	else:
-		pass
+	if not currently_looping:
+		if money > item.price:
+			current_held_item = item
+			current_item_price = item.price
+			set_floating_creature(item.species)
+		else:
+			pass
 
 func _on_slot_pressed(index: int) -> void:
-	if floating_creature.species != null:
-		money -= current_item_price
-		if current_held_item:
-			current_held_item.sold = true
-			print(current_held_item.sold)
-		add_creature(1, floating_creature.species.id, index)
-		unset_floating_creature()
+	if not currently_looping:
+		if floating_creature.species != null:
+			money -= current_item_price
+			if current_held_item:
+				current_held_item.sold = true
+				print(current_held_item.sold)
+			add_creature(1, floating_creature.species.id, index)
+			unset_floating_creature()
 
 func _unhandled_input(event):
 	if floating_creature.species != null:
@@ -626,9 +630,10 @@ var reroll_price :int = 30
 
 
 func _on_shop_panel_rerolled() -> void:
-	if money > reroll_price:
-		money -= reroll_price
-		shop_panel.do_reroll()
-		
-		reroll_price += (reroll_price/5)
-		shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
+	if not currently_looping:
+		if money > reroll_price:
+			money -= reroll_price
+			shop_panel.do_reroll()
+			
+			reroll_price += (reroll_price/5)
+			shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
