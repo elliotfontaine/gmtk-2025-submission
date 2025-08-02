@@ -4,10 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
 [ext_resource type="Texture2D" uid="uid://dr1cqjdwtdh76" path="res://assets/sprites/bg.png" id="2_qfnet"]
 [ext_resource type="PackedScene" uid="uid://bbetjgrjbsdi8" path="res://scenes/ui/creature_card_panel.tscn" id="2_tlwt5"]
-[ext_resource type="AudioStream" uid="uid://dvk76pxx164w" path="res://assets/audio/music/game_always.mp3" id="2_w7kh3"]
+[ext_resource type="AudioStream" uid="uid://djqij3cp0o1a1" path="res://assets/audio/music/bgm_always_on.mp3" id="2_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://d288g7tvym65q" path="res://scenes/ui/shop_panel.tscn" id="3_aqk2v"]
-[ext_resource type="AudioStream" uid="uid://dfhm58pekfyhb" path="res://assets/audio/music/game_calm.mp3" id="3_e3hyu"]
-[ext_resource type="AudioStream" uid="uid://diqluyepoardq" path="res://assets/audio/music/game_action.mp3" id="4_q5onr"]
+[ext_resource type="AudioStream" uid="uid://bvvlkmbq3engv" path="res://assets/audio/music/bgm_calm.mp3" id="3_e3hyu"]
+[ext_resource type="AudioStream" uid="uid://bny2tpgmnvtdw" path="res://assets/audio/music/bgm_action.mp3" id="4_q5onr"]
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/Click.wav" id="5_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
 
@@ -18,7 +18,7 @@ stream_0/volume = 0.0
 stream_1/stream = ExtResource("3_e3hyu")
 stream_1/volume = 0.0
 stream_2/stream = ExtResource("4_q5onr")
-stream_2/volume = -60.0
+stream_2/volume = -30.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tlwt5"]
 

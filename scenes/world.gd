@@ -528,17 +528,14 @@ var bgm_action = 2
 
 func _set_action_music():
 	_fade_music(bgm_action, 0)
-	_fade_music(bgm_calm, -18)
 
 func _set_calm_music():
-	_fade_music(bgm_action, -18)
-	_fade_music(bgm_calm, 0)
+	_fade_music(bgm_action, -30)
+	
 
-
-func _fade_music(stream_index, volume: float, speed: float = 1.5):
+func _fade_music(stream_index, volume: float, speed: float = 1):
 	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_SINE)
-	tween.set_ease(Tween.EASE_IN_OUT)
+
 	tween.tween_method(
 		func(volume_tween: float) -> void:
 			background_music. set_sync_stream_volume(stream_index, volume_tween),
