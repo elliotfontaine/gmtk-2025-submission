@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://bcxifse3ad8cw"]
+
+[ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_7yoc7"]
+[ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="2_p5hk5"]
+
+[resource]
+script = ExtResource("1_7yoc7")
+id = 15
+family = 0
+size = 1
+rarity = 0
+title = "Berry"
+texture = ExtResource("2_p5hk5")
+default_range = 0
+value = 0
+metadata/_custom_type_script = "uid://mow41h46xu2s"
