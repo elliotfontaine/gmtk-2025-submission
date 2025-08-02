@@ -20,6 +20,7 @@ const base_creature_distance: int = 60
 @onready var currency_count: Label = %CurrencyCount
 @onready var shop_panel: ShopPanel = %ShopPanel
 @onready var next_loop_button: Button = %NextLoopButton
+@onready var defeat_ui: ColorRect = %Defeat
 
 ##placeholder system: length of wait times 
 var game_speed: float = 0.8
@@ -139,7 +140,7 @@ func run_loop() -> void:
 	print("scored this loop: ",score_current)
 
 func defeat() -> void:
-	pass
+	defeat_ui.show()
 
 #region creature action matchers
 
@@ -617,3 +618,11 @@ func _on_shop_panel_rerolled() -> void:
 			shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
 
 #endregion
+
+
+func _on_retry_pressed() -> void:
+	SceneChanger.change_to(SceneChanger.MainScenes.WORLD)
+
+
+func _on_exit_pressed() -> void:
+	SceneChanger.change_to(SceneChanger.MainScenes.MAIN)

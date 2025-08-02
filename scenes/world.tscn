@@ -42,7 +42,6 @@ scale = Vector2(0.25, 0.25)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -95,7 +94,7 @@ expand_mode = 3
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
-text = "Next Loop"
+text = "Run Loop"
 
 [node name="ScoreContainer" type="CenterContainer" parent="UI/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -124,6 +123,51 @@ layout_mode = 2
 size_flags_vertical = 0
 text = "add new creature"
 
+[node name="Defeat" type="ColorRect" parent="UI"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.114897, 0.114897, 0.114897, 0.717647)
+metadata/_edit_use_anchors_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/Defeat"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Defeat/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Defeat/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 0.65098, 0.00784314, 1)
+theme_override_font_sizes/font_size = 110
+text = "DEFEAT"
+horizontal_alignment = 1
+
+[node name="Retry" type="Button" parent="UI/Defeat/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"FlatButton"
+text = "try again"
+
+[node name="Exit" type="Button" parent="UI/Defeat/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Exit"
+
 [node name="SFX_Player" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
 
@@ -132,3 +176,5 @@ bus = &"SFX"
 [connection signal="item_hovered" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_item_hovered"]
 [connection signal="rerolled" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_rerolled"]
 [connection signal="pressed" from="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/NextLoopButton" to="." method="_on_next_loop_button_pressed"]
+[connection signal="pressed" from="UI/Defeat/CenterContainer/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="UI/Defeat/CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
