@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d288g7tvym65q"]
+[gd_scene load_steps=12 format=3 uid="uid://d288g7tvym65q"]
 
 [ext_resource type="Script" uid="uid://ilbv0ktx5rak" path="res://scenes/ui/shop_panel.gd" id="1_sblsc"]
 [ext_resource type="PackedScene" uid="uid://bjl76cq3iw1n" path="res://scenes/ui/shop_item.tscn" id="1_wxg4i"]
@@ -10,6 +10,8 @@
 [ext_resource type="Resource" uid="uid://dodlsy8vfx76n" path="res://resources/species/crow.tres" id="7_4i0u3"]
 [ext_resource type="Resource" uid="uid://bnr020mddktae" path="res://resources/species/grass.tres" id="8_udh10"]
 [ext_resource type="Resource" uid="uid://biaj8l2hd8kum" path="res://resources/species/badger.tres" id="9_qjhny"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wxg4i"]
 
 [node name="ShopPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)
@@ -31,15 +33,17 @@ layout_mode = 2
 layout_mode = 2
 text = "Shop"
 
-[node name="ReRoll" type="Button" parent="VBoxContainer/Header"]
-unique_name_in_owner = true
+[node name="NegativeSpace" type="Panel" parent="VBoxContainer/Header"]
 layout_mode = 2
-size_flags_horizontal = 10
-focus_mode = 0
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_wxg4i")
+
+[node name="ReRoll" type="Button" parent="VBoxContainer/Header"]
+layout_mode = 2
 theme_type_variation = &"SmallPurpleButton"
 theme_override_constants/h_separation = 0
 theme_override_constants/icon_max_width = 28
-text = "REROLL:  30"
+text = "RE-ROLL:  30"
 icon = ExtResource("3_g0um3")
 icon_alignment = 2
 

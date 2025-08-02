@@ -1,5 +1,9 @@
 @tool
 extends Control
+class_name ShopItem
+
+@onready var h_box_container: HBoxContainer = %HBoxContainer
+@onready var texture_button: TextureButton = %TextureButton
 
 signal pressed
 
@@ -12,5 +16,14 @@ signal pressed
 	get: return int(%Price.text)
 	set(value): %Price.text = str(value)
 
+var sold :bool = false:
+	set(val):
+		sold = val
+		if val:
+			h_box_container.hide()
+			texture_button.hide()
+
+
 func _on_texture_button_pressed() -> void:
-	pressed.emit()
+	if not sold:
+		pressed.emit()
