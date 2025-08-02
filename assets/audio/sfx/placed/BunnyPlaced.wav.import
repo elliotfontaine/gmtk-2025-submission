@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://gl3l15sxwf3q"
-path="res://.godot/imported/BunnyPlaced.wav-08eefe5cb98e672523c63caf0cba7b20.sample"
+path="res://.godot/imported/BunnyPlaced.wav-ca962c7a92a49326c5f3ec13c30cf6cb.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/BunnyPlaced.wav"
-dest_files=["res://.godot/imported/BunnyPlaced.wav-08eefe5cb98e672523c63caf0cba7b20.sample"]
+source_file="res://assets/audio/sfx/placed/BunnyPlaced.wav"
+dest_files=["res://.godot/imported/BunnyPlaced.wav-ca962c7a92a49326c5f3ec13c30cf6cb.sample"]
 
 [params]
 

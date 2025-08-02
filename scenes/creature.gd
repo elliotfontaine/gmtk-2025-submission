@@ -17,6 +17,10 @@ func _ready() -> void:
 	sfx_player.stream = species.sfx_placed
 	sfx_player.play()
 
+func do_action() -> void:
+	sfx_player.stream = species.sfx_trigger
+	sfx_player.play()
+
 func set_texture() -> void:
 	var tex :CompressedTexture2D = species.texture
 	sprite.texture = tex

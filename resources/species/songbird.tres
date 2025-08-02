@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_74jqi"]
 [ext_resource type="Texture2D" uid="uid://2uaaceqtsihk" path="res://assets/sprites/creatures/crow.png" id="2_a3r3m"]
-[ext_resource type="AudioStream" uid="uid://dhu2buenkk41" path="res://assets/audio/sfx/SongbirdPlaced.wav" id="2_hdugj"]
+[ext_resource type="AudioStream" uid="uid://dhu2buenkk41" path="res://assets/audio/sfx/placed/SongbirdPlaced.wav" id="2_hdugj"]
 
 [resource]
 script = ExtResource("1_74jqi")

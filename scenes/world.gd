@@ -120,6 +120,9 @@ func run_loop() -> void:
 #region creature action matchers
 
 func do_action(creature:Creature) -> void:
+	
+	creature.do_action()
+	
 	match creature.species.id:
 		##if grass has no plant neighbours, it duplicates
 		Constants.SPECIES.GRASS:

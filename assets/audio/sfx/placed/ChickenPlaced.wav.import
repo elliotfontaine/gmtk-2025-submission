@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cbvph1rgx4qbf"
-path="res://.godot/imported/ChickenPlaced.wav-508ddca056cf43fd53c0e0a203846f27.sample"
+path="res://.godot/imported/ChickenPlaced.wav-8cfcdf0ae5003829ceead6164419e6bd.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/ChickenPlaced.wav"
-dest_files=["res://.godot/imported/ChickenPlaced.wav-508ddca056cf43fd53c0e0a203846f27.sample"]
+source_file="res://assets/audio/sfx/placed/ChickenPlaced.wav"
+dest_files=["res://.godot/imported/ChickenPlaced.wav-8cfcdf0ae5003829ceead6164419e6bd.sample"]
 
 [params]
 

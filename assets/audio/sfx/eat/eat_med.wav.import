@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://c5ry6064rxlyr"
-path="res://.godot/imported/EggPlaced.wav-2cfa194127a644525e75e96483e7b840.sample"
+uid="uid://dvt8ipe4lww0m"
+path="res://.godot/imported/eat_med.wav-8c980babe3e772c47b8616e2f85b4318.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/EggPlaced.wav"
-dest_files=["res://.godot/imported/EggPlaced.wav-2cfa194127a644525e75e96483e7b840.sample"]
+source_file="res://assets/audio/sfx/eat/eat_med.wav"
+dest_files=["res://.godot/imported/eat_med.wav-8c980babe3e772c47b8616e2f85b4318.sample"]
 
 [params]
 

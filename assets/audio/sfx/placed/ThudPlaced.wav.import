@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bcq08qrv3kjmv"
-path="res://.godot/imported/ThudPlaced.wav-bc8693626f444763ecf12f45ebe3a182.sample"
+path="res://.godot/imported/ThudPlaced.wav-1d0530c878fb5291068bb71a579f212c.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/ThudPlaced.wav"
-dest_files=["res://.godot/imported/ThudPlaced.wav-bc8693626f444763ecf12f45ebe3a182.sample"]
+source_file="res://assets/audio/sfx/placed/ThudPlaced.wav"
+dest_files=["res://.godot/imported/ThudPlaced.wav-1d0530c878fb5291068bb71a579f212c.sample"]
 
 [params]
 
