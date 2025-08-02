@@ -3,6 +3,7 @@ extends Control
 class_name ShopItem
 
 @onready var h_box_container: HBoxContainer = %HBoxContainer
+@onready var texture_button: TextureButton = %TextureButton
 
 signal pressed
 
@@ -20,6 +21,7 @@ var sold :bool = false:
 		sold = val
 		if val:
 			h_box_container.hide()
+			texture_button.hide()
 
 
 func _on_texture_button_pressed() -> void:
