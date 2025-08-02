@@ -13,5 +13,5 @@ extends Resource
 @export var value: int
 
 @export var sfx_placed :AudioStream
-@export var sfx_action :AudioStream
+@export var sfx_eat :AudioStream
 #@export var sfx_death :AudioStream
