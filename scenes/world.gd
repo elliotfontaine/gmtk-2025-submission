@@ -5,8 +5,10 @@ extends Node2D
 const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
 
-const minimum_loop_size: int = 300
-const initial_radius :float = 1.0/15
+##change this value to dictate the creature size you want:
+@export var initial_radius :float = 1.0/13
+##change this value to dictate how much space the loop should take:
+@export var zoom_factor :float = 0.7
 const base_creature_distance: int = 60
 
 @onready var camera: Camera2D = %Camera2D
@@ -76,8 +78,8 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 		
 	
 	##adaptative zoom:
-	var zoom :float = (get_viewport().get_visible_rect().size.y/2.0) / radius*0.8
-	zoom = clampf(zoom,0.0,1.0)
+	var zoom :float = (get_viewport().get_visible_rect().size.y/2.0) / radius * zoom_factor
+	zoom = clampf(zoom,0.0,0.8)
 	camera.zoom = Vector2(zoom, zoom)
 	##screen is 1920, minus about 480 for the left panel.  Therefore the offset for the camera if screen is 1920 is (-480/2) = -240.
 	##however is the camera's zoom is 0.5, then the offset should be (-480/2) * (1/0.5) = -480
@@ -337,10 +339,10 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 				pos = max(pos,0)
 				creatures.insert(pos, new_creature)
 		new_creature.species = Constants.get_species_by_id(id)
-		new_creature.get_child(0).texture = new_creature.species.texture
 		creature_tracker += 1
 		new_creature.name = str(new_creature.species.title) +" " + str(creature_tracker)
 		add_child(new_creature)
+		new_creature.set_texture()
 		print("creating %s at %s" % [new_creature.name, pos])
 	
 	await update_creature_positions()

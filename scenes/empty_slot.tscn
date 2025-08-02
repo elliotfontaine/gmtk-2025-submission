@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://547l56s470b5" path="res://assets/sprites/slot.png" id="1_rd32u"]
 
 [node name="EmptySlot" type="Node2D"]
+z_index = 1
 script = ExtResource("1_khjyt")
 
 [node name="TextureButton" type="TextureButton" parent="."]
@@ -15,13 +16,12 @@ anchor_bottom = 0.5
 offset_left = -80.0
 offset_top = -80.0
 offset_right = 80.0
-offset_bottom = 80.0
+offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -44)
 texture = ExtResource("1_rd32u")
 
 [connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

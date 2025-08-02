@@ -7,17 +7,24 @@
 script = ExtResource("1_fd6ru")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("2_nugsn")
 
 [node name="Label" type="Label" parent="."]
 unique_name_in_owner = true
-offset_left = -64.0
-offset_top = -112.0
-offset_right = 64.0
-offset_bottom = -72.0
+offset_left = 56.0
+offset_top = -24.0
+offset_right = 184.0
+offset_bottom = 24.0
 theme_override_font_sizes/font_size = 20
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SFX_Player" type="AudioStreamPlayer2D" parent="."]
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_nugsn")

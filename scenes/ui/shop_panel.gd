@@ -16,7 +16,7 @@ func _ready() -> void:
 	clear_items()
 	#if creative:
 		#populate_creative_shop()
-	for id in [Constants.SPECIES.BUNNY,Constants.SPECIES.ANT,Constants.SPECIES.GRASS,Constants.SPECIES.ANT,Constants.SPECIES.BUNNY,Constants.SPECIES.GRASS]:
+	for id in [Constants.SPECIES.BUNNY,Constants.SPECIES.ANT,Constants.SPECIES.GRASS,Constants.SPECIES.TIGER,Constants.SPECIES.BADGER,Constants.SPECIES.GRASS]:
 		create_new_shop_item(id)
 
 func _on_item_hovered(item) -> void:
