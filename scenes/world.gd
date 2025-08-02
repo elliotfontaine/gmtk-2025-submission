@@ -1,5 +1,4 @@
 extends Node2D
-@export var background_music: AudioStreamSynchronized
 @export var sfx_next_loop: AudioStream
 
 const CREATURE = preload("res://scenes/creature.tscn")
@@ -245,7 +244,7 @@ func do_on_duplicate_actions(duplicator:Creature) -> void:
 
 ##called on loop start for start of loop effects
 func do_on_loop_start_actions() -> void:
-	_set_action_music()
+	SceneChanger.set_action_music()
 	for creature in creatures:
 		match creature.species.id:
 			Constants.SPECIES.BUSH:
@@ -254,7 +253,7 @@ func do_on_loop_start_actions() -> void:
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
-	_set_calm_music()
+	SceneChanger.set_calm_music()
 	var remove_queue :Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
@@ -520,28 +519,3 @@ func _unhandled_input(event):
 			unset_floating_creature()
 
 #endregion
-
-#region music controls
-
-var bgm_calm = 1
-var bgm_action = 2
-
-func _set_action_music():
-	_fade_music(bgm_action, 0)
-
-func _set_calm_music():
-	_fade_music(bgm_action, -30)
-	
-
-func _fade_music(stream_index, volume: float, speed: float = 1):
-	var tween = create_tween()
-
-	tween.tween_method(
-		func(volume_tween: float) -> void:
-			background_music. set_sync_stream_volume(stream_index, volume_tween),
-		background_music.get_sync_stream_volume(stream_index),
-		volume, 
-		speed
-	)
-
-#endregion 
