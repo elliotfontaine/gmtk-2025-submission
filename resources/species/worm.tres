@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_vxgyw"]
 [ext_resource type="AudioStream" uid="uid://dtbt8hr4g5x3b" path="res://assets/audio/sfx/eat/eat_hi.wav" id="2_5gb13"]
 [ext_resource type="AudioStream" uid="uid://bevld5rvgyc55" path="res://assets/audio/sfx/placed/EarthwormPlaced.wav" id="2_e10be"]
-[ext_resource type="Texture2D" uid="uid://dxxp24wqn8l4y" path="res://assets/sprites/creatures/worm.png" id="2_vxgyw"]
+[ext_resource type="Texture2D" uid="uid://doughc3hjqkg5" path="res://assets/sprites/creatures/worm.png" id="2_vxgyw"]
 
 [resource]
 script = ExtResource("1_vxgyw")
@@ -14,7 +14,7 @@ rarity = 1
 title = "Worm"
 texture = ExtResource("2_vxgyw")
 default_range = 3
-effect_text = "Whenever an animal dies in range: duplicate"
+effect_text = "Whenever a non-tiny animal in range is eaten: duplicates."
 score_reward_1 = 0
 score_reward_2 = 0
 money_reward_1 = 0

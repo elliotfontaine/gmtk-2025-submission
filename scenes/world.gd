@@ -326,12 +326,12 @@ func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 			match creature.species.id:
 				##worm duplicates whenever an animal dies in its long range if not already adjacent to a worm:
 				Constants.SPECIES.WORM:
-					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL:
+					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL and to_be_eaten.species.size != Constants.SIZES.TINY:
 						if get_distance_between_two_creatures(creature, to_be_eaten) <= creature.current_range:
 							triggered_creatures.append(creature)
 				##crow makes points whenever an animal dies in its long long range:
 				Constants.SPECIES.CROW:
-					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL:
+					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL and to_be_eaten.species.size != Constants.SIZES.TINY:
 						if get_distance_between_two_creatures(creature, to_be_eaten) <= creature.current_range:
 							triggered_creatures.append(creature)
 		##actions for when the creature itself is eaten:
