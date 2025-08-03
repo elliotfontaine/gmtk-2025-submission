@@ -111,7 +111,6 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 				new_slot.position.y = radius * sin(angle + (PI / creature_amount))
 				empty_slots.append(new_slot)
 	
-	
 	##adaptative zoom:
 	var zoom: float = (get_viewport().get_visible_rect().size.y / 2.0) / radius * zoom_factor
 	zoom = clampf(zoom, 0.0, 0.8)
@@ -165,7 +164,7 @@ func run_loop() -> void:
 	while iterator < creatures.size():
 		var creature = creatures[iterator]
 		print("%s's turn" % [creature.name])
-		creature.modulate = Color.RED
+		creature.show_arrow(true)
 		
 		##do creature's actions here:
 		#await get_tree().create_timer(game_speed / 2).timeout
@@ -176,7 +175,7 @@ func run_loop() -> void:
 		iterator += 1
 		
 		if creature:
-			creature.modulate = Color.WHITE
+			creature.show_arrow(false)
 		await get_tree().create_timer(game_speed).timeout
 	
 	await do_on_loop_end_actions()
