@@ -29,7 +29,8 @@ const base_income :int = 50
 @onready var defeat_ui: ColorRect = %Defeat
 
 ##placeholder system: length of wait times 
-var game_speed: float = 0.7
+const game_speeds :Array[float] = [0.8,0.6,0.4,0.2]
+var game_speed: float = game_speeds[0]
 
 var creatures: Array[Creature]
 
@@ -84,10 +85,10 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 		var i: int = 0
 		for creature: Creature in creatures:
 			var angle = ((2 * PI * i) / creature_amount) - PI / 2
-			i += 1
 			creature.target_position.x = radius * cos(angle)
 			creature.target_position.y = radius * sin(angle)
 			
+			i += 1
 			if show_empty_slots:
 				var new_slot := EMPTY_SLOT.instantiate()
 				new_slot.pressed.connect(_on_slot_pressed)
@@ -112,18 +113,28 @@ func _on_next_loop_button_pressed() -> void:
 	sfx_player.play()
 	if not currently_looping:
 		currently_looping = true
-		next_loop_button.modulate = Color.DIM_GRAY
+		toggle_loop_button_text(false)
 		shop_panel.modulate = Color.DIM_GRAY
 		await run_loop()
-		
 		if score_current >= score_target:
-			next_loop_button.modulate = Color.WHITE
+			toggle_loop_button_text(true)
 			shop_panel.modulate = Color.WHITE
 			currently_looping = false
 			money += base_income + level
 			next_level()
 		else:
 			defeat()
+	
+	else:
+		#set var before to prevent bug on multi-press:
+		var current_speed_index = game_speeds.find(game_speed)
+		if current_speed_index+1 < game_speeds.size():
+			game_speed = game_speeds[current_speed_index+1]
+		elif current_speed_index+1 == game_speeds.size():
+			game_speed = game_speeds[0]
+		else:
+			print("what??")
+		toggle_loop_button_text(false)
 
 func run_loop() -> void:
 	await do_on_loop_start_actions()
@@ -149,6 +160,20 @@ func run_loop() -> void:
 	await do_on_loop_end_actions()
 	
 	print("scored this loop: ",score_current)
+
+func toggle_loop_button_text(active:bool) -> void:
+	if active:
+		next_loop_button.text = "Run Loop"
+	else:
+		match game_speed:
+			game_speeds[0]:
+				next_loop_button.text = "x1"
+			game_speeds[1]:
+				next_loop_button.text = "x1.5"
+			game_speeds[2]:
+				next_loop_button.text = "x2"
+			game_speeds[3]:
+				next_loop_button.text = "x4"
 
 func defeat() -> void:
 	defeat_ui.show()
