@@ -96,7 +96,7 @@ offset_bottom = -31.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0.364706, 0.27451, 1)
-text = "Made in 4 days by 4 strangers for the gmtk jam 2025
+text = "Made in 4 days by 4 strangers for the gmtk game jam 2025
 Superbloom - Elliot - Josh - Sam"
 horizontal_alignment = 1
 vertical_alignment = 1
