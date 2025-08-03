@@ -15,6 +15,7 @@ const base_creature_distance: int = 60
 
 const reroll_base_price: int = 10
 const base_income: int = 50
+const final_level: int = 20
 
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
@@ -26,7 +27,10 @@ const base_income: int = 50
 @onready var currency_count: Label = %CurrencyCount
 @onready var shop_panel: ShopPanel = %ShopPanel
 @onready var next_loop_button: Button = %NextLoopButton
-@onready var defeat_ui: ColorRect = %Defeat
+@onready var defeat_ui: ColorRect = %DefeatScreen
+@onready var defeat_loop_label: Label = %DefeatLoopLabel
+@onready var victory_ui: Control = %VictoryScreen
+@onready var victory_loop_label: Label = %VictoryLoopLabel
 @onready var label_loop: Label = %LabelLoop
 @onready var h_box_tutorial: HBoxContainer = %HBoxTutorial
 
@@ -43,7 +47,7 @@ var iterator: int
 var level: int = 0:
 	set(val):
 		level = val
-		label_loop.text = "Loop #%s"%[level]
+		label_loop.text = "Loop #%s" % [level]
 
 ##placeholder system for naming the creatures
 var creature_tracker: int = 0
@@ -126,11 +130,14 @@ func _on_next_loop_button_pressed() -> void:
 		shop_panel.modulate = Color.DIM_GRAY
 		await run_loop()
 		if score_current >= score_target:
-			toggle_loop_button_text(true)
-			shop_panel.modulate = Color.WHITE
 			currently_looping = false
 			money += base_income + level
-			next_level()
+			if level == final_level:
+				win()
+			else:
+				toggle_loop_button_text(true)
+				shop_panel.modulate = Color.WHITE
+				next_level()
 		else:
 			defeat()
 	
@@ -144,7 +151,13 @@ func _on_next_loop_button_pressed() -> void:
 		else:
 			print("what??")
 		toggle_loop_button_text(false)
-
+	
+func _on_continue_pressed() -> void:
+	victory_ui.hide()
+	toggle_loop_button_text(true)
+	shop_panel.modulate = Color.WHITE
+	next_level()
+	
 func run_loop() -> void:
 	await do_on_loop_start_actions()
 	
@@ -184,7 +197,15 @@ func toggle_loop_button_text(active: bool) -> void:
 			game_speeds[3]:
 				next_loop_button.text = "x4"
 
+func win() -> void:
+	victory_loop_label.text = "Loop reached: %s" % [level]
+	victory_ui.show()
+	sfx_player.stream = sfx_game_over
+	sfx_player.play()
+	pass
+
 func defeat() -> void:
+	defeat_loop_label.text = "Loop reached: %s" % [level]
 	defeat_ui.show()
 	sfx_player.stream = sfx_game_over
 	sfx_player.play()
@@ -351,7 +372,6 @@ func do_on_loop_start_actions() -> void:
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
-	SceneChanger.set_calm_music()
 	var remove_queue: Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
@@ -365,6 +385,8 @@ func do_on_loop_end_actions() -> void:
 		await remove(creature)
 		await update_creature_positions()
 		await get_tree().create_timer(game_speed).timeout
+	
+	SceneChanger.set_calm_music()
 
 
 #endregion
@@ -461,8 +483,8 @@ func duplicate_creature(who: Creature) -> void:
 	await add_creature(1, who.species.id, creatures.find(who), who.position)
 	await do_on_duplicate_actions(who)
 	##if the duplicating creature is before the iterator, then you add iterator so it doesn't play twice, but if the duplicator is AFTER the iterator (like a worm, then don't +iterator as that would skip the next guy's turn
-	var id :int = creatures.find(who)
-	if id > iterator+1:
+	var id: int = creatures.find(who)
+	if id > iterator + 1:
 		return
 	iterator += 1
 	return
