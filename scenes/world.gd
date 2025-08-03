@@ -2,6 +2,7 @@ extends Node2D
 @export var sfx_next_loop: AudioStream
 @export var sfx_suicide: AudioStream
 @export var sfx_no_action: AudioStream
+@export var sfx_game_over: AudioStream
 
 const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
@@ -143,6 +144,8 @@ func run_loop() -> void:
 
 func defeat() -> void:
 	defeat_ui.show()
+	sfx_player.stream = sfx_game_over
+	sfx_player.play()
 
 #region creature action matchers
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=13 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://bnsaxyysdda1x" path="res://assets/audio/sfx/other/Suicide.wav" id="3_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://d288g7tvym65q" path="res://scenes/ui/shop_panel.tscn" id="3_aqk2v"]
 [ext_resource type="AudioStream" uid="uid://h7ev0taycnca" path="res://assets/audio/sfx/other/No_Action.wav" id="4_7r4gi"]
+[ext_resource type="AudioStream" uid="uid://3dttvdpdjbu7" path="res://assets/audio/sfx/other/Game_End.wav" id="5_q5onr"]
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="5_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
 [ext_resource type="Script" uid="uid://csi3rjnr5grfn" path="res://audio/sound_button.gd" id="10_e3hyu"]
@@ -18,6 +19,7 @@ script = ExtResource("1_f3sb7")
 sfx_next_loop = ExtResource("2_i7141")
 sfx_suicide = ExtResource("3_4mrxx")
 sfx_no_action = ExtResource("4_7r4gi")
+sfx_game_over = ExtResource("5_q5onr")
 initial_radius = 0.077
 zoom_factor = 0.75
 
