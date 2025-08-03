@@ -140,12 +140,19 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 text = "Run Loop"
 
-[node name="ScoreContainer" type="CenterContainer" parent="UI/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="ScoreContainer" type="CenterContainer" parent="UI/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 0
 
-[node name="ProgressBarScore" type="ProgressBar" parent="UI/MarginContainer/HBoxContainer/ScoreContainer"]
+[node name="ProgressBarScore" type="ProgressBar" parent="UI/MarginContainer/HBoxContainer/VBoxContainer/ScoreContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(380, 50)
 layout_mode = 2
@@ -154,7 +161,7 @@ step = 1.0
 value = 50.0
 show_percentage = false
 
-[node name="LabelScore" type="Label" parent="UI/MarginContainer/HBoxContainer/ScoreContainer"]
+[node name="LabelScore" type="Label" parent="UI/MarginContainer/HBoxContainer/VBoxContainer/ScoreContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -165,9 +172,19 @@ text = "SCORE:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="UI/MarginContainer/HBoxContainer/ScoreContainer"]
+[node name="Sprite2D" type="Sprite2D" parent="UI/MarginContainer/HBoxContainer/VBoxContainer/ScoreContainer"]
 position = Vector2(373, 40)
 texture = ExtResource("11_dss4m")
+
+[node name="LabelLoop" type="Label" parent="UI/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 9
+text = "Loop #1"
 
 [node name="ButtonAdd" type="Button" parent="UI/MarginContainer/HBoxContainer"]
 visible = false
@@ -180,14 +197,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 alignment = 2
-
-[node name="LabelLoop" type="Label" parent="UI/MarginContainer/TopRight"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 22
-text = "Loop #1"
 
 [node name="SettingsButton" type="TextureButton" parent="UI/MarginContainer/TopRight"]
 layout_mode = 2
