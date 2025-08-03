@@ -11,7 +11,7 @@ const zoom_factor :float = 0.7
 const base_creature_distance: int = 60
 
 const reroll_base_price :int = 10
-const base_income :int = 50
+const base_income :int = 60
 
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
