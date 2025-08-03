@@ -1,8 +1,5 @@
 extends Node2D
-@export var sfx_next_loop: AudioStream
-@export var sfx_suicide: AudioStream
-@export var sfx_no_action: AudioStream
-@export var sfx_game_over: AudioStream
+
 
 const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
@@ -15,7 +12,14 @@ const base_creature_distance: int = 60
 
 const reroll_base_price: int = 10
 const base_income: int = 50
-const final_level: int = 20
+
+@export_category(&"Gameplay")
+@export var final_level: int = 20
+@export_category(&"Sounds")
+@export var sfx_next_loop: AudioStream
+@export var sfx_suicide: AudioStream
+@export var sfx_no_action: AudioStream
+@export var sfx_game_over: AudioStream
 
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
