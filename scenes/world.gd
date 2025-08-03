@@ -135,8 +135,7 @@ func _on_next_loop_button_pressed() -> void:
 		await run_loop()
 		if score_current >= score_target:
 			currently_looping = false
-			money += base_income + level
-			money += base_income + (level*2)
+			money += base_income + (level * 2)
 			if level == final_level:
 				win()
 			else:
@@ -307,15 +306,15 @@ func do_action(creature: Creature) -> void:
 		Constants.SPECIES.VIPER:
 			money += creature.species.money_reward_1 * count_how_many_in_loop(Constants.SPECIES.EGG)
 		Constants.SPECIES.OAK:
-			await create_in_a_random_space_in_range(creature,Constants.SPECIES.ACORN,creature.species.default_range)
+			await create_in_a_random_space_in_range(creature, Constants.SPECIES.ACORN, creature.species.default_range)
 		Constants.SPECIES.SQUIRREL:
 			var neighbours = get_neighbours_in_range(creature, creature.current_range)
-			var furthest_small_plant_in_range :Creature
+			var furthest_small_plant_in_range: Creature
 			for neighbour in neighbours:
 				if neighbour.species.family == Constants.FAMILIES.PLANT and neighbour.species.size == Constants.SIZES.SMALL:
 					furthest_small_plant_in_range = neighbour
 			if furthest_small_plant_in_range:
-				pull_to_creature(creature,furthest_small_plant_in_range)
+				pull_to_creature(creature, furthest_small_plant_in_range)
 	await get_tree().create_timer(game_speed).timeout
 	return
 
@@ -389,7 +388,7 @@ func do_on_loop_start_actions() -> void:
 				create(creature, Constants.SPECIES.BERRY)
 			Constants.SPECIES.MOLE:
 				##known issue: the mole may pick its own position, but eh whatever I don't wanna risk new bugs
-				await move_to(creature,randi() % creatures.size())
+				await move_to(creature, randi() % creatures.size())
 				await get_tree().create_timer(game_speed).timeout
 				money += creature.species.money_reward_1
 				
@@ -407,10 +406,10 @@ func do_on_loop_end_actions() -> void:
 			Constants.SPECIES.ACORN:
 				score_current += creature.species.score_reward_1
 				remove_queue.append(creature)
-				await get_tree().create_timer(game_speed/4).timeout
+				await get_tree().create_timer(game_speed / 4).timeout
 	
 	for creature in remove_queue:
-		if check_neighbours_species(creature,Constants.get_species_by_id(Constants.SPECIES.LADYBUG).default_range,[Constants.SPECIES.LADYBUG]):
+		if check_neighbours_species(creature, Constants.get_species_by_id(Constants.SPECIES.LADYBUG).default_range, [Constants.SPECIES.LADYBUG]):
 			pass
 		else:
 			await remove(creature)
@@ -476,21 +475,21 @@ func suicide(who: Creature) -> void:
 	sfx_player.stream = sfx_suicide
 	sfx_player.play()
 
-func move(who:Creature,amount:int) -> void:
+func move(who: Creature, amount: int) -> void:
 	pass
 
-func move_to(who:Creature,where:int) -> void:
+func move_to(who: Creature, where: int) -> void:
 	creatures.erase(who)
-	creatures.insert(where,who)
+	creatures.insert(where, who)
 	await update_creature_positions()
 
-func pull_to_creature(puller:Creature,pulled:Creature) -> void:
-	var id_puller :int = creatures.find(puller)
-	var id_pulled :int = creatures.find(pulled)
+func pull_to_creature(puller: Creature, pulled: Creature) -> void:
+	var id_puller: int = creatures.find(puller)
+	var id_pulled: int = creatures.find(pulled)
 	if id_puller > id_pulled:
-		move_to(pulled,id_puller-1)
+		move_to(pulled, id_puller - 1)
 	else:
-		move_to(pulled,id_puller+1)
+		move_to(pulled, id_puller + 1)
 
 #endregion
 
@@ -542,9 +541,9 @@ func create(who: Creature, what: Constants.SPECIES, extra_range: int = 0) -> voi
 		pos = -1
 	await add_creature(1, what, pos, who.position)
 
-func create_in_a_random_space_in_range(who:Creature, what:Constants.SPECIES, range:int) -> void:
-	var pos: int = creatures.find(who) + randi_range(1,range) * [-1,1].pick_random()
-	if pos >= iterator+1:
+func create_in_a_random_space_in_range(who: Creature, what: Constants.SPECIES, range: int) -> void:
+	var pos: int = creatures.find(who) + randi_range(1, range) * [-1, 1].pick_random()
+	if pos >= iterator + 1:
 		pass
 	else:
 		iterator += 1
@@ -552,7 +551,6 @@ func create_in_a_random_space_in_range(who:Creature, what:Constants.SPECIES, ran
 	if pos > creatures.size():
 		pos = -1
 	await add_creature(1, what, pos, who.position)
-
 
 
 #endregion
@@ -783,6 +781,6 @@ func _on_settings_button_pressed() -> void:
 func _on_timer_bop_timeout() -> void:
 	if not currently_looping:
 		if creatures:
-			var rand_crea :Creature = creatures.pick_random()
+			var rand_crea: Creature = creatures.pick_random()
 			if rand_crea:
 				rand_crea.play_bop()
