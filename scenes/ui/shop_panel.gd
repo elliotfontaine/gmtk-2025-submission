@@ -116,7 +116,7 @@ func populate_shop() -> void:
 	elif level <= 5:
 		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],5) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],1)
 	elif level <= 6:
-		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],4) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],2)
+		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],4) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],1) + get_species_by_rarity([Constants.RARITIES.RARE],1)
 	elif level <= 8:
 		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],3) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],2) + get_species_by_rarity([Constants.RARITIES.RARE],1)
 	elif level <= 10:
