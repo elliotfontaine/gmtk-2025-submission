@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rqdd1plv2vbu"
-path="res://.godot/imported/hedgehog.png-3868d258cc107c22a497543a1898a7c1.ctex"
+uid="uid://bguljbf7e8vdp"
+path="res://.godot/imported/berry_bush.png-4062ce12aa69cdef4e99d7b868937a1e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/creatures/hedgehog.png"
-dest_files=["res://.godot/imported/hedgehog.png-3868d258cc107c22a497543a1898a7c1.ctex"]
+source_file="res://assets/sprites/creatures/berry_bush.png"
+dest_files=["res://.godot/imported/berry_bush.png-4062ce12aa69cdef4e99d7b868937a1e.ctex"]
 
 [params]
 

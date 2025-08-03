@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rqdd1plv2vbu"
-path="res://.godot/imported/hedgehog.png-3868d258cc107c22a497543a1898a7c1.ctex"
+uid="uid://tiuc85xca3wh"
+path="res://.godot/imported/lynx.png-7d6b6ccff0d2ef76a31d65f4660d8438.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/creatures/hedgehog.png"
-dest_files=["res://.godot/imported/hedgehog.png-3868d258cc107c22a497543a1898a7c1.ctex"]
+source_file="res://assets/sprites/creatures/lynx.png"
+dest_files=["res://.godot/imported/lynx.png-7d6b6ccff0d2ef76a31d65f4660d8438.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rqdd1plv2vbu"
-path="res://.godot/imported/hedgehog.png-3868d258cc107c22a497543a1898a7c1.ctex"
+uid="uid://dav874716r0g3"
+path="res://.godot/imported/chicken.png-13152556a97ed0f7888fc655ee512af3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/creatures/hedgehog.png"
-dest_files=["res://.godot/imported/hedgehog.png-3868d258cc107c22a497543a1898a7c1.ctex"]
+source_file="res://assets/sprites/creatures/chicken.png"
+dest_files=["res://.godot/imported/chicken.png-13152556a97ed0f7888fc655ee512af3.ctex"]
 
 [params]
 

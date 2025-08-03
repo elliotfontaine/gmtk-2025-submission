@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rqdd1plv2vbu"
-path="res://.godot/imported/hedgehog.png-3868d258cc107c22a497543a1898a7c1.ctex"
+uid="uid://dedfxvcied8ra"
+path="res://.godot/imported/fly_agaric.png-28e0c03c8b74b6d1ff21e48738e70bd1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/creatures/hedgehog.png"
-dest_files=["res://.godot/imported/hedgehog.png-3868d258cc107c22a497543a1898a7c1.ctex"]
+source_file="res://assets/sprites/creatures/fly_agaric.png"
+dest_files=["res://.godot/imported/fly_agaric.png-28e0c03c8b74b6d1ff21e48738e70bd1.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rqdd1plv2vbu"
-path="res://.godot/imported/hedgehog.png-3868d258cc107c22a497543a1898a7c1.ctex"
+uid="uid://bg3x6j1ckfvuo"
+path="res://.godot/imported/tiger.png-4be5de4823216b19af15144762dd39d6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/creatures/hedgehog.png"
-dest_files=["res://.godot/imported/hedgehog.png-3868d258cc107c22a497543a1898a7c1.ctex"]
+source_file="res://assets/sprites/creatures/tiger.png"
+dest_files=["res://.godot/imported/tiger.png-4be5de4823216b19af15144762dd39d6.ctex"]
 
 [params]
 
