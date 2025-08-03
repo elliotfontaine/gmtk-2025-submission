@@ -13,6 +13,11 @@ rarity = 0
 title = "Egg"
 texture = ExtResource("2_e431m")
 default_range = 0
-value = 0
+effect_text = "When eaten: score 5 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]."
+score_reward_1 = 5
+score_reward_2 = 0
+money_reward_1 = 0
+money_reward_2 = 0
+base_price = 1
 sfx_placed = ExtResource("2_j67q0")
 metadata/_custom_type_script = "uid://mow41h46xu2s"

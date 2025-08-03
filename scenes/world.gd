@@ -151,11 +151,11 @@ func do_action(creature:Creature) -> void:
 		Constants.SPECIES.GRASS:
 			if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
 				await duplicate_creature(creature)
-				score_current += 2
+				score_current += creature.species.score_reward_1
 		##bunbun eats a plant then duplicates, if no plant, suicides
 		Constants.SPECIES.BUNNY:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
-				score_current += 5
+				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
@@ -167,13 +167,13 @@ func do_action(creature:Creature) -> void:
 		##fox eats a neighbouring small animal :) yum
 		Constants.SPECIES.FOX:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
-				score_current += 7
+				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 		## hedgehog eats a plant. and cannot be eaten! (see exception in eat method)
 		Constants.SPECIES.HEDGEHOG:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
-				score_current += 4
+				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 		##chimkin consumes an insect, if succesful creates an egg
@@ -194,13 +194,13 @@ func do_action(creature:Creature) -> void:
 		Constants.SPECIES.LYNX:
 			for neighbour in get_neighbours_in_range(creature,creature.current_range):
 				if await attempt_to_eat_target(creature, neighbour, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
-					score_current += 9
+					score_current += creature.species.score_reward_1
 					await get_tree().create_timer(game_speed).timeout
 					await update_creature_positions()
 		##wolf is the basic medium generator, but may also be all-ined on to maximum its "pack" flavor bonus
 		Constants.SPECIES.WOLF:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
-				score_current += 3 + 3 * count_how_many_in_loop(Constants.SPECIES.WOLF)
+				score_current += creature.species.score_reward_1 + creature.species.score_reward_2 * (count_how_many_in_loop(Constants.SPECIES.WOLF) - 1)
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
@@ -209,11 +209,11 @@ func do_action(creature:Creature) -> void:
 		##tiger is the basic large predator - eats a medium dude in 2 range
 		Constants.SPECIES.TIGER:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.MEDIUM]):
-				score_current += 20
+				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 		Constants.SPECIES.ANT:
-			score_current += count_how_many_connected(creature,creature.species.id)
+			score_current += creature.species.score_reward_1 * count_how_many_connected(creature,creature.species.id)
 	
 	await get_tree().create_timer(game_speed).timeout
 	return
@@ -243,9 +243,9 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 			##when eaten, egg gives extra yum!:
 			match creature.species.id:
 				Constants.SPECIES.EGG:
-					score_current += 5
+					score_current += creature.species.score_reward_1
 				Constants.SPECIES.BERRY:
-					score_current += 5
+					score_current += creature.species.score_reward_1
 	
 	remove(to_be_eaten)
 	await get_tree().create_timer(game_speed / 2).timeout
@@ -257,7 +257,7 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 				if not check_neighbours_species(creature, 1, [Constants.SPECIES.WORM]):
 					await duplicate_creature(creature)
 			Constants.SPECIES.CROW:
-				score_current += 3
+				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed / 2).timeout
 
 ##whenever a creature duplicates, trigger _on_duplicate effects
@@ -266,7 +266,7 @@ func do_on_duplicate_actions(duplicator:Creature) -> void:
 		match creature.species.id:
 			##Badger scores on duplicate
 			Constants.SPECIES.BADGER:
-				score_current += 2
+				score_current += creature.species.score_reward_1
 
 ##called on loop start for start of loop effects
 func do_on_loop_start_actions() -> void:
