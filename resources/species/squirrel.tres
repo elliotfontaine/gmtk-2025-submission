@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://d17adg7bdln6i"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=4 format=3 uid="uid://d17adg7bdln6i"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_y88yo"]
+[ext_resource type="AudioStream" uid="uid://egijpri6wwvf" path="res://assets/audio/sfx/placed/SquirrelPlaced.wav" id="2_qvytk"]
 [ext_resource type="Texture2D" uid="uid://duwpcef165nt5" path="res://assets/sprites/creatures/squirrel.png" id="2_tqnkq"]
 
 [resource]
@@ -18,4 +19,5 @@ score_reward_2 = 0
 money_reward_1 = 0
 money_reward_2 = 0
 base_price = 1
+sfx_placed = ExtResource("2_qvytk")
 metadata/_custom_type_script = "uid://mow41h46xu2s"
