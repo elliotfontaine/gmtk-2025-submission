@@ -8,7 +8,7 @@ const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
 
 ##change this value to dictate the creature size you want:
-const initial_radius: float = 1.0 / 13
+const initial_radius: float = 1.0 / 8
 ##change this value to dictate how much space the loop should take:
 const zoom_factor: float = 0.7
 const base_creature_distance: int = 60
@@ -63,9 +63,32 @@ func _ready() -> void:
 	money = money # (to trigger label update)
 	add_creature(1,Constants.SPECIES.MOLE)
 	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.FOX)
+	add_creature(1,Constants.SPECIES.GRASS)
 	add_creature(1,Constants.SPECIES.BUNNY)
-	add_creature(1,Constants.SPECIES.WOLF)
-	add_creature(1,Constants.SPECIES.WOLF)
+	add_creature(1,Constants.SPECIES.BUNNY)
+	add_creature(1,Constants.SPECIES.FOX)
+	add_creature(1,Constants.SPECIES.MOLE)
+	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.FOX)
+	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.BUNNY)
+	add_creature(1,Constants.SPECIES.BUNNY)
+	add_creature(1,Constants.SPECIES.FOX)
+	add_creature(1,Constants.SPECIES.MOLE)
+	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.FOX)
+	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.BUNNY)
+	add_creature(1,Constants.SPECIES.BUNNY)
+	add_creature(1,Constants.SPECIES.FOX)
+	add_creature(1,Constants.SPECIES.MOLE)
+	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.FOX)
+	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.BUNNY)
+	add_creature(1,Constants.SPECIES.BUNNY)
+	add_creature(1,Constants.SPECIES.FOX)
 	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
