@@ -82,8 +82,8 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 		for creature: Creature in creatures:
 			var angle = ((2 * PI * i) / creature_amount) - PI / 2
 			i += 1
-			creature.position.x = radius * cos(angle)
-			creature.position.y = radius * sin(angle)
+			creature.target_position.x = radius * cos(angle)
+			creature.target_position.y = radius * sin(angle)
 			
 			if show_empty_slots:
 				var new_slot := EMPTY_SLOT.instantiate()
@@ -371,7 +371,8 @@ func suicide(who: Creature) -> void:
 
 #region creature creation and deletion
 
-func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
+##if duplicated or created by a creature, origin should be the originator. If placed by player, origin should be the marker's position
+func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1, origin_position :Vector2 = Vector2.ZERO) -> void:
 	for i in nb:
 		var new_creature := CREATURE.instantiate()
 		if pos == -1:
@@ -385,6 +386,7 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1) -> void:
 		new_creature.species = Constants.get_species_by_id(id)
 		creature_tracker += 1
 		new_creature.creature_name = str(new_creature.species.title) +" [" + str(creature_tracker) + "]"
+		new_creature.position = origin_position
 		add_child(new_creature)
 		new_creature.mouse_entered.connect(_on_creature_mouse_entered.bind(new_creature))
 		new_creature.mouse_exited.connect(_on_creature_mouse_exited.bind(new_creature))
@@ -399,7 +401,7 @@ func remove(who: Creature) -> void:
 
 ##creates a new creature with the same species as the specified creature at its position - eg. it will place it before.
 func duplicate_creature(who: Creature) -> void:
-	await add_creature(1, who.species.id, creatures.find(who))
+	await add_creature(1, who.species.id, creatures.find(who),who.position)
 	await do_on_duplicate_actions(who)
 	iterator += 1
 	return
@@ -409,7 +411,7 @@ func create(who: Creature, what:Constants.SPECIES,extra_range:int=0) -> void:
 	var pos :int = creatures.find(who)+1+extra_range
 	if pos > creatures.size():
 		pos = -1
-	await add_creature(1, what, creatures.find(who)+1+extra_range)
+	await add_creature(1, what, creatures.find(who)+1+extra_range,who.position)
 
 #endregion
 
@@ -594,7 +596,7 @@ func _on_slot_pressed(index: int) -> void:
 			if current_held_item:
 				current_held_item.sold = true
 				print(current_held_item.sold)
-			add_creature(1, floating_creature.species.id, index)
+			add_creature(1, floating_creature.species.id, index, empty_slots[index-1].position)
 			unset_floating_creature()
 
 func _unhandled_input(event):
