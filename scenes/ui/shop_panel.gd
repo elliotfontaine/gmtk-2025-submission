@@ -64,7 +64,19 @@ func create_new_shop_item(id:int) -> void:
 	var species: SpeciesResource = Constants.get_species_by_id(id)
 	var new_item: Control = ITEM_SCENE.instantiate()
 	new_item.species = species
-	new_item.price = randi_range(20,60)
+	var base_price :int = 10
+	match new_item.species.rarity:
+		Constants.RARITIES.COMMON:
+			base_price = 20
+		Constants.RARITIES.UNCOMMON:
+			base_price = 28
+		Constants.RARITIES.RARE:
+			base_price = 36
+		Constants.RARITIES.EPIC:
+			base_price = 44
+		#Constants.RARITIES.LEGENDARY:
+			#base_price = 40
+	new_item.price = int((base_price + base_price * (level/20.0)) * randf_range(0.85,1.15))
 	add_shop_item(new_item)
 	new_item.mouse_entered.connect(_on_item_hovered.bind(new_item))
 	new_item.mouse_exited.connect(_on_item_exited.bind(new_item))
