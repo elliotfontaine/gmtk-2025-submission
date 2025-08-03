@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cjpe1y1myvqbb"]
+[gd_scene load_steps=5 format=3 uid="uid://cjpe1y1myvqbb"]
 
 [ext_resource type="Script" uid="uid://b47tr3vo56q8q" path="res://scenes/main_menu.gd" id="1_ig7tw"]
-[ext_resource type="AudioStream" uid="uid://cbwlovwtan8pm" path="res://assets/audio/sfx/Accept.wav" id="2_ekxnf"]
-[ext_resource type="AudioStream" uid="uid://2fkimc1vqyqe" path="res://assets/audio/music/menu.mp3" id="3_bqqt6"]
+[ext_resource type="AudioStream" uid="uid://cbwlovwtan8pm" path="res://assets/audio/sfx/buttons/Accept.wav" id="2_ekxnf"]
+[ext_resource type="Script" uid="uid://csi3rjnr5grfn" path="res://audio/sound_button.gd" id="3_8ln24"]
+[ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="4_rtw2f"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -12,7 +13,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ig7tw")
-background_music = ExtResource("3_bqqt6")
 metadata/_edit_lock_ = true
 
 [node name="ButtonPlay" type="Button" parent="."]
@@ -32,6 +32,9 @@ grow_vertical = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 50
 text = "play."
+script = ExtResource("3_8ln24")
+click_sound = ExtResource("4_rtw2f")
+metadata/_custom_type_script = "uid://csi3rjnr5grfn"
 metadata/_edit_use_anchors_ = true
 
 [node name="SFX_Accept" type="AudioStreamPlayer2D" parent="."]

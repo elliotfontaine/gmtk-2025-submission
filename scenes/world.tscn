@@ -1,17 +1,27 @@
-[gd_scene load_steps=8 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=13 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
+[ext_resource type="AudioStream" uid="uid://cbwlovwtan8pm" path="res://assets/audio/sfx/buttons/Accept.wav" id="2_i7141"]
 [ext_resource type="Texture2D" uid="uid://dr1cqjdwtdh76" path="res://assets/sprites/bg.png" id="2_qfnet"]
 [ext_resource type="PackedScene" uid="uid://bbetjgrjbsdi8" path="res://scenes/ui/creature_card.tscn" id="2_tlwt5"]
+[ext_resource type="AudioStream" uid="uid://bnsaxyysdda1x" path="res://assets/audio/sfx/other/Suicide.wav" id="3_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://d288g7tvym65q" path="res://scenes/ui/shop_panel.tscn" id="3_aqk2v"]
-[ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/Click.wav" id="5_w7kh3"]
+[ext_resource type="AudioStream" uid="uid://h7ev0taycnca" path="res://assets/audio/sfx/other/No_Action.wav" id="4_7r4gi"]
+[ext_resource type="AudioStream" uid="uid://3dttvdpdjbu7" path="res://assets/audio/sfx/other/Game_End.wav" id="5_q5onr"]
+[ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="5_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
+[ext_resource type="Script" uid="uid://csi3rjnr5grfn" path="res://audio/sound_button.gd" id="10_e3hyu"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_f3sb7")
-sfx_next_loop = ExtResource("5_w7kh3")
+sfx_next_loop = ExtResource("2_i7141")
+sfx_suicide = ExtResource("3_4mrxx")
+sfx_no_action = ExtResource("4_7r4gi")
+sfx_game_over = ExtResource("5_q5onr")
+initial_radius = 0.077
+zoom_factor = 0.75
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
@@ -159,12 +169,18 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"FlatButton"
 text = "try again"
+script = ExtResource("10_e3hyu")
+click_sound = ExtResource("5_w7kh3")
+metadata/_custom_type_script = "uid://csi3rjnr5grfn"
 
 [node name="Exit" type="Button" parent="UI/Defeat/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Exit"
+script = ExtResource("10_e3hyu")
+click_sound = ExtResource("5_w7kh3")
+metadata/_custom_type_script = "uid://csi3rjnr5grfn"
 
 [node name="SFX_Player" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"

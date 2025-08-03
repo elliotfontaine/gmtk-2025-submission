@@ -1,17 +1,20 @@
 extends Node2D
 @export var sfx_next_loop: AudioStream
+@export var sfx_suicide: AudioStream
+@export var sfx_no_action: AudioStream
+@export var sfx_game_over: AudioStream
 
 const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
 
 ##change this value to dictate the creature size you want:
-const initial_radius :float = 1.0/13
+const initial_radius: float = 1.0 / 13
 ##change this value to dictate how much space the loop should take:
-const zoom_factor :float = 0.7
+const zoom_factor: float = 0.7
 const base_creature_distance: int = 60
 
-const reroll_base_price :int = 10
-const base_income :int = 50
+const reroll_base_price: int = 10
+const base_income: int = 50
 
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
@@ -19,14 +22,15 @@ const base_income :int = 50
 @onready var creature_card: CreatureCard = %CreatureCard
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
-@onready var initial_camera_zoom :float = camera.zoom.x
+@onready var initial_camera_zoom: float = camera.zoom.x
 @onready var currency_count: Label = %CurrencyCount
 @onready var shop_panel: ShopPanel = %ShopPanel
 @onready var next_loop_button: Button = %NextLoopButton
 @onready var defeat_ui: ColorRect = %Defeat
 
 ##placeholder system: length of wait times 
-var game_speed: float = 0.7
+const game_speeds: Array[float] = [0.8, 0.6, 0.4, 0.2]
+var game_speed: float = game_speeds[0]
 
 var creatures: Array[Creature]
 
@@ -37,21 +41,21 @@ var iterator: int
 var level: int = 0
 
 ##placeholder system for naming the creatures
-var creature_tracker :int = 0
+var creature_tracker: int = 0
 
 # to prevent race condition coming from Area2D mouse_exited not triggering in order
 ## buffer used for SpeciesCard display when hovering loop creatures
 var hovered_creature: Creature
 
-var currently_looping :bool = false
+var currently_looping: bool = false
 
-var money :int = 50:
+var money: int = 50:
 	set(val):
 		money = val
 		currency_count.text = str(money)
 
 func _ready() -> void:
-	money = money #(to trigger label update)
+	money = money # (to trigger label update)
 	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
@@ -60,11 +64,11 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 		slot.queue_free()
 	empty_slots.clear()
 		
-	var creature_amount :int = creatures.size()
+	var creature_amount: int = creatures.size()
 	
-	var radius :float = (get_viewport().get_visible_rect().size.y/2.0) * creature_amount * initial_radius
+	var radius: float = (get_viewport().get_visible_rect().size.y / 2.0) * creature_amount * initial_radius
 	
-	radius = max(radius,200.0)
+	radius = max(radius, 200.0)
 	
 	if creature_amount == 1 && not show_empty_slots:
 		creatures[0].position = Vector2.ZERO
@@ -81,6 +85,9 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 		var i: int = 0
 		for creature: Creature in creatures:
 			var angle = ((2 * PI * i) / creature_amount) - PI / 2
+			creature.target_position.x = radius * cos(angle)
+			creature.target_position.y = radius * sin(angle)
+			
 			i += 1
 			creature.target_position.x = radius * cos(angle)
 			creature.target_position.y = radius * sin(angle)
@@ -96,31 +103,41 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 		
 	
 	##adaptative zoom:
-	var zoom :float = (get_viewport().get_visible_rect().size.y/2.0) / radius * zoom_factor
-	zoom = clampf(zoom,0.0,0.8)
+	var zoom: float = (get_viewport().get_visible_rect().size.y / 2.0) / radius * zoom_factor
+	zoom = clampf(zoom, 0.0, 0.8)
 	camera.zoom = Vector2(zoom, zoom)
 	##screen is 1920, minus about 480 for the left panel.  Therefore the offset for the camera if screen is 1920 is (-480/2) = -240.
 	##however is the camera's zoom is 0.5, then the offset should be (-480/2) * (1/0.5) = -480
 	##therefore: camera.offset = (-480/2) * (1/camera.zoom)
-	camera.offset.x = (-480/2) * (1/camera.zoom.x)
+	camera.offset.x = (-480 / 2) * (1 / camera.zoom.x)
 
 func _on_next_loop_button_pressed() -> void:
 	sfx_player.stream = sfx_next_loop
 	sfx_player.play()
 	if not currently_looping:
 		currently_looping = true
-		next_loop_button.modulate = Color.DIM_GRAY
+		toggle_loop_button_text(false)
 		shop_panel.modulate = Color.DIM_GRAY
 		await run_loop()
-		
 		if score_current >= score_target:
-			next_loop_button.modulate = Color.WHITE
+			toggle_loop_button_text(true)
 			shop_panel.modulate = Color.WHITE
 			currently_looping = false
 			money += base_income + level
 			next_level()
 		else:
 			defeat()
+	
+	else:
+		#set var before to prevent bug on multi-press:
+		var current_speed_index = game_speeds.find(game_speed)
+		if current_speed_index + 1 < game_speeds.size():
+			game_speed = game_speeds[current_speed_index + 1]
+		elif current_speed_index + 1 == game_speeds.size():
+			game_speed = game_speeds[0]
+		else:
+			print("what??")
+		toggle_loop_button_text(false)
 
 func run_loop() -> void:
 	await do_on_loop_start_actions()
@@ -145,21 +162,38 @@ func run_loop() -> void:
 	
 	await do_on_loop_end_actions()
 	
-	print("scored this loop: ",score_current)
+	print("scored this loop: ", score_current)
+
+func toggle_loop_button_text(active: bool) -> void:
+	if active:
+		next_loop_button.text = "Run Loop"
+	else:
+		match game_speed:
+			game_speeds[0]:
+				next_loop_button.text = "x1"
+			game_speeds[1]:
+				next_loop_button.text = "x1.5"
+			game_speeds[2]:
+				next_loop_button.text = "x2"
+			game_speeds[3]:
+				next_loop_button.text = "x4"
 
 func defeat() -> void:
 	defeat_ui.show()
+	sfx_player.stream = sfx_game_over
+	sfx_player.play()
 
 #region creature action matchers
 
-func do_action(creature:Creature) -> void:
-	
+func do_action(creature: Creature) -> void:
 	match creature.species.id:
 		##if grass has no plant neighbours, it duplicates
 		Constants.SPECIES.GRASS:
 			if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
 				await duplicate_creature(creature)
 				score_current += creature.species.score_reward_1
+			else:
+				do_no_action()
 		##bunbun eats a plant then duplicates, if no plant, suicides
 		Constants.SPECIES.BUNNY:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
@@ -178,33 +212,45 @@ func do_action(creature:Creature) -> void:
 				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+			else:
+				do_no_action()
 		## hedgehog eats a plant. and cannot be eaten! (see exception in eat method)
 		Constants.SPECIES.HEDGEHOG:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
 				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+			else:
+				do_no_action()
 		##chimkin consumes an insect, if succesful creates an egg
 		Constants.SPECIES.CHICKEN:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.TINY]):
 					await get_tree().create_timer(game_speed).timeout
 					await update_creature_positions()
 					await get_tree().create_timer(game_speed).timeout
-					create(creature,Constants.SPECIES.EGG)
+					create(creature, Constants.SPECIES.EGG)
+			else:
+				do_no_action()
 		##songbird eats an insect in a bigger range, if succesful he creates an egg and places it far away
 		Constants.SPECIES.SONGBIRD:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.TINY]):
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
-				create(creature,Constants.SPECIES.EGG,3)
+				create(creature, Constants.SPECIES.EGG, 3)
+			else:
+				do_no_action()
 		##lynx eats both of its neighbours if possible :3 yum
 		Constants.SPECIES.LYNX:
-			for neighbour in get_neighbours_in_range(creature,creature.current_range):
+			var eaten: bool
+			for neighbour in get_neighbours_in_range(creature, creature.current_range):
 				if await attempt_to_eat_target(creature, neighbour, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
 					score_current += creature.species.score_reward_1
+					eaten = true
 					await get_tree().create_timer(game_speed).timeout
 					await update_creature_positions()
+			if !eaten:
+				do_no_action()
 		##wolf is the basic medium generator, but may also be all-ined on to maximum its "pack" flavor bonus
 		Constants.SPECIES.WOLF:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
@@ -214,22 +260,26 @@ func do_action(creature:Creature) -> void:
 				await get_tree().create_timer(game_speed).timeout
 				if not check_neighbours_species(creature, creature.current_range, [Constants.SPECIES.WOLF]):
 					await duplicate_creature(creature)
+			else:
+				do_no_action()
 		##tiger is the basic large predator - eats a medium dude in 2 range
 		Constants.SPECIES.TIGER:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.MEDIUM]):
 				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+			else:
+				do_no_action()
 		Constants.SPECIES.ANT:
-			score_current += creature.species.score_reward_1 * count_how_many_connected(creature,creature.species.id)
+			score_current += creature.species.score_reward_1 * count_how_many_connected(creature, creature.species.id)
 	
 	await get_tree().create_timer(game_speed).timeout
 	return
 
 ##whenever a creature is to be eaten, run this method to trigger all _on_eat effects after eating it
-func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
+func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 	##first check which effects are triggered, then eat, then do the effects (so that the effects do happen AFTER eating while still being able to use the previous game state's parameters)
-	var triggered_creatures :Array[Creature]
+	var triggered_creatures: Array[Creature]
 	
 	##check triggers
 	for creature in creatures:
@@ -239,12 +289,12 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 				##worm duplicates whenever an animal dies in its long range if not already adjacent to a worm:
 				Constants.SPECIES.WORM:
 					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL:
-						if get_distance_between_two_creatures(creature,to_be_eaten) <= creature.current_range:
+						if get_distance_between_two_creatures(creature, to_be_eaten) <= creature.current_range:
 							triggered_creatures.append(creature)
 				##crow makes points whenever an animal dies in its long long range:
 				Constants.SPECIES.CROW:
 					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL:
-						if get_distance_between_two_creatures(creature,to_be_eaten) <= creature.current_range:
+						if get_distance_between_two_creatures(creature, to_be_eaten) <= creature.current_range:
 							triggered_creatures.append(creature)
 		##actions for when the creature itself is eaten:
 		else:
@@ -269,7 +319,7 @@ func do_on_eat_actions(eater:Creature,to_be_eaten:Creature) -> void:
 				await get_tree().create_timer(game_speed / 2).timeout
 
 ##whenever a creature duplicates, trigger _on_duplicate effects
-func do_on_duplicate_actions(duplicator:Creature) -> void:
+func do_on_duplicate_actions(duplicator: Creature) -> void:
 	for creature in creatures:
 		match creature.species.id:
 			##Badger scores on duplicate
@@ -279,7 +329,7 @@ func do_on_duplicate_actions(duplicator:Creature) -> void:
 ##called on loop start for start of loop effects
 func do_on_loop_start_actions() -> void:
 	SceneChanger.set_action_music()
-	var triggered_creatures :Array[Creature]
+	var triggered_creatures: Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
 			Constants.SPECIES.BUSH:
@@ -290,13 +340,13 @@ func do_on_loop_start_actions() -> void:
 	for creature in triggered_creatures:
 		match creature.species.id:
 			Constants.SPECIES.BUSH:
-				create(creature,Constants.SPECIES.BERRY,-1)
-				create(creature,Constants.SPECIES.BERRY)
+				create(creature, Constants.SPECIES.BERRY, -1)
+				create(creature, Constants.SPECIES.BERRY)
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
 	SceneChanger.set_calm_music()
-	var remove_queue :Array[Creature]
+	var remove_queue: Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
 			##on loop end: if egg wasn't eaten or hatched or anything, it dies.
@@ -320,31 +370,30 @@ func eat_something_in_range(who: Creature, range: int, species_diet: Array[Const
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
 	var target: Creature
 	for neighbour: Creature in neighbours:
-		if check_if_fits_diet(neighbour,species_diet,size_diet):
+		if check_if_fits_diet(neighbour, species_diet, size_diet):
 			target = neighbour
 			break
 	if not target:
 		return false
 	else:
-		await do_eat(who,target)
+		await do_eat(who, target)
 		return true
 
-func attempt_to_eat_target(who: Creature, target:Creature, species_diet: Array[Constants.FAMILIES], size_diet: Array[Constants.SIZES]) -> bool:
-	if check_if_fits_diet(target,species_diet,size_diet):
-		await do_eat(who,target)
+func attempt_to_eat_target(who: Creature, target: Creature, species_diet: Array[Constants.FAMILIES], size_diet: Array[Constants.SIZES]) -> bool:
+	if check_if_fits_diet(target, species_diet, size_diet):
+		await do_eat(who, target)
 		return true
 	else:
 		return false
 
-func check_if_fits_diet(target:Creature,species_diet,size_diet) -> bool:
+func check_if_fits_diet(target: Creature, species_diet, size_diet) -> bool:
 	if target.species.family in species_diet && target.species.size in size_diet:
 		if not target.species.id == Constants.SPECIES.HEDGEHOG:
 			return true
 	return false
 
 ##do eat the target
-func do_eat(who:Creature,target:Creature) -> void:
-
+func do_eat(who: Creature, target: Creature) -> void:
 	who.do_eat()
 	
 	var index_who = posmod(creatures.find(who), creatures.size())
@@ -360,19 +409,21 @@ func do_eat(who:Creature,target:Creature) -> void:
 		if not index_tar > index_who:
 			iterator -= 1
 	
-	await do_on_eat_actions(who,target)
+	await do_on_eat_actions(who, target)
 
 ##creature unalives itself spontaneously
 func suicide(who: Creature) -> void:
 	iterator -= 1
 	remove(who)
+	sfx_player.stream = sfx_suicide
+	sfx_player.play()
 
 #endregion
 
 #region creature creation and deletion
 
 ##if duplicated or created by a creature, origin should be the originator. If placed by player, origin should be the marker's position
-func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1, origin_position :Vector2 = Vector2.ZERO) -> void:
+func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1, origin_position: Vector2 = Vector2.ZERO) -> void:
 	for i in nb:
 		var new_creature := CREATURE.instantiate()
 		if pos == -1:
@@ -381,11 +432,11 @@ func add_creature(nb: int, id: Constants.SPECIES, pos: int = -1, origin_position
 			if pos > creatures.size():
 				creatures.append(new_creature)
 			else:
-				pos = max(pos,0)
+				pos = max(pos, 0)
 				creatures.insert(pos, new_creature)
 		new_creature.species = Constants.get_species_by_id(id)
 		creature_tracker += 1
-		new_creature.creature_name = str(new_creature.species.title) +" [" + str(creature_tracker) + "]"
+		new_creature.creature_name = str(new_creature.species.title) + " [" + str(creature_tracker) + "]"
 		new_creature.position = origin_position
 		add_child(new_creature)
 		new_creature.mouse_entered.connect(_on_creature_mouse_entered.bind(new_creature))
@@ -401,17 +452,17 @@ func remove(who: Creature) -> void:
 
 ##creates a new creature with the same species as the specified creature at its position - eg. it will place it before.
 func duplicate_creature(who: Creature) -> void:
-	await add_creature(1, who.species.id, creatures.find(who),who.position)
+	await add_creature(1, who.species.id, creatures.find(who), who.position)
 	await do_on_duplicate_actions(who)
 	iterator += 1
 	return
 
 ##creates a new creature after who's position. Doesn't increment iterator.
-func create(who: Creature, what:Constants.SPECIES,extra_range:int=0) -> void:
-	var pos :int = creatures.find(who)+1+extra_range
+func create(who: Creature, what: Constants.SPECIES, extra_range: int = 0) -> void:
+	var pos: int = creatures.find(who) + 1 + extra_range
 	if pos > creatures.size():
 		pos = -1
-	await add_creature(1, what, creatures.find(who)+1+extra_range,who.position)
+	await add_creature(1, what, creatures.find(who) + 1 + extra_range, who.position)
 
 #endregion
 
@@ -445,7 +496,7 @@ func get_neighbours_in_range(who: Creature, range: int) -> Array[Creature]:
 		var offsets := []
 		for i in range:
 			##start with negatives so that the neighbours start with the closest creature BEHIND, and then goes up by proximity, (eg. [-1, 1, -2, 2, ...])
-			offsets.append(-(i + 1))
+			offsets.append(- (i + 1))
 			offsets.append(i + 1)
 		print(offsets)
 		for offset in offsets:
@@ -468,30 +519,30 @@ func get_neighbours_in_range(who: Creature, range: int) -> Array[Creature]:
 	#print(targets_in_range)
 	return targets_in_range
 
-func get_distance_between_two_creatures(one:Creature,two:Creature) -> int:
+func get_distance_between_two_creatures(one: Creature, two: Creature) -> int:
 	if one and two:
 		if one in creatures and two in creatures:
 			var index_one = posmod(creatures.find(one), creatures.size())
 			var index_two = posmod(creatures.find(two), creatures.size())
 			var forward_distance = posmod(index_two - index_one, creatures.size())
 			var backward_distance = posmod(index_one - index_two, creatures.size())
-			var distance :int = min(forward_distance,backward_distance)
+			var distance: int = min(forward_distance, backward_distance)
 			return distance
 	return 999
 
-func count_how_many_in_loop(what:Constants.SPECIES) -> int:
-	var count :int = 0
+func count_how_many_in_loop(what: Constants.SPECIES) -> int:
+	var count: int = 0
 	for creature in creatures:
 		if creature.species.id == what:
 			count += 1
 	return count
 
 ##counts itself then backwards then forwards and wraps around if needed and blabla
-func count_how_many_connected(who:Creature,what:Constants.SPECIES) -> int:
-	var count :int = 1
-	var pos :int = creatures.find(who)
+func count_how_many_connected(who: Creature, what: Constants.SPECIES) -> int:
+	var count: int = 1
+	var pos: int = creatures.find(who)
 	#count those frontwards
-	for i in range(1,creatures.size()):
+	for i in range(1, creatures.size()):
 		if pos + i < creatures.size():
 			if creatures[i + pos].species.id == what:
 				count += 1
@@ -503,7 +554,7 @@ func count_how_many_connected(who:Creature,what:Constants.SPECIES) -> int:
 			else:
 				break
 	
-	for i in range(1,creatures.size()):
+	for i in range(1, creatures.size()):
 		if pos - i >= 0:
 			if creatures[-i + pos].species.id == what:
 				count += 1
@@ -515,9 +566,9 @@ func count_how_many_connected(who:Creature,what:Constants.SPECIES) -> int:
 			else:
 				break
 	
-	print(count," in a row")
+	print(count, " in a row")
 	##if the whole loop is only made up of what: only return the length of the loop:
-	return min(count,creatures.size())
+	return min(count, creatures.size())
 
 #endregion
 
@@ -596,7 +647,7 @@ func _on_slot_pressed(index: int) -> void:
 			if current_held_item:
 				current_held_item.sold = true
 				print(current_held_item.sold)
-			add_creature(1, floating_creature.species.id, index, empty_slots[index-1].position)
+			add_creature(1, floating_creature.species.id, index, empty_slots[index - 1].position)
 			unset_floating_creature()
 
 func _unhandled_input(event):
@@ -607,10 +658,10 @@ func _unhandled_input(event):
 
 #region money management
 
-var current_item_price :int = 0
-var current_held_item :ShopItem
+var current_item_price: int = 0
+var current_held_item: ShopItem
 
-var reroll_price :int = reroll_base_price
+var reroll_price: int = reroll_base_price
 
 func _on_shop_panel_rerolled() -> void:
 	if not currently_looping:
@@ -618,7 +669,7 @@ func _on_shop_panel_rerolled() -> void:
 			money -= reroll_price
 			shop_panel.do_reroll()
 			
-			reroll_price += (reroll_price/5)
+			reroll_price += (reroll_price / 5)
 			shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
 
 #endregion
@@ -630,3 +681,7 @@ func _on_retry_pressed() -> void:
 
 func _on_exit_pressed() -> void:
 	SceneChanger.change_to(SceneChanger.MainScenes.MAIN)
+
+func do_no_action():
+	sfx_player.stream = sfx_no_action
+	sfx_player.play()
