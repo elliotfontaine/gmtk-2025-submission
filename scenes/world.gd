@@ -770,3 +770,11 @@ func _on_exit_pressed() -> void:
 func do_no_action():
 	sfx_player.stream = sfx_no_action
 	sfx_player.play()
+
+
+func _on_timer_bop_timeout() -> void:
+	if not currently_looping:
+		if creatures:
+			var rand_crea :Creature = creatures.pick_random()
+			if rand_crea:
+				rand_crea.play_bop()

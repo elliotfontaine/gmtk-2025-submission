@@ -310,6 +310,10 @@ click_sound = ExtResource("5_w7kh3")
 [node name="SFX_Player" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
 
+[node name="TimerBop" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
 [connection signal="floating_creature_asked" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_floating_creature_asked"]
 [connection signal="item_exited" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_item_exited"]
 [connection signal="item_hovered" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_item_hovered"]
@@ -320,3 +324,4 @@ bus = &"SFX"
 [connection signal="pressed" from="UI/VictoryScreen/PanelContainer/CenterContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="UI/VictoryScreen/PanelContainer/CenterContainer/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
 [connection signal="pressed" from="UI/VictoryScreen/PanelContainer/CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="timeout" from="TimerBop" to="." method="_on_timer_bop_timeout"]
