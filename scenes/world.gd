@@ -454,6 +454,10 @@ func remove(who: Creature) -> void:
 func duplicate_creature(who: Creature) -> void:
 	await add_creature(1, who.species.id, creatures.find(who), who.position)
 	await do_on_duplicate_actions(who)
+	##if the duplicating creature is before the iterator, then you add iterator so it doesn't play twice, but if the duplicator is AFTER the iterator (like a worm, then don't +iterator as that would skip the next guy's turn
+	var id :int = creatures.find(who)
+	if id > iterator+1:
+		return
 	iterator += 1
 	return
 
