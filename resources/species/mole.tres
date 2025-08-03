@@ -10,11 +10,11 @@ script = ExtResource("1_gxx6k")
 id = 0
 family = 1
 size = 1
-rarity = 0
+rarity = 3
 title = "Mole"
 texture = ExtResource("2_3nfw5")
 default_range = 0
-effect_text = "No effect text."
+effect_text = "On loop start: move to a random space. Generates 10 [img={20, 20}]res://assets/sprites/ui/money.png[/img]."
 score_reward_1 = 0
 score_reward_2 = 0
 money_reward_1 = 0

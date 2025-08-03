@@ -61,6 +61,7 @@ var money: int = 50:
 
 func _ready() -> void:
 	money = money # (to trigger label update)
+	add_creature(1,Constants.SPECIES.MOLE)
 	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
@@ -340,6 +341,8 @@ func do_on_loop_start_actions() -> void:
 		match creature.species.id:
 			Constants.SPECIES.BUSH:
 				triggered_creatures.append(creature)
+			Constants.SPECIES.MOLE:
+				triggered_creatures.append(creature)
 	
 	
 	##do triggered actions
@@ -348,6 +351,10 @@ func do_on_loop_start_actions() -> void:
 			Constants.SPECIES.BUSH:
 				create(creature, Constants.SPECIES.BERRY, -1)
 				create(creature, Constants.SPECIES.BERRY)
+			Constants.SPECIES.MOLE:
+				##known issue: the mole may pick its own position, but eh whatever I don't wanna risk new bugs
+				await move_to(creature,randi() % creatures.size())
+				money += 10
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
@@ -423,6 +430,15 @@ func suicide(who: Creature) -> void:
 	remove(who)
 	sfx_player.stream = sfx_suicide
 	sfx_player.play()
+
+func move(who:Creature,amount:int) -> void:
+	pass
+
+func move_to(who:Creature,where:int) -> void:
+	creatures.erase(who)
+	creatures.insert(where,who)
+	update_creature_positions()
+	print(creatures)
 
 #endregion
 
