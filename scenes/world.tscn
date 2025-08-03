@@ -137,7 +137,7 @@ size_flags_vertical = 0
 theme_override_font_sizes/font_size = 22
 text = "Loop #1"
 
-[node name="Defeat" type="ColorRect" parent="UI"]
+[node name="DefeatScreen" type="ColorRect" parent="UI"]
 unique_name_in_owner = true
 visible = false
 anchors_preset = 15
@@ -148,7 +148,7 @@ grow_vertical = 2
 color = Color(0.114897, 0.114897, 0.114897, 0.717647)
 metadata/_edit_use_anchors_ = true
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/Defeat"]
+[node name="CenterContainer" type="CenterContainer" parent="UI/DefeatScreen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -157,10 +157,10 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Defeat/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/DefeatScreen/CenterContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/Defeat/CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="UI/DefeatScreen/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_vertical = 3
@@ -169,7 +169,7 @@ theme_override_font_sizes/font_size = 110
 text = "DEFEAT"
 horizontal_alignment = 1
 
-[node name="Retry" type="Button" parent="UI/Defeat/CenterContainer/VBoxContainer"]
+[node name="Retry" type="Button" parent="UI/DefeatScreen/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -178,7 +178,55 @@ text = "try again"
 script = ExtResource("10_e3hyu")
 click_sound = ExtResource("5_w7kh3")
 
-[node name="Exit" type="Button" parent="UI/Defeat/CenterContainer/VBoxContainer"]
+[node name="Exit" type="Button" parent="UI/DefeatScreen/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Exit"
+script = ExtResource("10_e3hyu")
+click_sound = ExtResource("5_w7kh3")
+
+[node name="VictoryScreen" type="ColorRect" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.114897, 0.114897, 0.114897, 0.717647)
+metadata/_edit_use_anchors_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/VictoryScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/VictoryScreen/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/VictoryScreen/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 0.65098, 0.00784314, 1)
+theme_override_font_sizes/font_size = 110
+text = "VICTORY"
+horizontal_alignment = 1
+
+[node name="Retry" type="Button" parent="UI/VictoryScreen/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"FlatButton"
+text = "try again"
+script = ExtResource("10_e3hyu")
+click_sound = ExtResource("5_w7kh3")
+
+[node name="Exit" type="Button" parent="UI/VictoryScreen/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -194,5 +242,7 @@ bus = &"SFX"
 [connection signal="item_hovered" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_item_hovered"]
 [connection signal="rerolled" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_rerolled"]
 [connection signal="pressed" from="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/NextLoopButton" to="." method="_on_next_loop_button_pressed"]
-[connection signal="pressed" from="UI/Defeat/CenterContainer/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
-[connection signal="pressed" from="UI/Defeat/CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="UI/DefeatScreen/CenterContainer/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="UI/DefeatScreen/CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="UI/VictoryScreen/CenterContainer/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="UI/VictoryScreen/CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
