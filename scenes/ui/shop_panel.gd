@@ -110,16 +110,16 @@ func populate_shop() -> void:
 		shop_items = [Constants.SPECIES.GRASS]
 	elif level == 2:
 		shop_items = [Constants.SPECIES.BUNNY]
-	elif level <= 4:
+	elif level <= 3:
 		re_roll.show()
 		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],6)
-	elif level <= 6:
+	elif level <= 5:
 		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],5) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],1)
+	elif level <= 6:
+		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],4) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],2)
 	elif level <= 8:
-		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],3) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],3)
-	elif level <= 10:
 		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],3) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],2) + get_species_by_rarity([Constants.RARITIES.RARE],1)
-	elif level <= 12:
+	elif level <= 10:
 		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],2) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],2) + get_species_by_rarity([Constants.RARITIES.RARE],2)
 	else:
 		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],2) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],2) + get_species_by_rarity([Constants.RARITIES.RARE],2)
