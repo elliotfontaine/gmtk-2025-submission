@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_yrhxm"]
 [ext_resource type="AudioStream" uid="uid://dr0vwvlj76ugn" path="res://assets/audio/sfx/placed/TigerPlaced.wav" id="2_2mrl5"]
-[ext_resource type="Texture2D" uid="uid://e5xakqbd3njt" path="res://assets/sprites/creatures/bear.png" id="2_d6lwn"]
 [ext_resource type="AudioStream" uid="uid://cm7v1c1a4vvdt" path="res://assets/audio/sfx/eat/eat_low.wav" id="2_umjwr"]
+[ext_resource type="Texture2D" uid="uid://bg3x6j1ckfvuo" path="res://assets/sprites/creatures/tiger.png" id="4_umjwr"]
 
 [resource]
 script = ExtResource("1_yrhxm")
@@ -12,7 +12,7 @@ family = 1
 size = 3
 rarity = 2
 title = "Tiger"
-texture = ExtResource("2_d6lwn")
+texture = ExtResource("4_umjwr")
 default_range = 2
 effect_text = "if medium animal in range: eat it and score 20 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]."
 score_reward_1 = 20

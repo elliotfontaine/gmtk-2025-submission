@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_nnalx"]
 [ext_resource type="AudioStream" uid="uid://gl3l15sxwf3q" path="res://assets/audio/sfx/placed/BunnyPlaced.wav" id="2_8j0ix"]
-[ext_resource type="Texture2D" uid="uid://cv54ev2gbv1jy" path="res://assets/sprites/creatures/bunny.png" id="2_nnalx"]
+[ext_resource type="Texture2D" uid="uid://c7gb4nomyx1kp" path="res://assets/sprites/creatures/bunny.png" id="2_nnalx"]
 [ext_resource type="AudioStream" uid="uid://dtbt8hr4g5x3b" path="res://assets/audio/sfx/eat/eat_hi.wav" id="3_txs7y"]
 
 [resource]
