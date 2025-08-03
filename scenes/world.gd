@@ -8,7 +8,7 @@ const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
 
 ##change this value to dictate the creature size you want:
-const initial_radius: float = 1.0 / 13
+const initial_radius: float = 1.0 / 7
 ##change this value to dictate how much space the loop should take:
 const zoom_factor: float = 0.7
 const base_creature_distance: int = 60
@@ -110,7 +110,7 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 				new_slot.position.x = radius * cos(angle + (PI / creature_amount))
 				new_slot.position.y = radius * sin(angle + (PI / creature_amount))
 				empty_slots.append(new_slot)
-		
+	
 	
 	##adaptative zoom:
 	var zoom: float = (get_viewport().get_visible_rect().size.y / 2.0) / radius * zoom_factor
@@ -131,7 +131,7 @@ func _on_next_loop_button_pressed() -> void:
 		await run_loop()
 		if score_current >= score_target:
 			currently_looping = false
-			money += base_income + level
+			money += base_income + (level*2)
 			if level == final_level:
 				win()
 			else:
@@ -239,14 +239,17 @@ func do_action(creature: Creature) -> void:
 				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
+				if not check_neighbours_species(creature, creature.current_range, [Constants.SPECIES.FOX]):
+					await duplicate_creature(creature)
 			else:
 				do_no_action()
 		## hedgehog eats a plant. and cannot be eaten! (see exception in eat method)
 		Constants.SPECIES.HEDGEHOG:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
 				score_current += creature.species.score_reward_1
-				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
 			else:
 				do_no_action()
 		##chimkin consumes an insect, if succesful creates an egg
@@ -281,12 +284,9 @@ func do_action(creature: Creature) -> void:
 		##wolf is the basic medium generator, but may also be all-ined on to maximum its "pack" flavor bonus
 		Constants.SPECIES.WOLF:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
-				score_current += creature.species.score_reward_1 + creature.species.score_reward_2 * (count_how_many_in_loop(Constants.SPECIES.WOLF) - 1)
+				score_current += creature.species.score_reward_1 * (count_how_many_in_loop(Constants.SPECIES.WOLF))
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
-				await get_tree().create_timer(game_speed).timeout
-				if not check_neighbours_species(creature, creature.current_range, [Constants.SPECIES.WOLF]):
-					await duplicate_creature(creature)
 			else:
 				do_no_action()
 		##tiger is the basic large predator - eats a medium dude in 2 range
@@ -299,7 +299,18 @@ func do_action(creature: Creature) -> void:
 				do_no_action()
 		Constants.SPECIES.ANT:
 			score_current += creature.species.score_reward_1 * count_how_many_connected(creature, creature.species.id)
-	
+		Constants.SPECIES.VIPER:
+			money += creature.species.money_reward_1 * count_how_many_in_loop(Constants.SPECIES.EGG)
+		Constants.SPECIES.OAK:
+			await create_in_a_random_space_in_range(creature,Constants.SPECIES.ACORN,creature.species.default_range)
+		Constants.SPECIES.SQUIRREL:
+			var neighbours = get_neighbours_in_range(creature, creature.current_range)
+			var furthest_small_plant_in_range :Creature
+			for neighbour in neighbours:
+				if neighbour.species.family == Constants.FAMILIES.PLANT and neighbour.species.size == Constants.SIZES.SMALL:
+					furthest_small_plant_in_range = neighbour
+			if furthest_small_plant_in_range:
+				pull_to_creature(creature,furthest_small_plant_in_range)
 	await get_tree().create_timer(game_speed).timeout
 	return
 
@@ -361,6 +372,8 @@ func do_on_loop_start_actions() -> void:
 		match creature.species.id:
 			Constants.SPECIES.BUSH:
 				triggered_creatures.append(creature)
+			Constants.SPECIES.MOLE:
+				triggered_creatures.append(creature)
 	
 	
 	##do triggered actions
@@ -369,6 +382,12 @@ func do_on_loop_start_actions() -> void:
 			Constants.SPECIES.BUSH:
 				create(creature, Constants.SPECIES.BERRY, -1)
 				create(creature, Constants.SPECIES.BERRY)
+			Constants.SPECIES.MOLE:
+				##known issue: the mole may pick its own position, but eh whatever I don't wanna risk new bugs
+				await move_to(creature,randi() % creatures.size())
+				await get_tree().create_timer(game_speed).timeout
+				money += creature.species.money_reward_1
+				
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
@@ -380,14 +399,20 @@ func do_on_loop_end_actions() -> void:
 				remove_queue.append(creature)
 			Constants.SPECIES.BERRY:
 				remove_queue.append(creature)
+			Constants.SPECIES.ACORN:
+				score_current += creature.species.score_reward_1
+				remove_queue.append(creature)
+				await get_tree().create_timer(game_speed/4).timeout
 	
 	for creature in remove_queue:
-		await remove(creature)
-		await update_creature_positions()
-		await get_tree().create_timer(game_speed).timeout
-	
-	SceneChanger.set_calm_music()
+		if check_neighbours_species(creature,Constants.get_species_by_id(Constants.SPECIES.LADYBUG).default_range,[Constants.SPECIES.LADYBUG]):
+			pass
+		else:
+			await remove(creature)
+			await update_creature_positions()
+			await get_tree().create_timer(game_speed).timeout
 
+	SceneChanger.set_calm_music()
 
 #endregion
 
@@ -446,6 +471,22 @@ func suicide(who: Creature) -> void:
 	sfx_player.stream = sfx_suicide
 	sfx_player.play()
 
+func move(who:Creature,amount:int) -> void:
+	pass
+
+func move_to(who:Creature,where:int) -> void:
+	creatures.erase(who)
+	creatures.insert(where,who)
+	await update_creature_positions()
+
+func pull_to_creature(puller:Creature,pulled:Creature) -> void:
+	var id_puller :int = creatures.find(puller)
+	var id_pulled :int = creatures.find(pulled)
+	if id_puller > id_pulled:
+		move_to(pulled,id_puller-1)
+	else:
+		move_to(pulled,id_puller+1)
+
 #endregion
 
 #region creature creation and deletion
@@ -494,7 +535,20 @@ func create(who: Creature, what: Constants.SPECIES, extra_range: int = 0) -> voi
 	var pos: int = creatures.find(who) + 1 + extra_range
 	if pos > creatures.size():
 		pos = -1
-	await add_creature(1, what, creatures.find(who) + 1 + extra_range, who.position)
+	await add_creature(1, what, pos, who.position)
+
+func create_in_a_random_space_in_range(who:Creature, what:Constants.SPECIES, range:int) -> void:
+	var pos: int = creatures.find(who) + randi_range(1,range) * [-1,1].pick_random()
+	if pos >= iterator+1:
+		pass
+	else:
+		iterator += 1
+	
+	if pos > creatures.size():
+		pos = -1
+	await add_creature(1, what, pos, who.position)
+
+
 
 #endregion
 
@@ -507,7 +561,7 @@ func check_neighbours_types(who: Creature, range: int, condition: Array[Constant
 		if creature.species.family in condition:
 			return true
 	return false
-	
+
 ##checks whether "who" has a neighbour of "condition" species
 func check_neighbours_species(who: Creature, range: int, condition: Array[Constants.SPECIES]) -> bool:
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
