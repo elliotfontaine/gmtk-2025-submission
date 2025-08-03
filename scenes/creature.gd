@@ -3,6 +3,9 @@ class_name Creature extends Node2D
 signal mouse_entered
 signal mouse_exited
 
+@onready var tween_pos :Tween
+@onready var _sfx_player: AudioStreamPlayer2D = $SFX_Player
+
 var species: SpeciesResource:
 	set(value):
 		current_range = value.default_range
@@ -21,7 +24,16 @@ var current_range: int
 
 var _currently_hovered: bool = false
 
-@onready var _sfx_player: AudioStreamPlayer2D = $SFX_Player
+var target_position :Vector2:
+	set(val):
+		target_position = val
+		tween_position(val)
+
+func tween_position(target_pos:Vector2) -> void:
+	if tween_pos and tween_pos.is_running():
+		tween_pos.stop()
+	tween_pos = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween_pos.tween_property(self, "position", target_pos, 0.3)
 
 func _ready() -> void:
 	_sfx_player.stream = species.sfx_placed
