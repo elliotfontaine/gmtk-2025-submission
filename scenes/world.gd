@@ -111,7 +111,6 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 				new_slot.position.y = radius * sin(angle + (PI / creature_amount))
 				empty_slots.append(new_slot)
 	
-	
 	##adaptative zoom:
 	var zoom: float = (get_viewport().get_visible_rect().size.y / 2.0) / radius * zoom_factor
 	zoom = clampf(zoom, 0.0, 0.8)
@@ -165,7 +164,7 @@ func run_loop() -> void:
 	while iterator < creatures.size():
 		var creature = creatures[iterator]
 		print("%s's turn" % [creature.name])
-		creature.modulate = Color.RED
+		creature.show_arrow(true)
 		
 		##do creature's actions here:
 		#await get_tree().create_timer(game_speed / 2).timeout
@@ -176,7 +175,7 @@ func run_loop() -> void:
 		iterator += 1
 		
 		if creature:
-			creature.modulate = Color.WHITE
+			creature.show_arrow(false)
 		await get_tree().create_timer(game_speed).timeout
 	
 	await do_on_loop_end_actions()
@@ -326,12 +325,12 @@ func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 			match creature.species.id:
 				##worm duplicates whenever an animal dies in its long range if not already adjacent to a worm:
 				Constants.SPECIES.WORM:
-					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL:
+					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL and to_be_eaten.species.size != Constants.SIZES.TINY:
 						if get_distance_between_two_creatures(creature, to_be_eaten) <= creature.current_range:
 							triggered_creatures.append(creature)
 				##crow makes points whenever an animal dies in its long long range:
 				Constants.SPECIES.CROW:
-					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL:
+					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL and to_be_eaten.species.size != Constants.SIZES.TINY:
 						if get_distance_between_two_creatures(creature, to_be_eaten) <= creature.current_range:
 							triggered_creatures.append(creature)
 		##actions for when the creature itself is eaten:
@@ -771,3 +770,11 @@ func _on_exit_pressed() -> void:
 func do_no_action():
 	sfx_player.stream = sfx_no_action
 	sfx_player.play()
+
+
+func _on_timer_bop_timeout() -> void:
+	if not currently_looping:
+		if creatures:
+			var rand_crea :Creature = creatures.pick_random()
+			if rand_crea:
+				rand_crea.play_bop()
