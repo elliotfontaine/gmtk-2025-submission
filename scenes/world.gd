@@ -62,12 +62,14 @@ var money: int = 50:
 func _ready() -> void:
 	money = money # (to trigger label update)
 	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.WORM)
+	add_creature(1,Constants.SPECIES.SQUIRREL)
+	add_creature(1,Constants.SPECIES.WORM)
+	add_creature(1,Constants.SPECIES.WORM)
 	add_creature(1,Constants.SPECIES.GRASS)
 	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.OAK)
-	add_creature(1,Constants.SPECIES.LADYBUG)
-	add_creature(1,Constants.SPECIES.OAK)
+	add_creature(1,Constants.SPECIES.BUNNY)
+	add_creature(1,Constants.SPECIES.LYNX)
 	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
@@ -289,6 +291,14 @@ func do_action(creature: Creature) -> void:
 			money += creature.species.money_reward_1 * count_how_many_in_loop(Constants.SPECIES.EGG)
 		Constants.SPECIES.OAK:
 			await create_in_a_random_space_in_range(creature,Constants.SPECIES.ACORN,creature.species.default_range)
+		Constants.SPECIES.SQUIRREL:
+			var neighbours = get_neighbours_in_range(creature, creature.current_range)
+			var furthest_small_plant_in_range :Creature
+			for neighbour in neighbours:
+				if neighbour.species.family == Constants.FAMILIES.PLANT and neighbour.species.size == Constants.SIZES.SMALL:
+					furthest_small_plant_in_range = neighbour
+			if furthest_small_plant_in_range:
+				pull_to_creature(creature,furthest_small_plant_in_range)
 	await get_tree().create_timer(game_speed).timeout
 	return
 
@@ -455,7 +465,14 @@ func move_to(who:Creature,where:int) -> void:
 	creatures.erase(who)
 	creatures.insert(where,who)
 	await update_creature_positions()
-	print(creatures)
+
+func pull_to_creature(puller:Creature,pulled:Creature) -> void:
+	var id_puller :int = creatures.find(puller)
+	var id_pulled :int = creatures.find(pulled)
+	if id_puller > id_pulled:
+		move_to(pulled,id_puller-1)
+	else:
+		move_to(pulled,id_puller+1)
 
 #endregion
 
