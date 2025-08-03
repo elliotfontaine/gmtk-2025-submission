@@ -17,7 +17,7 @@ default_range = 0
 effect_text = "On loop start: move to a random space. Generates 10 [img={20, 20}]res://assets/sprites/ui/money.png[/img]."
 score_reward_1 = 0
 score_reward_2 = 0
-money_reward_1 = 0
+money_reward_1 = 10
 money_reward_2 = 0
 base_price = 1
 sfx_placed = ExtResource("3_tkdnr")
