@@ -1,8 +1,5 @@
 extends Node2D
-@export var sfx_next_loop: AudioStream
-@export var sfx_suicide: AudioStream
-@export var sfx_no_action: AudioStream
-@export var sfx_game_over: AudioStream
+
 
 const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
@@ -16,6 +13,14 @@ const base_creature_distance: int = 60
 const reroll_base_price: int = 10
 const base_income: int = 50
 const final_level: int = 20
+
+@export_category(&"Gameplay")
+@export var final_level: int = 20
+@export_category(&"Sounds")
+@export var sfx_next_loop: AudioStream
+@export var sfx_suicide: AudioStream
+@export var sfx_no_action: AudioStream
+@export var sfx_game_over: AudioStream
 
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
@@ -33,6 +38,7 @@ const final_level: int = 20
 @onready var victory_loop_label: Label = %VictoryLoopLabel
 @onready var label_loop: Label = %LabelLoop
 @onready var h_box_tutorial: HBoxContainer = %HBoxTutorial
+@onready var settings_menu: Control = %SettingsMenu
 
 ##placeholder system: length of wait times 
 const game_speeds: Array[float] = [0.8, 0.6, 0.4, 0.2]
@@ -130,6 +136,7 @@ func _on_next_loop_button_pressed() -> void:
 		await run_loop()
 		if score_current >= score_target:
 			currently_looping = false
+			money += base_income + level
 			money += base_income + (level*2)
 			if level == final_level:
 				win()
@@ -771,6 +778,8 @@ func do_no_action():
 	sfx_player.stream = sfx_no_action
 	sfx_player.play()
 
+func _on_settings_button_pressed() -> void:
+	settings_menu.show()
 
 func _on_timer_bop_timeout() -> void:
 	if not currently_looping:

@@ -1,4 +1,5 @@
-[gd_scene load_steps=14 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=17 format=3 uid="uid://tcckc601ceki"]
+
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
@@ -11,13 +12,19 @@
 [ext_resource type="AudioStream" uid="uid://3dttvdpdjbu7" path="res://assets/audio/sfx/other/Game_End.wav" id="5_q5onr"]
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="5_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
-[ext_resource type="Script" path="res://audio/sound_button.gd" id="10_e3hyu"]
+[ext_resource type="Script" uid="uid://csi3rjnr5grfn" path="res://audio/sound_button.gd" id="10_e3hyu"]
+[ext_resource type="Script" uid="uid://ery8xjes8428" path="res://audio/sound_texture_button.gd" id="11_jhx03"]
+[ext_resource type="Texture2D" uid="uid://ox3x837kbn5s" path="res://assets/sprites/ui/settings_button.png" id="11_o8fc1"]
+[ext_resource type="PackedScene" uid="uid://b5v2jtkaohm20" path="res://scenes/ui/settings.tscn" id="14_xo05s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q5onr"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q5onr"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_f3sb7")
+final_level = 10
 sfx_next_loop = ExtResource("2_i7141")
 sfx_suicide = ExtResource("3_4mrxx")
 sfx_no_action = ExtResource("4_7r4gi")
@@ -36,6 +43,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource("2_qfnet")
+stretch_mode = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -158,13 +166,36 @@ layout_mode = 2
 size_flags_vertical = 0
 text = "add new creature"
 
-[node name="LabelLoop" type="Label" parent="UI/MarginContainer"]
+[node name="TopRight" type="HBoxContainer" parent="UI/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+alignment = 2
+
+[node name="LabelLoop" type="Label" parent="UI/MarginContainer/TopRight"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 22
 text = "Loop #1"
+
+[node name="SettingsButton" type="TextureButton" parent="UI/MarginContainer/TopRight"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("11_o8fc1")
+texture_pressed = ExtResource("11_o8fc1")
+texture_hover = ExtResource("11_o8fc1")
+texture_disabled = ExtResource("11_o8fc1")
+texture_focused = ExtResource("11_o8fc1")
+script = ExtResource("11_jhx03")
+click_sound = ExtResource("5_w7kh3")
+metadata/_custom_type_script = "uid://ery8xjes8428"
+
+[node name="SettingsMenu" parent="UI" instance=ExtResource("14_xo05s")]
+unique_name_in_owner = true
+visible = false
 
 [node name="DefeatScreen" type="ColorRect" parent="UI"]
 unique_name_in_owner = true
@@ -263,6 +294,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/VictoryScreen/PanelContainer/CenterContainer"]
 layout_mode = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="Title" type="Label" parent="UI/VictoryScreen/PanelContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 220)
@@ -286,7 +318,7 @@ custom_minimum_size = Vector2(240, 110)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"SmallPurpleButton"
-text = "continue"
+text = "Go endless"
 script = ExtResource("10_e3hyu")
 click_sound = ExtResource("5_w7kh3")
 
@@ -319,6 +351,7 @@ autostart = true
 [connection signal="item_hovered" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_item_hovered"]
 [connection signal="rerolled" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_rerolled"]
 [connection signal="pressed" from="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/NextLoopButton" to="." method="_on_next_loop_button_pressed"]
+[connection signal="pressed" from="UI/MarginContainer/TopRight/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="UI/DefeatScreen/PanelContainer/CenterContainer/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
 [connection signal="pressed" from="UI/DefeatScreen/PanelContainer/CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="UI/VictoryScreen/PanelContainer/CenterContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]

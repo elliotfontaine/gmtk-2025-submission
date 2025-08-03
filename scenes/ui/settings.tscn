@@ -1,0 +1,107 @@
+[gd_scene load_steps=6 format=3 uid="uid://b5v2jtkaohm20"]
+
+[ext_resource type="Script" uid="uid://csi3rjnr5grfn" path="res://audio/sound_button.gd" id="1_7pacj"]
+[ext_resource type="Script" uid="uid://dy0oiei036i6w" path="res://scenes/ui/settings.gd" id="1_8wfqe"]
+[ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="2_h175o"]
+[ext_resource type="Script" uid="uid://cawklep1qhgnx" path="res://audio/volume_slider.gd" id="2_ptynm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vrkq3"]
+bg_color = Color(1, 0.415686, 0.356863, 1)
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8wfqe")
+
+[node name="DefeatScreen" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.114897, 0.114897, 0.114897, 0.717647)
+
+[node name="Menu" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -319.0
+offset_top = -189.0
+offset_right = 319.0
+offset_bottom = 189.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="MarginContainer" parent="Menu"]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/CenterContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Menu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 0.415686, 0.356863, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 110
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="Music" type="HBoxContainer" parent="Menu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/CenterContainer/VBoxContainer/Music"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Music"
+horizontal_alignment = 2
+
+[node name="HSlider" type="HSlider" parent="Menu/CenterContainer/VBoxContainer/Music"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_vrkq3")
+value = 100.0
+script = ExtResource("2_ptynm")
+audio_bus = 1
+metadata/_custom_type_script = "uid://cawklep1qhgnx"
+
+[node name="SFX" type="HBoxContainer" parent="Menu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Menu/CenterContainer/VBoxContainer/SFX"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "SFX"
+horizontal_alignment = 2
+
+[node name="HSlider" type="HSlider" parent="Menu/CenterContainer/VBoxContainer/SFX"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_vrkq3")
+value = 100.0
+script = ExtResource("2_ptynm")
+audio_bus = 2
+metadata/_custom_type_script = "uid://cawklep1qhgnx"
+
+[node name="CloseButton" type="Button" parent="Menu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"SmallPurpleButton"
+text = "close"
+script = ExtResource("1_7pacj")
+click_sound = ExtResource("2_h175o")
+metadata/_custom_type_script = "uid://csi3rjnr5grfn"
+
+[connection signal="pressed" from="Menu/CenterContainer/VBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]
