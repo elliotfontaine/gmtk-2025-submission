@@ -27,6 +27,7 @@ const base_income: int = 50
 @onready var shop_panel: ShopPanel = %ShopPanel
 @onready var next_loop_button: Button = %NextLoopButton
 @onready var defeat_ui: ColorRect = %Defeat
+@onready var label_loop: Label = %LabelLoop
 
 ##placeholder system: length of wait times 
 const game_speeds: Array[float] = [0.8, 0.6, 0.4, 0.2]
@@ -38,7 +39,10 @@ var empty_slots: Array[Node2D]
 
 var iterator: int
 
-var level: int = 0
+var level: int = 0:
+	set(val):
+		level = val
+		label_loop.text = "Loop #%s"%[level]
 
 ##placeholder system for naming the creatures
 var creature_tracker: int = 0
@@ -454,6 +458,10 @@ func remove(who: Creature) -> void:
 func duplicate_creature(who: Creature) -> void:
 	await add_creature(1, who.species.id, creatures.find(who), who.position)
 	await do_on_duplicate_actions(who)
+	##if the duplicating creature is before the iterator, then you add iterator so it doesn't play twice, but if the duplicator is AFTER the iterator (like a worm, then don't +iterator as that would skip the next guy's turn
+	var id :int = creatures.find(who)
+	if id > iterator+1:
+		return
 	iterator += 1
 	return
 
