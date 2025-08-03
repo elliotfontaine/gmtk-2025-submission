@@ -27,6 +27,7 @@ const base_income: int = 50
 @onready var shop_panel: ShopPanel = %ShopPanel
 @onready var next_loop_button: Button = %NextLoopButton
 @onready var defeat_ui: ColorRect = %Defeat
+@onready var label_loop: Label = %LabelLoop
 
 ##placeholder system: length of wait times 
 const game_speeds: Array[float] = [0.8, 0.6, 0.4, 0.2]
@@ -38,7 +39,10 @@ var empty_slots: Array[Node2D]
 
 var iterator: int
 
-var level: int = 0
+var level: int = 0:
+	set(val):
+		level = val
+		label_loop.text = "Loop #%s"%[level]
 
 ##placeholder system for naming the creatures
 var creature_tracker: int = 0
