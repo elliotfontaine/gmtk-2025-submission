@@ -61,9 +61,12 @@ var money: int = 50:
 
 func _ready() -> void:
 	money = money # (to trigger label update)
-	add_creature(1,Constants.SPECIES.MOLE)
+	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.GRASS)
 	add_creature(1,Constants.SPECIES.OAK)
-	add_creature(1,Constants.SPECIES.OAK)
+	add_creature(1,Constants.SPECIES.LADYBUG)
 	add_creature(1,Constants.SPECIES.OAK)
 	next_level()
 
@@ -381,10 +384,12 @@ func do_on_loop_end_actions() -> void:
 				await get_tree().create_timer(game_speed/4).timeout
 	
 	for creature in remove_queue:
-		await remove(creature)
-		await update_creature_positions()
-		await get_tree().create_timer(game_speed).timeout
-
+		if check_neighbours_species(creature,Constants.get_species_by_id(Constants.SPECIES.LADYBUG).default_range,[Constants.SPECIES.LADYBUG]):
+			pass
+		else:
+			await remove(creature)
+			await update_creature_positions()
+			await get_tree().create_timer(game_speed).timeout
 
 #endregion
 
@@ -526,7 +531,7 @@ func check_neighbours_types(who: Creature, range: int, condition: Array[Constant
 		if creature.species.family in condition:
 			return true
 	return false
-	
+
 ##checks whether "who" has a neighbour of "condition" species
 func check_neighbours_species(who: Creature, range: int, condition: Array[Constants.SPECIES]) -> bool:
 	var neighbours: Array[Creature] = get_neighbours_in_range(who, range)
