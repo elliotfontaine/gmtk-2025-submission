@@ -10,6 +10,9 @@ const initial_radius :float = 1.0/13
 const zoom_factor :float = 0.7
 const base_creature_distance: int = 60
 
+const reroll_base_price :int = 10
+const base_income :int = 40
+
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
 @onready var label_score: Label = %LabelScore
@@ -41,6 +44,11 @@ var creature_tracker :int = 0
 var hovered_creature: Creature
 
 var currently_looping :bool = false
+
+var money :int = 50:
+	set(val):
+		money = val
+		currency_count.text = str(money)
 
 func _ready() -> void:
 	money = money #(to trigger label update)
@@ -109,7 +117,7 @@ func _on_next_loop_button_pressed() -> void:
 			next_loop_button.modulate = Color.WHITE
 			shop_panel.modulate = Color.WHITE
 			currently_looping = false
-			money += 50
+			money += base_income
 			next_level()
 		else:
 			defeat()
@@ -599,15 +607,10 @@ func _unhandled_input(event):
 
 #region money management
 
-var money :int = 500:
-	set(val):
-		money = val
-		currency_count.text = str(money)
-
 var current_item_price :int = 0
 var current_held_item :ShopItem
 
-var reroll_price :int = 30
+var reroll_price :int = reroll_base_price
 
 func _on_shop_panel_rerolled() -> void:
 	if not currently_looping:
