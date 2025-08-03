@@ -5,6 +5,8 @@ signal mouse_exited
 
 @onready var tween_pos :Tween
 @onready var _sfx_player: AudioStreamPlayer2D = $SFX_Player
+@onready var arrow: Sprite2D = %Arrow
+@onready var animation_player_bop: AnimationPlayer = %AnimationPlayerBop
 
 var species: SpeciesResource:
 	set(value):
@@ -49,8 +51,15 @@ func is_hovered():
 
 func _on_area_2d_mouse_entered() -> void:
 	mouse_entered.emit()
+	play_bop()
 	#print("Hovered over ", creature_name)
 
 func _on_area_2d_mouse_exited() -> void:
 	mouse_exited.emit()
 	#print("Stopped hovering over ", creature_name)
+
+func show_arrow(show:bool):
+	arrow.visible = show
+
+func play_bop():
+	animation_player_bop.play("bop")
