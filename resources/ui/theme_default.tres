@@ -1,8 +1,10 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://ckb78edq3a5hf"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://ckb78edq3a5hf"]
 
 [ext_resource type="StyleBox" uid="uid://bob7fj3qse4ng" path="res://resources/ui/stylebox_button_large_red.tres" id="1_7js3m"]
 [ext_resource type="StyleBox" uid="uid://oh1e8e101who" path="res://resources/ui/stylebox_panel_default.tres" id="1_g5ddp"]
+[ext_resource type="StyleBox" uid="uid://cp6e0ux6frr84" path="res://resources/ui/stylebox_button_large_red_pressed.tres" id="2_l6nee"]
 [ext_resource type="StyleBox" uid="uid://c3rol8tfn5jr1" path="res://resources/ui/stylebox_button_small_purple.tres" id="3_l6nee"]
+[ext_resource type="StyleBox" uid="uid://dqw6uj5d6cy4b" path="res://resources/ui/stylebox_button_small_purple_pressed.tres" id="5_45k76"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_g5ddp"]
 thickness = 3
@@ -16,7 +18,7 @@ Button/styles/disabled = ExtResource("1_7js3m")
 Button/styles/hover = ExtResource("1_7js3m")
 Button/styles/hover_pressed = ExtResource("1_7js3m")
 Button/styles/normal = ExtResource("1_7js3m")
-Button/styles/pressed = ExtResource("1_7js3m")
+Button/styles/pressed = ExtResource("2_l6nee")
 Control/colors/font_color = Color(0, 0, 0, 1)
 Control/font_sizes/font_size = 32
 GridContainer/constants/h_separation = 20
@@ -39,6 +41,6 @@ SmallPurpleButton/styles/disabled = ExtResource("3_l6nee")
 SmallPurpleButton/styles/hover = ExtResource("3_l6nee")
 SmallPurpleButton/styles/hover_pressed = ExtResource("3_l6nee")
 SmallPurpleButton/styles/normal = ExtResource("3_l6nee")
-SmallPurpleButton/styles/pressed = ExtResource("3_l6nee")
+SmallPurpleButton/styles/pressed = ExtResource("5_45k76")
 VBoxContainer/constants/separation = 20
 VSeparator/styles/separator = SubResource("StyleBoxLine_y52cd")
