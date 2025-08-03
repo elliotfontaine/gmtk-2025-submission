@@ -62,6 +62,10 @@ var money: int = 50:
 func _ready() -> void:
 	money = money # (to trigger label update)
 	add_creature(1,Constants.SPECIES.MOLE)
+	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.BUNNY)
+	add_creature(1,Constants.SPECIES.WOLF)
+	add_creature(1,Constants.SPECIES.WOLF)
 	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
@@ -261,7 +265,7 @@ func do_action(creature: Creature) -> void:
 		##wolf is the basic medium generator, but may also be all-ined on to maximum its "pack" flavor bonus
 		Constants.SPECIES.WOLF:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
-				score_current += creature.species.score_reward_1 + creature.species.score_reward_2 * (count_how_many_in_loop(Constants.SPECIES.WOLF) - 1)
+				score_current += creature.species.score_reward_1 * (count_how_many_in_loop(Constants.SPECIES.WOLF))
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
