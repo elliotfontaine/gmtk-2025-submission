@@ -11,7 +11,7 @@ const zoom_factor :float = 0.7
 const base_creature_distance: int = 60
 
 const reroll_base_price :int = 10
-const base_income :int = 60
+const base_income :int = 50
 
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
@@ -117,7 +117,7 @@ func _on_next_loop_button_pressed() -> void:
 			next_loop_button.modulate = Color.WHITE
 			shop_panel.modulate = Color.WHITE
 			currently_looping = false
-			money += base_income
+			money += base_income + level
 			next_level()
 		else:
 			defeat()
@@ -302,15 +302,13 @@ func do_on_loop_end_actions() -> void:
 			##on loop end: if egg wasn't eaten or hatched or anything, it dies.
 			Constants.SPECIES.EGG:
 				remove_queue.append(creature)
-				await update_creature_positions()
-				await get_tree().create_timer(game_speed).timeout
 			Constants.SPECIES.BERRY:
 				remove_queue.append(creature)
-				await update_creature_positions()
-				await get_tree().create_timer(game_speed).timeout
 	
 	for creature in remove_queue:
 		await remove(creature)
+		await update_creature_positions()
+		await get_tree().create_timer(game_speed).timeout
 
 
 #endregion
