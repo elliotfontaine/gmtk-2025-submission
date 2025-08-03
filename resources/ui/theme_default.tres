@@ -1,10 +1,12 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://ckb78edq3a5hf"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://ckb78edq3a5hf"]
 
 [ext_resource type="StyleBox" uid="uid://bob7fj3qse4ng" path="res://resources/ui/stylebox_button_large_red.tres" id="1_7js3m"]
 [ext_resource type="StyleBox" uid="uid://oh1e8e101who" path="res://resources/ui/stylebox_panel_default.tres" id="1_g5ddp"]
 [ext_resource type="StyleBox" uid="uid://cp6e0ux6frr84" path="res://resources/ui/stylebox_button_large_red_pressed.tres" id="2_l6nee"]
 [ext_resource type="StyleBox" uid="uid://c3rol8tfn5jr1" path="res://resources/ui/stylebox_button_small_purple.tres" id="3_l6nee"]
+[ext_resource type="StyleBox" uid="uid://bmmt20yydao7x" path="res://resources/ui/stylebox_progress_background.tres" id="4_1l21s"]
 [ext_resource type="StyleBox" uid="uid://dqw6uj5d6cy4b" path="res://resources/ui/stylebox_button_small_purple_pressed.tres" id="5_45k76"]
+[ext_resource type="StyleBox" uid="uid://bj0o6jkhox1q2" path="res://resources/ui/stylebox_progress_fill.tres" id="5_ebwfl"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_g5ddp"]
 thickness = 3
@@ -30,6 +32,8 @@ MarginContainer/constants/margin_left = 40
 MarginContainer/constants/margin_right = 40
 MarginContainer/constants/margin_top = 40
 PanelContainer/styles/panel = ExtResource("1_g5ddp")
+ProgressBar/styles/background = ExtResource("4_1l21s")
+ProgressBar/styles/fill = ExtResource("5_ebwfl")
 RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
 RichTextLabel/font_sizes/bold_font_size = 32
 RichTextLabel/font_sizes/bold_italics_font_size = 32
