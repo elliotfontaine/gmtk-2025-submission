@@ -11,7 +11,7 @@ const zoom_factor :float = 0.7
 const base_creature_distance: int = 60
 
 const reroll_base_price :int = 10
-const base_income :int = 40
+const base_income :int = 50
 
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
@@ -113,7 +113,7 @@ func _on_next_loop_button_pressed() -> void:
 		shop_panel.modulate = Color.DIM_GRAY
 		await run_loop()
 		
-		if score_current > score_target:
+		if score_current >= score_target:
 			next_loop_button.modulate = Color.WHITE
 			shop_panel.modulate = Color.WHITE
 			currently_looping = false
@@ -532,7 +532,7 @@ var score_current: int:
 func next_level():
 	level += 1
 	score_current = 0
-	score_target = level * 1 * maxi(level / 3, 1) + maxi(0, (level - 2) * 3)
+	score_target = level * 1 * maxi(level / 3.0, 1) + maxi(0, (level - 2) * 3)
 	progress_bar_score.max_value = score_target
 	update_score_display()
 	
