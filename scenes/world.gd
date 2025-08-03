@@ -61,15 +61,6 @@ var money: int = 50:
 
 func _ready() -> void:
 	money = money # (to trigger label update)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.WORM)
-	add_creature(1,Constants.SPECIES.SQUIRREL)
-	add_creature(1,Constants.SPECIES.WORM)
-	add_creature(1,Constants.SPECIES.WORM)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.BUNNY)
-	add_creature(1,Constants.SPECIES.LYNX)
 	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
