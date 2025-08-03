@@ -13,7 +13,7 @@ rarity = 0
 title = "Berry"
 texture = ExtResource("2_p5hk5")
 default_range = 0
-effect_text = "When eaten: score 5 [img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img]."
+effect_text = "When eaten: score  5[img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img]."
 score_reward_1 = 5
 score_reward_2 = 0
 money_reward_1 = 0
