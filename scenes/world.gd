@@ -37,6 +37,7 @@ const base_income: int = 50
 @onready var victory_loop_label: Label = %VictoryLoopLabel
 @onready var label_loop: Label = %LabelLoop
 @onready var h_box_tutorial: HBoxContainer = %HBoxTutorial
+@onready var settings_menu: Control = %SettingsMenu
 
 ##placeholder system: length of wait times 
 const game_speeds: Array[float] = [0.8, 0.6, 0.4, 0.2]
@@ -721,3 +722,7 @@ func _on_exit_pressed() -> void:
 func do_no_action():
 	sfx_player.stream = sfx_no_action
 	sfx_player.play()
+
+
+func _on_settings_button_pressed() -> void:
+	settings_menu.show()

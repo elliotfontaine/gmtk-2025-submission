@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cjpe1y1myvqbb"]
+[gd_scene load_steps=8 format=3 uid="uid://cjpe1y1myvqbb"]
 
 [ext_resource type="Script" uid="uid://b47tr3vo56q8q" path="res://scenes/main_menu.gd" id="1_ig7tw"]
 [ext_resource type="AudioStream" uid="uid://cbwlovwtan8pm" path="res://assets/audio/sfx/buttons/Accept.wav" id="2_ekxnf"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="4_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://dr1cqjdwtdh76" path="res://assets/sprites/bg.png" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://cp6mom83ob31g" path="res://assets/sprites/ui/game_title.png" id="6_rtw2f"]
+[ext_resource type="PackedScene" uid="uid://b5v2jtkaohm20" path="res://scenes/ui/settings.tscn" id="7_oa1go"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -102,12 +103,11 @@ script = ExtResource("3_8ln24")
 click_sound = ExtResource("4_rtw2f")
 metadata/_edit_use_anchors_ = true
 
-[node name="ButtonPlay3" type="Button" parent="Menu/CenterContainer/VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="Menu/CenterContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 50
-disabled = true
-text = "options"
+text = "Settings"
 script = ExtResource("3_8ln24")
 click_sound = ExtResource("4_rtw2f")
 metadata/_edit_use_anchors_ = true
@@ -116,4 +116,10 @@ metadata/_edit_use_anchors_ = true
 stream = ExtResource("2_ekxnf")
 bus = &"SFX"
 
+[node name="SettingsMenu" parent="." instance=ExtResource("7_oa1go")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
 [connection signal="pressed" from="Menu/CenterContainer/VBoxContainer/ButtonPlay" to="." method="_on_button_play_pressed"]
+[connection signal="pressed" from="Menu/CenterContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
