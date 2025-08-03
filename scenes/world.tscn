@@ -11,7 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://3dttvdpdjbu7" path="res://assets/audio/sfx/other/Game_End.wav" id="5_q5onr"]
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="5_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
-[ext_resource type="Script" path="res://audio/sound_button.gd" id="10_e3hyu"]
+[ext_resource type="Script" uid="uid://csi3rjnr5grfn" path="res://audio/sound_button.gd" id="10_e3hyu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q5onr"]
 
