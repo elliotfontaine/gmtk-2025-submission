@@ -63,14 +63,18 @@ func _ready() -> void:
 	money = money # (to trigger label update)
 	add_creature(1,Constants.SPECIES.MOLE)
 	add_creature(1,Constants.SPECIES.EGG)
+	add_creature(1,Constants.SPECIES.OAK)
 	add_creature(1,Constants.SPECIES.VIPER)
 	add_creature(1,Constants.SPECIES.VIPER)
 	add_creature(1,Constants.SPECIES.VIPER)
+	add_creature(1,Constants.SPECIES.OAK)
 	add_creature(1,Constants.SPECIES.EGG)
 	add_creature(1,Constants.SPECIES.FOX)
+	add_creature(1,Constants.SPECIES.OAK)
 	add_creature(1,Constants.SPECIES.VIPER)
 	add_creature(1,Constants.SPECIES.EGG)
 	add_creature(1,Constants.SPECIES.EGG)
+	add_creature(1,Constants.SPECIES.OAK)
 	add_creature(1,Constants.SPECIES.MOLE)
 	next_level()
 
@@ -117,7 +121,7 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 				new_slot.position.x = radius * cos(angle + (PI / creature_amount))
 				new_slot.position.y = radius * sin(angle + (PI / creature_amount))
 				empty_slots.append(new_slot)
-		
+	
 	
 	##adaptative zoom:
 	var zoom: float = (get_viewport().get_visible_rect().size.y / 2.0) / radius * zoom_factor
@@ -291,7 +295,8 @@ func do_action(creature: Creature) -> void:
 			score_current += creature.species.score_reward_1 * count_how_many_connected(creature, creature.species.id)
 		Constants.SPECIES.VIPER:
 			money += creature.species.money_reward_1 * count_how_many_in_loop(Constants.SPECIES.EGG)
-	
+		Constants.SPECIES.OAK:
+			await create_in_a_random_space_in_range(creature,Constants.SPECIES.ACORN,creature.species.default_range)
 	await get_tree().create_timer(game_speed).timeout
 	return
 
@@ -380,6 +385,9 @@ func do_on_loop_end_actions() -> void:
 			Constants.SPECIES.EGG:
 				remove_queue.append(creature)
 			Constants.SPECIES.BERRY:
+				remove_queue.append(creature)
+			Constants.SPECIES.ACORN:
+				score_current += creature.species.score_reward_1
 				remove_queue.append(creature)
 	
 	for creature in remove_queue:
@@ -502,7 +510,14 @@ func create(who: Creature, what: Constants.SPECIES, extra_range: int = 0) -> voi
 	var pos: int = creatures.find(who) + 1 + extra_range
 	if pos > creatures.size():
 		pos = -1
-	await add_creature(1, what, creatures.find(who) + 1 + extra_range, who.position)
+	await add_creature(1, what, pos, who.position)
+
+func create_in_a_random_space_in_range(who:Creature, what:Constants.SPECIES, range:int) -> void:
+	var pos: int = creatures.find(who) + randi_range(1,range)
+	if pos > creatures.size():
+		pos = -1
+	await add_creature(1, what, pos, who.position)
+
 
 #endregion
 
