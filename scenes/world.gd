@@ -223,6 +223,9 @@ func do_action(creature: Creature) -> void:
 				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
+				if not check_neighbours_species(creature, creature.current_range, [Constants.SPECIES.FOX]):
+					await duplicate_creature(creature)
 			else:
 				do_no_action()
 		## hedgehog eats a plant. and cannot be eaten! (see exception in eat method)
@@ -268,9 +271,6 @@ func do_action(creature: Creature) -> void:
 				score_current += creature.species.score_reward_1 * (count_how_many_in_loop(Constants.SPECIES.WOLF))
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
-				await get_tree().create_timer(game_speed).timeout
-				if not check_neighbours_species(creature, creature.current_range, [Constants.SPECIES.WOLF]):
-					await duplicate_creature(creature)
 			else:
 				do_no_action()
 		##tiger is the basic large predator - eats a medium dude in 2 range
