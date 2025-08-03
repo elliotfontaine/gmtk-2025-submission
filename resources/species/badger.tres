@@ -14,7 +14,7 @@ rarity = 3
 title = "Badger"
 texture = ExtResource("2_hwvkv")
 default_range = 0
-effect_text = "wWhenever anything duplicates: scores 2 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]."
+effect_text = "wWhenever anything duplicates: scores 2 [img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img]."
 score_reward_1 = 2
 score_reward_2 = 0
 money_reward_1 = 0

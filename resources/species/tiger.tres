@@ -14,7 +14,7 @@ rarity = 2
 title = "Tiger"
 texture = ExtResource("4_umjwr")
 default_range = 2
-effect_text = "Eat a medium animal in range to score 20 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]."
+effect_text = "Eat a medium animal in range to score 20 [img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img]."
 score_reward_1 = 20
 score_reward_2 = 0
 money_reward_1 = 0
