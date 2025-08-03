@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=18 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="5_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
 [ext_resource type="Script" uid="uid://csi3rjnr5grfn" path="res://audio/sound_button.gd" id="10_e3hyu"]
+[ext_resource type="Texture2D" uid="uid://bpp6y6nm6gyvg" path="res://assets/sprites/ui/large_trophy.png" id="11_dss4m"]
 [ext_resource type="Script" uid="uid://ery8xjes8428" path="res://audio/sound_texture_button.gd" id="11_jhx03"]
 [ext_resource type="Texture2D" uid="uid://ox3x837kbn5s" path="res://assets/sprites/ui/settings_button.png" id="11_o8fc1"]
 [ext_resource type="PackedScene" uid="uid://b5v2jtkaohm20" path="res://scenes/ui/settings.tscn" id="14_xo05s"]
@@ -21,7 +22,7 @@
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_f3sb7")
-final_level = 10
+final_level = 12
 sfx_next_loop = ExtResource("2_i7141")
 sfx_suicide = ExtResource("3_4mrxx")
 sfx_no_action = ExtResource("4_7r4gi")
@@ -83,7 +84,9 @@ AFTERWARDS, PRESS RUN LOOP!
 YOUR CREATURES TAKE THEIR ACTIONS ONE BY ONE AND
 RELY ON ONE ANOTHER TO THRIVE.
 
-THINK CAREFULLY ABOUT THEIR PLACEMENT, ORDER MATTERS!"
+THINK CAREFULLY ABOUT THEIR PLACEMENT, ORDER MATTERS!
+
+TRY TO SURVIVE TO LOOP #12!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -137,26 +140,52 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 text = "Run Loop"
 
-[node name="ScoreContainer" type="CenterContainer" parent="UI/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="ScoreContainer" type="CenterContainer" parent="UI/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 0
 
-[node name="ProgressBarScore" type="ProgressBar" parent="UI/MarginContainer/HBoxContainer/ScoreContainer"]
+[node name="ProgressBarScore" type="ProgressBar" parent="UI/MarginContainer/HBoxContainer/VBoxContainer/ScoreContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(380, 50)
 layout_mode = 2
+mouse_filter = 2
 step = 1.0
 value = 50.0
 show_percentage = false
 
-[node name="LabelScore" type="Label" parent="UI/MarginContainer/HBoxContainer/ScoreContainer"]
+[node name="LabelScore" type="Label" parent="UI/MarginContainer/HBoxContainer/VBoxContainer/ScoreContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 9
 theme_override_font_sizes/font_size = 30
 text = "SCORE:"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/MarginContainer/HBoxContainer/VBoxContainer/ScoreContainer"]
+position = Vector2(373, 40)
+texture = ExtResource("11_dss4m")
+
+[node name="LabelLoop" type="Label" parent="UI/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 9
+theme_override_font_sizes/font_size = 20
+text = "Loop #1"
 
 [node name="ButtonAdd" type="Button" parent="UI/MarginContainer/HBoxContainer"]
 visible = false
@@ -169,14 +198,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 alignment = 2
-
-[node name="LabelLoop" type="Label" parent="UI/MarginContainer/TopRight"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 22
-text = "Loop #1"
 
 [node name="SettingsButton" type="TextureButton" parent="UI/MarginContainer/TopRight"]
 layout_mode = 2
@@ -248,6 +269,7 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+focus_mode = 0
 theme_type_variation = &"FlatButton"
 text = "try again"
 script = ExtResource("10_e3hyu")
@@ -257,6 +279,7 @@ click_sound = ExtResource("5_w7kh3")
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+focus_mode = 0
 text = "Exit"
 script = ExtResource("10_e3hyu")
 click_sound = ExtResource("5_w7kh3")
@@ -315,6 +338,7 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(240, 110)
 layout_mode = 2
 size_flags_horizontal = 4
+focus_mode = 0
 theme_type_variation = &"SmallPurpleButton"
 text = "Go endless"
 script = ExtResource("10_e3hyu")
@@ -324,6 +348,7 @@ click_sound = ExtResource("5_w7kh3")
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+focus_mode = 0
 theme_type_variation = &"FlatButton"
 text = "try again"
 script = ExtResource("10_e3hyu")
@@ -333,6 +358,7 @@ click_sound = ExtResource("5_w7kh3")
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+focus_mode = 0
 text = "Exit"
 script = ExtResource("10_e3hyu")
 click_sound = ExtResource("5_w7kh3")

@@ -98,6 +98,7 @@ metadata/_custom_type_script = "uid://cawklep1qhgnx"
 [node name="CloseButton" type="Button" parent="Menu/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
+focus_mode = 0
 theme_type_variation = &"SmallPurpleButton"
 text = "close"
 script = ExtResource("1_7pacj")

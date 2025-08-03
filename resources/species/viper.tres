@@ -14,7 +14,7 @@ rarity = 2
 title = "Viper"
 texture = ExtResource("2_avxej")
 default_range = 0
-effect_text = "Generates 3 [img={20, 20}]res://assets/sprites/ui/money.png[/img] for each egg in the Circle."
+effect_text = "Generates 3  [img={20, 20}]res://assets/sprites/ui/money.png[/img] for each egg in the Circle."
 score_reward_1 = 0
 score_reward_2 = 0
 money_reward_1 = 3

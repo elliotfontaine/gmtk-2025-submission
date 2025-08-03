@@ -2,11 +2,26 @@
 
 [ext_resource type="Script" uid="uid://b47tr3vo56q8q" path="res://scenes/main_menu.gd" id="1_ig7tw"]
 [ext_resource type="AudioStream" uid="uid://cbwlovwtan8pm" path="res://assets/audio/sfx/buttons/Accept.wav" id="2_ekxnf"]
-[ext_resource type="Script" path="res://audio/sound_button.gd" id="3_8ln24"]
+[ext_resource type="Script" uid="uid://csi3rjnr5grfn" path="res://audio/sound_button.gd" id="3_8ln24"]
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="4_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://dr1cqjdwtdh76" path="res://assets/sprites/bg.png" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://cp6mom83ob31g" path="res://assets/sprites/ui/game_title.png" id="6_rtw2f"]
-[ext_resource type="PackedScene" path="res://scenes/ui/settings.tscn" id="7_oa1go"]
+[ext_resource type="PackedScene" uid="uid://b5v2jtkaohm20" path="res://scenes/ui/settings.tscn" id="7_oa1go"]
+
+[sub_resource type="Animation" id="Animation_tbmy8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GameTitle:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.3, 0.3)]
+}
 
 [sub_resource type="Animation" id="Animation_oa1go"]
 resource_name = "woob"
@@ -23,22 +38,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(-2, -2),
 "update": 0,
-"values": [Vector2(0.3, 0.3), Vector2(0.4, 0.4)]
-}
-
-[sub_resource type="Animation" id="Animation_tbmy8"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("GameTitle:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0.3, 0.3)]
+"values": [Vector2(0.3, 0.3), Vector2(0.35, 0.35)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tbmy8"]
@@ -96,7 +96,7 @@ offset_bottom = -31.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0.364706, 0.27451, 1)
-text = "Made in 4 days by 4 strangers for the gmtk jam 2025
+text = "Made in 4 days by 4 strangers for the gmtk game jam 2025
 Superbloom - Elliot - Josh - Sam"
 horizontal_alignment = 1
 vertical_alignment = 1

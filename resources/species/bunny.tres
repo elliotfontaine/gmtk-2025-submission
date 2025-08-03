@@ -14,7 +14,7 @@ rarity = 1
 title = "Bunny"
 texture = ExtResource("2_nnalx")
 default_range = 1
-effect_text = "If small plant in range: eat it and score 3 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]."
+effect_text = "Eats a small plant in range to score  3[img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img] and duplicate. Dies if not fed."
 score_reward_1 = 3
 score_reward_2 = 0
 money_reward_1 = 0

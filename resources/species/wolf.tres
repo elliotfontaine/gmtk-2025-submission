@@ -14,7 +14,7 @@ rarity = 1
 title = "Wolf"
 texture = ExtResource("4_q107r")
 default_range = 1
-effect_text = "Eats a small animal in range to score 5 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img] per Wolf in the circle."
+effect_text = "Eats a small animal in range to score  5[img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img] per Wolf in the circle."
 score_reward_1 = 5
 score_reward_2 = 0
 money_reward_1 = 0

@@ -13,7 +13,7 @@ rarity = 0
 title = "Acorn"
 texture = ExtResource("2_wipln")
 default_range = 0
-effect_text = "On turn end: Scores 5 and disappears"
+effect_text = "On turn end: Score 5[img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img] and disappears."
 score_reward_1 = 5
 score_reward_2 = 0
 money_reward_1 = 0
