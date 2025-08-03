@@ -1,4 +1,4 @@
-# ♻️ The Circle of Life
+# ♻️ Circle of Life
 
 This game was developed during the **GTMK Game Jam 2025** using the **Godot** game engine.
 
