@@ -28,7 +28,9 @@ const final_level: int = 20
 @onready var shop_panel: ShopPanel = %ShopPanel
 @onready var next_loop_button: Button = %NextLoopButton
 @onready var defeat_ui: ColorRect = %DefeatScreen
+@onready var defeat_loop_label: Label = %DefeatLoopLabel
 @onready var victory_ui: Control = %VictoryScreen
+@onready var victory_loop_label: Label = %VictoryLoopLabel
 @onready var label_loop: Label = %LabelLoop
 
 ##placeholder system: length of wait times 
@@ -128,7 +130,7 @@ func _on_next_loop_button_pressed() -> void:
 		if score_current >= score_target:
 			currently_looping = false
 			money += base_income + level
-			if level >= final_level:
+			if level == final_level:
 				win()
 			else:
 				toggle_loop_button_text(true)
@@ -147,7 +149,13 @@ func _on_next_loop_button_pressed() -> void:
 		else:
 			print("what??")
 		toggle_loop_button_text(false)
-
+	
+func _on_continue_pressed() -> void:
+	victory_ui.hide()
+	toggle_loop_button_text(true)
+	shop_panel.modulate = Color.WHITE
+	next_level()
+	
 func run_loop() -> void:
 	await do_on_loop_start_actions()
 	
@@ -188,12 +196,14 @@ func toggle_loop_button_text(active: bool) -> void:
 				next_loop_button.text = "x4"
 
 func win() -> void:
-	# win_ui.show()
-	# sfx_player.stream = sfx_game_over
-	# sfx_player.play()
+	victory_loop_label.text = "Loop reached: %s" % [level]
+	victory_ui.show()
+	sfx_player.stream = sfx_game_over
+	sfx_player.play()
 	pass
 
 func defeat() -> void:
+	defeat_loop_label.text = "Loop reached: %s" % [level]
 	defeat_ui.show()
 	sfx_player.stream = sfx_game_over
 	sfx_player.play()
