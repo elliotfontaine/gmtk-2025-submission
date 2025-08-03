@@ -42,7 +42,7 @@ focus_mode = 0
 theme_type_variation = &"SmallPurpleButton"
 theme_override_constants/h_separation = 0
 theme_override_constants/icon_max_width = 28
-text = "REROLL:  30"
+text = "REROLL:  10"
 icon = ExtResource("3_g0um3")
 icon_alignment = 2
 

@@ -5,10 +5,13 @@ const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
 
 ##change this value to dictate the creature size you want:
-@export var initial_radius :float = 1.0/13
+const initial_radius :float = 1.0/13
 ##change this value to dictate how much space the loop should take:
-@export var zoom_factor :float = 0.7
+const zoom_factor :float = 0.7
 const base_creature_distance: int = 60
+
+const reroll_base_price :int = 10
+const base_income :int = 50
 
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
@@ -41,6 +44,11 @@ var creature_tracker :int = 0
 var hovered_creature: Creature
 
 var currently_looping :bool = false
+
+var money :int = 50:
+	set(val):
+		money = val
+		currency_count.text = str(money)
 
 func _ready() -> void:
 	money = money #(to trigger label update)
@@ -105,11 +113,11 @@ func _on_next_loop_button_pressed() -> void:
 		shop_panel.modulate = Color.DIM_GRAY
 		await run_loop()
 		
-		if score_current > score_target:
+		if score_current >= score_target:
 			next_loop_button.modulate = Color.WHITE
 			shop_panel.modulate = Color.WHITE
 			currently_looping = false
-			money += 50
+			money += base_income + level
 			next_level()
 		else:
 			defeat()
@@ -294,15 +302,13 @@ func do_on_loop_end_actions() -> void:
 			##on loop end: if egg wasn't eaten or hatched or anything, it dies.
 			Constants.SPECIES.EGG:
 				remove_queue.append(creature)
-				await update_creature_positions()
-				await get_tree().create_timer(game_speed).timeout
 			Constants.SPECIES.BERRY:
 				remove_queue.append(creature)
-				await update_creature_positions()
-				await get_tree().create_timer(game_speed).timeout
 	
 	for creature in remove_queue:
 		await remove(creature)
+		await update_creature_positions()
+		await get_tree().create_timer(game_speed).timeout
 
 
 #endregion
@@ -524,12 +530,12 @@ var score_current: int:
 func next_level():
 	level += 1
 	score_current = 0
-	score_target = level * 1 * maxi(level / 3, 1) + maxi(0, (level - 2) * 3)
+	score_target = level * 1 * maxi(level / 3.0, 1) + maxi(0, (level - 2) * 3)
 	progress_bar_score.max_value = score_target
 	update_score_display()
 	
 	shop_panel.level = level
-	reroll_price = 30
+	reroll_price = 10
 	shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
 	shop_panel.populate_shop()
 
@@ -599,15 +605,10 @@ func _unhandled_input(event):
 
 #region money management
 
-var money :int = 500:
-	set(val):
-		money = val
-		currency_count.text = str(money)
-
 var current_item_price :int = 0
 var current_held_item :ShopItem
 
-var reroll_price :int = 30
+var reroll_price :int = reroll_base_price
 
 func _on_shop_panel_rerolled() -> void:
 	if not currently_looping:
