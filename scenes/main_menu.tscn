@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cjpe1y1myvqbb"]
 
 [ext_resource type="Script" uid="uid://b47tr3vo56q8q" path="res://scenes/main_menu.gd" id="1_ig7tw"]
-[ext_resource type="AudioStream" uid="uid://cbwlovwtan8pm" path="res://assets/audio/sfx/Accept.wav" id="2_ekxnf"]
+[ext_resource type="AudioStream" uid="uid://cbwlovwtan8pm" path="res://assets/audio/sfx/buttons/Accept.wav" id="2_ekxnf"]
 [ext_resource type="AudioStream" uid="uid://2fkimc1vqyqe" path="res://assets/audio/music/menu.mp3" id="3_bqqt6"]
 
 [node name="MainMenu" type="Control"]

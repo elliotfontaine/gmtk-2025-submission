@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cbwlovwtan8pm"
-path="res://.godot/imported/Accept.wav-c49ac8fb84f67e5f49dc6498599f8be1.sample"
+path="res://.godot/imported/Accept.wav-e9b0d1c283f316b17bc9a55677acdda3.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/Accept.wav"
-dest_files=["res://.godot/imported/Accept.wav-c49ac8fb84f67e5f49dc6498599f8be1.sample"]
+source_file="res://assets/audio/sfx/buttons/Accept.wav"
+dest_files=["res://.godot/imported/Accept.wav-e9b0d1c283f316b17bc9a55677acdda3.sample"]
 
 [params]
 
