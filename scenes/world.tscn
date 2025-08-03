@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=18 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="5_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
 [ext_resource type="Script" uid="uid://csi3rjnr5grfn" path="res://audio/sound_button.gd" id="10_e3hyu"]
+[ext_resource type="Texture2D" uid="uid://bpp6y6nm6gyvg" path="res://assets/sprites/ui/large_trophy.png" id="11_dss4m"]
 [ext_resource type="Script" uid="uid://ery8xjes8428" path="res://audio/sound_texture_button.gd" id="11_jhx03"]
 [ext_resource type="Texture2D" uid="uid://ox3x837kbn5s" path="res://assets/sprites/ui/settings_button.png" id="11_o8fc1"]
 [ext_resource type="PackedScene" uid="uid://b5v2jtkaohm20" path="res://scenes/ui/settings.tscn" id="14_xo05s"]
@@ -146,6 +147,7 @@ size_flags_vertical = 0
 unique_name_in_owner = true
 custom_minimum_size = Vector2(380, 50)
 layout_mode = 2
+mouse_filter = 2
 step = 1.0
 value = 50.0
 show_percentage = false
@@ -160,6 +162,10 @@ theme_override_font_sizes/font_size = 30
 text = "SCORE:"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/MarginContainer/HBoxContainer/ScoreContainer"]
+position = Vector2(373, 40)
+texture = ExtResource("11_dss4m")
 
 [node name="ButtonAdd" type="Button" parent="UI/MarginContainer/HBoxContainer"]
 visible = false
