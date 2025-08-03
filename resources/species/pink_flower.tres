@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://cf6vpg7oujqkm"]
+
+[ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_7b2r6"]
+[ext_resource type="Texture2D" uid="uid://bcqjiwotc3vs3" path="res://assets/sprites/creatures/pink_flower.png" id="2_8d3nx"]
+
+[resource]
+script = ExtResource("1_7b2r6")
+id = 22
+family = 0
+size = 1
+rarity = 0
+title = "Flower"
+texture = ExtResource("2_8d3nx")
+default_range = 0
+effect_text = "No effect text."
+score_reward_1 = 0
+score_reward_2 = 0
+money_reward_1 = 0
+money_reward_2 = 0
+base_price = 1
+metadata/_custom_type_script = "uid://mow41h46xu2s"

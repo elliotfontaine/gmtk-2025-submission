@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://cck2ymwhb5evt"]
+
+[ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_a5eut"]
+[ext_resource type="Texture2D" uid="uid://xo48stpko152" path="res://assets/sprites/creatures/bat.png" id="2_k68hy"]
+
+[resource]
+script = ExtResource("1_a5eut")
+id = 21
+family = 1
+size = 1
+rarity = 0
+title = "Bat"
+texture = ExtResource("2_k68hy")
+default_range = 0
+effect_text = "No effect text."
+score_reward_1 = 0
+score_reward_2 = 0
+money_reward_1 = 0
+money_reward_2 = 0
+base_price = 1
+metadata/_custom_type_script = "uid://mow41h46xu2s"
