@@ -62,33 +62,16 @@ var money: int = 50:
 func _ready() -> void:
 	money = money # (to trigger label update)
 	add_creature(1,Constants.SPECIES.MOLE)
-	add_creature(1,Constants.SPECIES.GRASS)
+	add_creature(1,Constants.SPECIES.EGG)
+	add_creature(1,Constants.SPECIES.VIPER)
+	add_creature(1,Constants.SPECIES.VIPER)
+	add_creature(1,Constants.SPECIES.VIPER)
+	add_creature(1,Constants.SPECIES.EGG)
 	add_creature(1,Constants.SPECIES.FOX)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.BUNNY)
-	add_creature(1,Constants.SPECIES.BUNNY)
-	add_creature(1,Constants.SPECIES.FOX)
+	add_creature(1,Constants.SPECIES.VIPER)
+	add_creature(1,Constants.SPECIES.EGG)
+	add_creature(1,Constants.SPECIES.EGG)
 	add_creature(1,Constants.SPECIES.MOLE)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.FOX)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.BUNNY)
-	add_creature(1,Constants.SPECIES.BUNNY)
-	add_creature(1,Constants.SPECIES.FOX)
-	add_creature(1,Constants.SPECIES.MOLE)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.FOX)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.BUNNY)
-	add_creature(1,Constants.SPECIES.BUNNY)
-	add_creature(1,Constants.SPECIES.FOX)
-	add_creature(1,Constants.SPECIES.MOLE)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.FOX)
-	add_creature(1,Constants.SPECIES.GRASS)
-	add_creature(1,Constants.SPECIES.BUNNY)
-	add_creature(1,Constants.SPECIES.BUNNY)
-	add_creature(1,Constants.SPECIES.FOX)
 	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
@@ -306,6 +289,8 @@ func do_action(creature: Creature) -> void:
 				do_no_action()
 		Constants.SPECIES.ANT:
 			score_current += creature.species.score_reward_1 * count_how_many_connected(creature, creature.species.id)
+		Constants.SPECIES.VIPER:
+			money += creature.species.money_reward_1 * count_how_many_in_loop(Constants.SPECIES.EGG)
 	
 	await get_tree().create_timer(game_speed).timeout
 	return
@@ -381,7 +366,9 @@ func do_on_loop_start_actions() -> void:
 			Constants.SPECIES.MOLE:
 				##known issue: the mole may pick its own position, but eh whatever I don't wanna risk new bugs
 				await move_to(creature,randi() % creatures.size())
-				money += 10
+				await get_tree().create_timer(game_speed).timeout
+				money += creature.species.money_reward_1
+				
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
@@ -464,7 +451,7 @@ func move(who:Creature,amount:int) -> void:
 func move_to(who:Creature,where:int) -> void:
 	creatures.erase(who)
 	creatures.insert(where,who)
-	update_creature_positions()
+	await update_creature_positions()
 	print(creatures)
 
 #endregion
