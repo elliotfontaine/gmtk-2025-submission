@@ -8,7 +8,7 @@ const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
 
 ##change this value to dictate the creature size you want:
-const initial_radius: float = 1.0 / 8
+const initial_radius: float = 1.0 / 7
 ##change this value to dictate how much space the loop should take:
 const zoom_factor: float = 0.7
 const base_creature_distance: int = 60
@@ -62,20 +62,9 @@ var money: int = 50:
 func _ready() -> void:
 	money = money # (to trigger label update)
 	add_creature(1,Constants.SPECIES.MOLE)
-	add_creature(1,Constants.SPECIES.EGG)
 	add_creature(1,Constants.SPECIES.OAK)
-	add_creature(1,Constants.SPECIES.VIPER)
-	add_creature(1,Constants.SPECIES.VIPER)
-	add_creature(1,Constants.SPECIES.VIPER)
 	add_creature(1,Constants.SPECIES.OAK)
-	add_creature(1,Constants.SPECIES.EGG)
-	add_creature(1,Constants.SPECIES.FOX)
 	add_creature(1,Constants.SPECIES.OAK)
-	add_creature(1,Constants.SPECIES.VIPER)
-	add_creature(1,Constants.SPECIES.EGG)
-	add_creature(1,Constants.SPECIES.EGG)
-	add_creature(1,Constants.SPECIES.OAK)
-	add_creature(1,Constants.SPECIES.MOLE)
 	next_level()
 
 ##to call whenever you affect the number of creatures in the loop 
@@ -242,8 +231,8 @@ func do_action(creature: Creature) -> void:
 		Constants.SPECIES.HEDGEHOG:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
 				score_current += creature.species.score_reward_1
-				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+				await get_tree().create_timer(game_speed).timeout
 			else:
 				do_no_action()
 		##chimkin consumes an insect, if succesful creates an egg
@@ -389,6 +378,7 @@ func do_on_loop_end_actions() -> void:
 			Constants.SPECIES.ACORN:
 				score_current += creature.species.score_reward_1
 				remove_queue.append(creature)
+				await get_tree().create_timer(game_speed/4).timeout
 	
 	for creature in remove_queue:
 		await remove(creature)
@@ -513,10 +503,16 @@ func create(who: Creature, what: Constants.SPECIES, extra_range: int = 0) -> voi
 	await add_creature(1, what, pos, who.position)
 
 func create_in_a_random_space_in_range(who:Creature, what:Constants.SPECIES, range:int) -> void:
-	var pos: int = creatures.find(who) + randi_range(1,range)
+	var pos: int = creatures.find(who) + randi_range(1,range) * [-1,1].pick_random()
+	if pos >= iterator+1:
+		pass
+	else:
+		iterator += 1
+	
 	if pos > creatures.size():
 		pos = -1
 	await add_creature(1, what, pos, who.position)
+
 
 
 #endregion
