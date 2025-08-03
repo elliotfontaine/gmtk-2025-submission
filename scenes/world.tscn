@@ -22,7 +22,7 @@
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_f3sb7")
-final_level = 10
+final_level = 12
 sfx_next_loop = ExtResource("2_i7141")
 sfx_suicide = ExtResource("3_4mrxx")
 sfx_no_action = ExtResource("4_7r4gi")
