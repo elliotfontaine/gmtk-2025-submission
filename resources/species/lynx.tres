@@ -14,8 +14,8 @@ rarity = 1
 title = "Lynx"
 texture = ExtResource("4_4u8cb")
 default_range = 1
-effect_text = "Eat any small animal in range to score 9 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img] for each."
-score_reward_1 = 9
+effect_text = "Eat any small animal in range to score 7 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img] for each."
+score_reward_1 = 7
 score_reward_2 = 0
 money_reward_1 = 0
 money_reward_2 = 0

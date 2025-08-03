@@ -1,5 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://tcckc601ceki"]
 
+
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
 [ext_resource type="AudioStream" uid="uid://cbwlovwtan8pm" path="res://assets/audio/sfx/buttons/Accept.wav" id="2_i7141"]
@@ -15,6 +16,8 @@
 [ext_resource type="Script" uid="uid://ery8xjes8428" path="res://audio/sound_texture_button.gd" id="11_jhx03"]
 [ext_resource type="Texture2D" uid="uid://ox3x837kbn5s" path="res://assets/sprites/ui/settings_button.png" id="11_o8fc1"]
 [ext_resource type="PackedScene" uid="uid://b5v2jtkaohm20" path="res://scenes/ui/settings.tscn" id="14_xo05s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q5onr"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q5onr"]
 
@@ -291,6 +294,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/VictoryScreen/PanelContainer/CenterContainer"]
 layout_mode = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="Title" type="Label" parent="UI/VictoryScreen/PanelContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 220)
