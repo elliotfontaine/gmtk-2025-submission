@@ -9,10 +9,15 @@ script = ExtResource("1_yrhxm")
 id = 12
 family = 1
 size = 3
-rarity = 1
+rarity = 2
 title = "Tiger"
 texture = ExtResource("2_d6lwn")
 default_range = 2
-value = 0
+effect_text = "if medium animal in range: eat it and score 20 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]."
+score_reward_1 = 20
+score_reward_2 = 0
+money_reward_1 = 0
+money_reward_2 = 0
+base_price = 1
 sfx_placed = ExtResource("2_2mrl5")
 metadata/_custom_type_script = "uid://mow41h46xu2s"

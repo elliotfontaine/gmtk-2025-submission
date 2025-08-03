@@ -13,8 +13,8 @@ rarity = 1
 title = "Fox"
 texture = ExtResource("2_vxgyw")
 default_range = 1
-effect_text = "No effect text."
-score_reward_1 = 0
+effect_text = "If small animal in range: eat it and score 7 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]."
+score_reward_1 = 7
 score_reward_2 = 0
 money_reward_1 = 0
 money_reward_2 = 0

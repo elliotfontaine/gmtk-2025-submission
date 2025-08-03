@@ -14,7 +14,7 @@ title = "Grass"
 texture = ExtResource("2_kohdr")
 default_range = 1
 effect_text = "If no other plant in range: duplicate and score  3 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]"
-score_reward_1 = 0
+score_reward_1 = 3
 score_reward_2 = 0
 money_reward_1 = 0
 money_reward_2 = 0
