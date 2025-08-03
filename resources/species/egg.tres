@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="SpeciesResource" load_steps=4 format=3 uid="uid://bv7rjfjcip4er"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_e431m"]
-[ext_resource type="Texture2D" uid="uid://c0yrxjneg457d" path="res://assets/sprites/creatures/egg.png" id="2_e431m"]
+[ext_resource type="Texture2D" uid="uid://b0naf4evomljy" path="res://assets/sprites/creatures/egg.png" id="2_e431m"]
 [ext_resource type="AudioStream" uid="uid://c5ry6064rxlyr" path="res://assets/audio/sfx/placed/EggPlaced.wav" id="2_j67q0"]
 
 [resource]
@@ -13,7 +13,8 @@ rarity = 0
 title = "Egg"
 texture = ExtResource("2_e431m")
 default_range = 0
-effect_text = "When eaten: score 5 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img]."
+effect_text = "When eaten: score 5 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img].
+Loop end: die"
 score_reward_1 = 5
 score_reward_2 = 0
 money_reward_1 = 0
