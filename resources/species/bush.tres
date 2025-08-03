@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_pxquw"]
 [ext_resource type="AudioStream" uid="uid://co7rvnlxuac82" path="res://assets/audio/sfx/placed/GrassPlaced.wav" id="2_urpvv"]
-[ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="2_xn1l7"]
+[ext_resource type="Texture2D" uid="uid://bguljbf7e8vdp" path="res://assets/sprites/creatures/berry_bush.png" id="3_urpvv"]
 
 [resource]
 script = ExtResource("1_pxquw")
@@ -11,7 +11,7 @@ family = 0
 size = 2
 rarity = 2
 title = "Bush"
-texture = ExtResource("2_xn1l7")
+texture = ExtResource("3_urpvv")
 default_range = 0
 effect_text = "Loop start: create a berry on each side."
 score_reward_1 = 0

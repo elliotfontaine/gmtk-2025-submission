@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_cg51f"]
 [ext_resource type="AudioStream" uid="uid://cm7v1c1a4vvdt" path="res://assets/audio/sfx/eat/eat_low.wav" id="2_4u8cb"]
-[ext_resource type="Texture2D" uid="uid://bjirqy057ntrq" path="res://assets/sprites/creatures/fox.png" id="2_d45eb"]
 [ext_resource type="AudioStream" uid="uid://dbammgugrvp5c" path="res://assets/audio/sfx/placed/LynxPlaced.wav" id="2_mb0m7"]
+[ext_resource type="Texture2D" uid="uid://tiuc85xca3wh" path="res://assets/sprites/creatures/lynx.png" id="4_4u8cb"]
 
 [resource]
 script = ExtResource("1_cg51f")
@@ -12,7 +12,7 @@ family = 1
 size = 2
 rarity = 1
 title = "Lynx"
-texture = ExtResource("2_d45eb")
+texture = ExtResource("4_4u8cb")
 default_range = 1
 effect_text = "Eat any small animal in range to score 9 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img] for each."
 score_reward_1 = 9

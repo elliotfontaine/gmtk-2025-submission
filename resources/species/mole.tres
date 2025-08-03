@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=2 format=3 uid="uid://cojsgmm6yoiww"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://cojsgmm6yoiww"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_gxx6k"]
+[ext_resource type="Texture2D" uid="uid://bwjmpumrvbqm4" path="res://assets/sprites/creatures/mole.png" id="2_3nfw5"]
 
 [resource]
 script = ExtResource("1_gxx6k")
@@ -9,6 +10,7 @@ family = 1
 size = 2
 rarity = 3
 title = "Mole"
+texture = ExtResource("2_3nfw5")
 default_range = 0
 effect_text = "No effect text."
 score_reward_1 = 0

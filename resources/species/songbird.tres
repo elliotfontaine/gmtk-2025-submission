@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="SpeciesResource" load_steps=5 format=3 uid="uid://7p4tvc2emn1p"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_74jqi"]
-[ext_resource type="Texture2D" uid="uid://2uaaceqtsihk" path="res://assets/sprites/creatures/crow.png" id="2_a3r3m"]
 [ext_resource type="AudioStream" uid="uid://dtbt8hr4g5x3b" path="res://assets/audio/sfx/eat/eat_hi.wav" id="2_b6l0r"]
 [ext_resource type="AudioStream" uid="uid://dhu2buenkk41" path="res://assets/audio/sfx/placed/SongbirdPlaced.wav" id="2_hdugj"]
+[ext_resource type="Texture2D" uid="uid://d4knunys153yu" path="res://assets/sprites/creatures/orange_passerine.png" id="4_hdugj"]
 
 [resource]
 script = ExtResource("1_74jqi")
@@ -12,7 +12,7 @@ family = 1
 size = 1
 rarity = 3
 title = "Songbird"
-texture = ExtResource("2_a3r3m")
+texture = ExtResource("4_hdugj")
 default_range = 2
 effect_text = "If tiny animal in range: eat it and create an egg 3 spaces away"
 score_reward_1 = 0

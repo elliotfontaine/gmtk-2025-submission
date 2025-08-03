@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="SpeciesResource" load_steps=5 format=3 uid="uid://diwl6ogeir0ua"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_h36fp"]
-[ext_resource type="Texture2D" uid="uid://bjirqy057ntrq" path="res://assets/sprites/creatures/fox.png" id="2_ajddr"]
 [ext_resource type="AudioStream" uid="uid://ttlgn4n213r6" path="res://assets/audio/sfx/placed/WolfPlaced.wav" id="2_g7ack"]
 [ext_resource type="AudioStream" uid="uid://dvt8ipe4lww0m" path="res://assets/audio/sfx/eat/eat_med.wav" id="2_q107r"]
+[ext_resource type="Texture2D" uid="uid://cmmf4malw6k57" path="res://assets/sprites/creatures/wolf.png" id="4_q107r"]
 
 [resource]
 script = ExtResource("1_h36fp")
@@ -12,7 +12,7 @@ family = 1
 size = 2
 rarity = 2
 title = "Wolf"
-texture = ExtResource("2_ajddr")
+texture = ExtResource("4_q107r")
 default_range = 1
 effect_text = "Eat a small animal in range to score 6T + 3T per wolf in the circle and duplicate if not adjacent to another wolf."
 score_reward_1 = 6

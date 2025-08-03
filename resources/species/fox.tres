@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_vxgyw"]
 [ext_resource type="AudioStream" uid="uid://dvt8ipe4lww0m" path="res://assets/audio/sfx/eat/eat_med.wav" id="2_b8uxd"]
 [ext_resource type="AudioStream" uid="uid://dc5pt4hpa1ouc" path="res://assets/audio/sfx/placed/FoxPlaced.wav" id="2_djf5m"]
-[ext_resource type="Texture2D" uid="uid://bjirqy057ntrq" path="res://assets/sprites/creatures/fox.png" id="2_vxgyw"]
+[ext_resource type="Texture2D" uid="uid://c2rm8w3vaskk7" path="res://assets/sprites/creatures/fox.png" id="2_vxgyw"]
 
 [resource]
 script = ExtResource("1_vxgyw")

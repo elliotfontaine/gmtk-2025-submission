@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_pptde"]
 [ext_resource type="AudioStream" uid="uid://dtbt8hr4g5x3b" path="res://assets/audio/sfx/eat/eat_hi.wav" id="2_0lc7m"]
 [ext_resource type="AudioStream" uid="uid://cbvph1rgx4qbf" path="res://assets/audio/sfx/placed/ChickenPlaced.wav" id="2_brxfg"]
-[ext_resource type="Texture2D" uid="uid://2uaaceqtsihk" path="res://assets/sprites/creatures/crow.png" id="2_u7gny"]
+[ext_resource type="Texture2D" uid="uid://dav874716r0g3" path="res://assets/sprites/creatures/chicken.png" id="4_brxfg"]
 
 [resource]
 script = ExtResource("1_pptde")
@@ -12,7 +12,7 @@ family = 1
 size = 1
 rarity = 1
 title = "Chicken"
-texture = ExtResource("2_u7gny")
+texture = ExtResource("4_brxfg")
 default_range = 1
 effect_text = "If tiny animal in range: eat it and create an egg."
 score_reward_1 = 0
