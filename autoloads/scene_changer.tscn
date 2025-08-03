@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://scmmi6idwkln"]
+[gd_scene load_steps=6 format=3 uid="uid://scmmi6idwkln"]
 
 [ext_resource type="Script" uid="uid://btjktrfq6182i" path="res://autoloads/scene_changer.gd" id="1_qy64d"]
+[ext_resource type="AudioStream" uid="uid://5be1mr2mtmhi" path="res://audio/bgm_synchronized.tres" id="2_gqvob"]
 
 [sub_resource type="Animation" id="Animation_573uw"]
 length = 0.001
@@ -80,6 +81,7 @@ _data = {
 process_mode = 3
 layer = 100
 script = ExtResource("1_qy64d")
+background_music = ExtResource("2_gqvob")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)

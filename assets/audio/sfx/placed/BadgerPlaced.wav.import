@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b44hadfhsd4j4"
-path="res://.godot/imported/BadgerPlaced.wav-6f6e49a5805bf6f002c9c274c6e7f962.sample"
+path="res://.godot/imported/BadgerPlaced.wav-75ea8af560ea76774cc2f450ef7ef8de.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/BadgerPlaced.wav"
-dest_files=["res://.godot/imported/BadgerPlaced.wav-6f6e49a5805bf6f002c9c274c6e7f962.sample"]
+source_file="res://assets/audio/sfx/placed/BadgerPlaced.wav"
+dest_files=["res://.godot/imported/BadgerPlaced.wav-75ea8af560ea76774cc2f450ef7ef8de.sample"]
 
 [params]
 

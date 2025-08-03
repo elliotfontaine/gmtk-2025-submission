@@ -1,5 +1,4 @@
 extends Node2D
-@export var background_music: AudioStreamSynchronized
 @export var sfx_next_loop: AudioStream
 
 const CREATURE = preload("res://scenes/creature.tscn")
@@ -17,13 +16,14 @@ const base_creature_distance: int = 60
 @onready var creature_card: CreatureCard = %CreatureCard
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
-
 @onready var initial_camera_zoom :float = camera.zoom.x
 @onready var currency_count: Label = %CurrencyCount
 @onready var shop_panel: ShopPanel = %ShopPanel
+@onready var next_loop_button: Button = %NextLoopButton
+@onready var defeat_ui: ColorRect = %Defeat
 
 ##placeholder system: length of wait times 
-var game_speed: float = 0.8
+var game_speed: float = 0.7
 
 var creatures: Array[Creature]
 
@@ -39,6 +39,8 @@ var creature_tracker :int = 0
 # to prevent race condition coming from Area2D mouse_exited not triggering in order
 ## buffer used for SpeciesCard display when hovering loop creatures
 var hovered_creature: Creature
+
+var currently_looping :bool = false
 
 func _ready() -> void:
 	money = money #(to trigger label update)
@@ -97,12 +99,22 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 func _on_next_loop_button_pressed() -> void:
 	sfx_player.stream = sfx_next_loop
 	sfx_player.play()
-	await run_loop()
-	next_level()
+	if not currently_looping:
+		currently_looping = true
+		next_loop_button.modulate = Color.DIM_GRAY
+		shop_panel.modulate = Color.DIM_GRAY
+		await run_loop()
+		
+		if score_current > score_target:
+			next_loop_button.modulate = Color.WHITE
+			shop_panel.modulate = Color.WHITE
+			currently_looping = false
+			money += 50
+			next_level()
+		else:
+			defeat()
 
 func run_loop() -> void:
-	_set_action_music()
-	
 	await do_on_loop_start_actions()
 	
 	iterator = 0
@@ -125,16 +137,15 @@ func run_loop() -> void:
 	
 	await do_on_loop_end_actions()
 	
-	
 	print("scored this loop: ",score_current)
-	reroll_price = 30
-	shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
-	money += 50
-	shop_panel.do_reroll()
+
+func defeat() -> void:
+	defeat_ui.show()
 
 #region creature action matchers
 
 func do_action(creature:Creature) -> void:
+	
 	match creature.species.id:
 		##if grass has no plant neighbours, it duplicates
 		Constants.SPECIES.GRASS:
@@ -259,6 +270,7 @@ func do_on_duplicate_actions(duplicator:Creature) -> void:
 
 ##called on loop start for start of loop effects
 func do_on_loop_start_actions() -> void:
+	SceneChanger.set_action_music()
 	var triggered_creatures :Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
@@ -275,7 +287,7 @@ func do_on_loop_start_actions() -> void:
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
-	_set_calm_music()
+	SceneChanger.set_calm_music()
 	var remove_queue :Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
@@ -326,6 +338,9 @@ func check_if_fits_diet(target:Creature,species_diet,size_diet) -> bool:
 
 ##do eat the target
 func do_eat(who:Creature,target:Creature) -> void:
+
+	who.do_eat()
+	
 	var index_who = posmod(creatures.find(who), creatures.size())
 	var index_tar = posmod(creatures.find(target), creatures.size())
 	var forward_distance = posmod(index_tar - index_who, creatures.size())
@@ -509,9 +524,14 @@ var score_current: int:
 func next_level():
 	level += 1
 	score_current = 0
-	score_target = level * 10 * maxi(level / 3, 1) + maxi(0, (level - 2) * 3)
+	score_target = level * 1 * maxi(level / 3, 1) + maxi(0, (level - 2) * 3)
 	progress_bar_score.max_value = score_target
 	update_score_display()
+	
+	shop_panel.level = level
+	reroll_price = 30
+	shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
+	shop_panel.populate_shop()
 
 func update_score_display() -> void:
 	label_score.text = "SCORE: %s / %s" % [score_current, score_target]
@@ -553,55 +573,29 @@ func unset_floating_creature() -> void:
 	update_creature_positions(false)
 
 func _on_shop_panel_floating_creature_asked(item: ShopItem) -> void:
-	if money > item.price:
-		current_held_item = item
-		current_item_price = item.price
-		set_floating_creature(item.species)
-	else:
-		pass
+	if not currently_looping:
+		if money > item.price:
+			current_held_item = item
+			current_item_price = item.price
+			set_floating_creature(item.species)
+		else:
+			pass
 
 func _on_slot_pressed(index: int) -> void:
-	if floating_creature.species != null:
-		money -= current_item_price
-		if current_held_item:
-			current_held_item.sold = true
-			print(current_held_item.sold)
-		add_creature(1, floating_creature.species.id, index)
-		unset_floating_creature()
+	if not currently_looping:
+		if floating_creature.species != null:
+			money -= current_item_price
+			if current_held_item:
+				current_held_item.sold = true
+				print(current_held_item.sold)
+			add_creature(1, floating_creature.species.id, index)
+			unset_floating_creature()
 
 func _unhandled_input(event):
 	if floating_creature.species != null:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			unset_floating_creature()
 #endregion
-
-#region music controls
-
-var bgm_calm = 1
-var bgm_action = 2
-
-func _set_action_music():
-	_fade_music(bgm_action, 0)
-	_fade_music(bgm_calm, -18)
-
-func _set_calm_music():
-	_fade_music(bgm_action, -18)
-	_fade_music(bgm_calm, 0)
-
-
-func _fade_music(stream_index, volume: float, speed: float = 1.5):
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_SINE)
-	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.tween_method(
-		func(volume_tween: float) -> void:
-			background_music. set_sync_stream_volume(stream_index, volume_tween),
-		background_music.get_sync_stream_volume(stream_index),
-		volume, 
-		speed
-	)
-
-#endregion 
 
 #region money management
 
@@ -615,13 +609,21 @@ var current_held_item :ShopItem
 
 var reroll_price :int = 30
 
+func _on_shop_panel_rerolled() -> void:
+	if not currently_looping:
+		if money > reroll_price:
+			money -= reroll_price
+			shop_panel.do_reroll()
+			
+			reroll_price += (reroll_price/5)
+			shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
+
 #endregion
 
 
-func _on_shop_panel_rerolled() -> void:
-	if money > reroll_price:
-		money -= reroll_price
-		shop_panel.do_reroll()
-		
-		reroll_price += (reroll_price/5)
-		shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
+func _on_retry_pressed() -> void:
+	SceneChanger.change_to(SceneChanger.MainScenes.WORLD)
+
+
+func _on_exit_pressed() -> void:
+	SceneChanger.change_to(SceneChanger.MainScenes.MAIN)

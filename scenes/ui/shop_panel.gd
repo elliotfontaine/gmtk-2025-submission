@@ -17,13 +17,15 @@ signal rerolled
 
 const ITEM_SCENE := preload("res://scenes/ui/shop_item.tscn")
 
+var level :int
+
 func _ready() -> void:
 	if creative:
 		clear_items()
 		populate_creative_shop()
 	else:
-		clear_items()
-		populate_shop()
+		pass #World will trigger shop populating
+		#populate_shop()
 		# TODO: iDK, I guess maybe it should me managed by the World Scene, since
 		# it's gonna fill it mutiple times.
 
@@ -44,7 +46,6 @@ func _on_re_roll_pressed() -> void:
 
 ##called by world
 func do_reroll() -> void:
-	clear_items()
 	populate_shop()
 
 func add_shop_item(shop_item: Control) -> void:
@@ -63,7 +64,7 @@ func create_new_shop_item(id:int) -> void:
 	var species: SpeciesResource = Constants.get_species_by_id(id)
 	var new_item: Control = ITEM_SCENE.instantiate()
 	new_item.species = species
-	new_item.price = randi_range(40,199)
+	new_item.price = randi_range(20,60)
 	add_shop_item(new_item)
 	new_item.mouse_entered.connect(_on_item_hovered.bind(new_item))
 	new_item.mouse_exited.connect(_on_item_exited.bind(new_item))
@@ -76,7 +77,7 @@ func populate_creative_shop() -> void:
 			break
 		create_new_shop_item(id)
 
-func populate_shop() -> void:
+func populate_shoazp() -> void:
 	var new_items :Array[Constants.SPECIES]
 	for i in 6:
 		var randnb :int = randi() % Constants.SPECIES.size()
@@ -86,3 +87,49 @@ func populate_shop() -> void:
 		new_items.append(randnb)
 	for id in new_items:
 		create_new_shop_item(id)
+
+
+func populate_shop() -> void:
+	clear_items()
+	var shop_items :Array[Constants.SPECIES]
+	
+	if level == 1:
+		re_roll.hide()
+		shop_items = [Constants.SPECIES.GRASS]
+	elif level == 2:
+		shop_items = [Constants.SPECIES.BUNNY]
+	elif level <= 4:
+		re_roll.show()
+		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],6)
+	elif level <= 6:
+		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],5) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],1)
+	elif level <= 8:
+		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],3) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],3)
+	elif level <= 10:
+		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],3) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],2) + get_species_by_rarity([Constants.RARITIES.RARE],1)
+	elif level <= 12:
+		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],2) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],2) + get_species_by_rarity([Constants.RARITIES.RARE],2)
+	else:
+		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON],2) + get_species_by_rarity([Constants.RARITIES.UNCOMMON],2) + get_species_by_rarity([Constants.RARITIES.RARE],2)
+	
+	shop_items.shuffle()
+	for id in shop_items:
+		create_new_shop_item(id)
+
+
+func get_species_by_rarity(rarity:Array[Constants.RARITIES],amount:int=0) -> Array[Constants.SPECIES]:
+	var queried_species :Array[Constants.SPECIES]
+	
+	for specie :Constants.SPECIES in Constants.SPECIES.size():
+		if Constants.get_species_by_id(specie).rarity in rarity:
+			queried_species.append(specie)
+	
+	if not amount == 0:
+		var select_species :Array[Constants.SPECIES]
+		for i in amount:
+			if queried_species.size() > 0:
+				var rand_specie :Constants.SPECIES = queried_species.pick_random()
+				select_species.append(rand_specie)
+		return select_species
+	else:
+		return queried_species

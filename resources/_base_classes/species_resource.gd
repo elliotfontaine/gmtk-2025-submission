@@ -18,5 +18,5 @@ extends Resource
 @export var base_price: int = 1
 
 @export var sfx_placed :AudioStream
-#@export var sfx_trigger :AudioStream
+@export var sfx_eat :AudioStream
 #@export var sfx_death :AudioStream

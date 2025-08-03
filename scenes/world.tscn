@@ -1,31 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=8 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
 [ext_resource type="Texture2D" uid="uid://dr1cqjdwtdh76" path="res://assets/sprites/bg.png" id="2_qfnet"]
 [ext_resource type="PackedScene" uid="uid://bbetjgrjbsdi8" path="res://scenes/ui/creature_card.tscn" id="2_tlwt5"]
-[ext_resource type="AudioStream" uid="uid://dvk76pxx164w" path="res://assets/audio/music/game_always.mp3" id="2_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://d288g7tvym65q" path="res://scenes/ui/shop_panel.tscn" id="3_aqk2v"]
-[ext_resource type="AudioStream" uid="uid://dfhm58pekfyhb" path="res://assets/audio/music/game_calm.mp3" id="3_e3hyu"]
-[ext_resource type="AudioStream" uid="uid://diqluyepoardq" path="res://assets/audio/music/game_action.mp3" id="4_q5onr"]
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/Click.wav" id="5_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
-
-[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_w7kh3"]
-stream_count = 3
-stream_0/stream = ExtResource("2_w7kh3")
-stream_0/volume = 0.0
-stream_1/stream = ExtResource("3_e3hyu")
-stream_1/volume = 0.0
-stream_2/stream = ExtResource("4_q5onr")
-stream_2/volume = -60.0
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tlwt5"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_f3sb7")
-background_music = SubResource("AudioStreamSynchronized_w7kh3")
 sfx_next_loop = ExtResource("5_w7kh3")
 initial_radius = 0.077
 zoom_factor = 0.75
@@ -57,7 +42,6 @@ scale = Vector2(0.25, 0.25)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -76,12 +60,7 @@ alignment = 1
 [node name="CreatureCard" parent="UI/MarginContainer/HBoxContainer/LeftSideUI" instance=ExtResource("2_tlwt5")]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="NegativeSpace" type="Panel" parent="UI/MarginContainer/HBoxContainer/LeftSideUI"]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 10.0
-theme_override_styles/panel = SubResource("StyleBoxEmpty_tlwt5")
+size_flags_vertical = 2
 
 [node name="ShopPanel" parent="UI/MarginContainer/HBoxContainer/LeftSideUI" instance=ExtResource("3_aqk2v")]
 unique_name_in_owner = true
@@ -112,9 +91,10 @@ texture = ExtResource("8_4mrxx")
 expand_mode = 3
 
 [node name="NextLoopButton" type="Button" parent="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
-text = "Next Loop"
+text = "Run Loop"
 
 [node name="ScoreContainer" type="CenterContainer" parent="UI/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -143,6 +123,51 @@ layout_mode = 2
 size_flags_vertical = 0
 text = "add new creature"
 
+[node name="Defeat" type="ColorRect" parent="UI"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.114897, 0.114897, 0.114897, 0.717647)
+metadata/_edit_use_anchors_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/Defeat"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Defeat/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Defeat/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 0.65098, 0.00784314, 1)
+theme_override_font_sizes/font_size = 110
+text = "DEFEAT"
+horizontal_alignment = 1
+
+[node name="Retry" type="Button" parent="UI/Defeat/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"FlatButton"
+text = "try again"
+
+[node name="Exit" type="Button" parent="UI/Defeat/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Exit"
+
 [node name="SFX_Player" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
 
@@ -151,3 +176,5 @@ bus = &"SFX"
 [connection signal="item_hovered" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_item_hovered"]
 [connection signal="rerolled" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_rerolled"]
 [connection signal="pressed" from="UI/MarginContainer/HBoxContainer/LeftSideUI/VBoxContainer/NextLoopButton" to="." method="_on_next_loop_button_pressed"]
+[connection signal="pressed" from="UI/Defeat/CenterContainer/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="UI/Defeat/CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

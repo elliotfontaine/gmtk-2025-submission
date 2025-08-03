@@ -1,0 +1,14 @@
+[gd_resource type="AudioStreamSynchronized" load_steps=4 format=3 uid="uid://5be1mr2mtmhi"]
+
+[ext_resource type="AudioStream" uid="uid://djqij3cp0o1a1" path="res://assets/audio/music/bgm_always_on.mp3" id="1_pj7l6"]
+[ext_resource type="AudioStream" uid="uid://bvvlkmbq3engv" path="res://assets/audio/music/bgm_calm.mp3" id="2_btott"]
+[ext_resource type="AudioStream" uid="uid://bny2tpgmnvtdw" path="res://assets/audio/music/bgm_action.mp3" id="3_s2i6u"]
+
+[resource]
+stream_count = 3
+stream_0/stream = ExtResource("1_pj7l6")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("2_btott")
+stream_1/volume = 0.0
+stream_2/stream = ExtResource("3_s2i6u")
+stream_2/volume = -30.0
