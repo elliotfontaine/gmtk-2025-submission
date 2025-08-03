@@ -5,9 +5,9 @@ const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
 
 ##change this value to dictate the creature size you want:
-@export var initial_radius :float = 1.0/13
+const initial_radius :float = 1.0/13
 ##change this value to dictate how much space the loop should take:
-@export var zoom_factor :float = 0.7
+const zoom_factor :float = 0.7
 const base_creature_distance: int = 60
 
 @onready var camera: Camera2D = %Camera2D
@@ -529,7 +529,7 @@ func next_level():
 	update_score_display()
 	
 	shop_panel.level = level
-	reroll_price = 30
+	reroll_price = 10
 	shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
 	shop_panel.populate_shop()
 
