@@ -1,5 +1,7 @@
 extends Node2D
 @export var sfx_next_loop: AudioStream
+@export var sfx_suicide: AudioStream
+@export var sfx_no_action: AudioStream
 
 const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
@@ -152,6 +154,8 @@ func do_action(creature:Creature) -> void:
 			if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
 				await duplicate_creature(creature)
 				score_current += creature.species.score_reward_1
+			else:
+				do_no_action()
 		##bunbun eats a plant then duplicates, if no plant, suicides
 		Constants.SPECIES.BUNNY:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
@@ -170,12 +174,16 @@ func do_action(creature:Creature) -> void:
 				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+			else:
+				do_no_action()
 		## hedgehog eats a plant. and cannot be eaten! (see exception in eat method)
 		Constants.SPECIES.HEDGEHOG:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
 				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+			else:
+				do_no_action()
 		##chimkin consumes an insect, if succesful creates an egg
 		Constants.SPECIES.CHICKEN:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.TINY]):
@@ -183,6 +191,8 @@ func do_action(creature:Creature) -> void:
 					await update_creature_positions()
 					await get_tree().create_timer(game_speed).timeout
 					create(creature,Constants.SPECIES.EGG)
+			else:
+				do_no_action()
 		##songbird eats an insect in a bigger range, if succesful he creates an egg and places it far away
 		Constants.SPECIES.SONGBIRD:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.TINY]):
@@ -190,13 +200,19 @@ func do_action(creature:Creature) -> void:
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
 				create(creature,Constants.SPECIES.EGG,3)
+			else:
+				do_no_action()
 		##lynx eats both of its neighbours if possible :3 yum
 		Constants.SPECIES.LYNX:
+			var eaten: bool
 			for neighbour in get_neighbours_in_range(creature,creature.current_range):
 				if await attempt_to_eat_target(creature, neighbour, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
 					score_current += creature.species.score_reward_1
+					eaten = true
 					await get_tree().create_timer(game_speed).timeout
 					await update_creature_positions()
+			if !eaten:
+				do_no_action()
 		##wolf is the basic medium generator, but may also be all-ined on to maximum its "pack" flavor bonus
 		Constants.SPECIES.WOLF:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
@@ -206,12 +222,16 @@ func do_action(creature:Creature) -> void:
 				await get_tree().create_timer(game_speed).timeout
 				if not check_neighbours_species(creature, creature.current_range, [Constants.SPECIES.WOLF]):
 					await duplicate_creature(creature)
+			else:
+				do_no_action()
 		##tiger is the basic large predator - eats a medium dude in 2 range
 		Constants.SPECIES.TIGER:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.MEDIUM]):
 				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
+			else:
+				do_no_action()
 		Constants.SPECIES.ANT:
 			score_current += creature.species.score_reward_1 * count_how_many_connected(creature,creature.species.id)
 	
@@ -360,6 +380,8 @@ func do_eat(who:Creature,target:Creature) -> void:
 func suicide(who: Creature) -> void:
 	iterator -= 1
 	remove(who)
+	sfx_player.stream = sfx_suicide
+	sfx_player.play()
 
 #endregion
 
@@ -627,3 +649,7 @@ func _on_retry_pressed() -> void:
 
 func _on_exit_pressed() -> void:
 	SceneChanger.change_to(SceneChanger.MainScenes.MAIN)
+
+func do_no_action():
+	sfx_player.stream = sfx_no_action
+	sfx_player.play()
