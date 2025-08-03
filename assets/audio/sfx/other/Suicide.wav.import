@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dm5knn6xtsp0n"
-path="res://.godot/imported/Click.wav-39e53c3baabadd44b05d16b94c57b6e2.sample"
+uid="uid://bnsaxyysdda1x"
+path="res://.godot/imported/Suicide.wav-b18710087c3b8226318c8d54be3d2166.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/Click.wav"
-dest_files=["res://.godot/imported/Click.wav-39e53c3baabadd44b05d16b94c57b6e2.sample"]
+source_file="res://assets/audio/sfx/other/Suicide.wav"
+dest_files=["res://.godot/imported/Suicide.wav-b18710087c3b8226318c8d54be3d2166.sample"]
 
 [params]
 

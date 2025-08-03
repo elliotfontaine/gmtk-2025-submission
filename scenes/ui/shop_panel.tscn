@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://d288g7tvym65q"]
+[gd_scene load_steps=12 format=3 uid="uid://d288g7tvym65q"]
 
 [ext_resource type="Script" uid="uid://ilbv0ktx5rak" path="res://scenes/ui/shop_panel.gd" id="1_sblsc"]
 [ext_resource type="PackedScene" uid="uid://bjl76cq3iw1n" path="res://scenes/ui/shop_item.tscn" id="1_wxg4i"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="3_g0um3"]
-[ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/Click.wav" id="3_qecyp"]
+[ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="3_qecyp"]
+[ext_resource type="Script" uid="uid://csi3rjnr5grfn" path="res://audio/sound_button.gd" id="4_0hpsf"]
 [ext_resource type="Resource" uid="uid://bv7rjfjcip4er" path="res://resources/species/egg.tres" id="4_j21la"]
 [ext_resource type="Resource" uid="uid://bwp55ptwbdoor" path="res://resources/species/bunny.tres" id="4_sjk1b"]
 [ext_resource type="Resource" uid="uid://twyq25kbklef" path="res://resources/species/worm.tres" id="6_qeixu"]
@@ -18,7 +19,6 @@ script = ExtResource("1_sblsc")
 [node name="SFX_Click" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_qecyp")
-volume_db = -12.0
 bus = &"SFX"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -45,6 +45,9 @@ theme_override_constants/icon_max_width = 28
 text = "REROLL:  10"
 icon = ExtResource("3_g0um3")
 icon_alignment = 2
+script = ExtResource("4_0hpsf")
+click_sound = ExtResource("3_qecyp")
+metadata/_custom_type_script = "uid://csi3rjnr5grfn"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
