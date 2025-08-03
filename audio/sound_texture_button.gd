@@ -6,6 +6,7 @@ class_name SoundTextureButton
 
 func _ready():
 	connect("pressed", Callable(self, "_on_pressed"))
+	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
 func _on_pressed():
 	if click_sound:

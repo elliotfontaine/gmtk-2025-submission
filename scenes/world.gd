@@ -12,7 +12,6 @@ const base_creature_distance: int = 60
 
 const reroll_base_price: int = 10
 const base_income: int = 50
-const final_level: int = 20
 
 @export_category(&"Gameplay")
 @export var final_level: int = 20
