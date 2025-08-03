@@ -129,7 +129,7 @@ func _on_next_loop_button_pressed() -> void:
 			toggle_loop_button_text(true)
 			shop_panel.modulate = Color.WHITE
 			currently_looping = false
-			money += base_income + level
+			money += base_income + (level*2)
 			next_level()
 		else:
 			defeat()
