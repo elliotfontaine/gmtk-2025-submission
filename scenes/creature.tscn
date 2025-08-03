@@ -8,6 +8,21 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_bvms0"]
 radius = 180.0
 
+[sub_resource type="Animation" id="Animation_rl551"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -280)]
+}
+
 [sub_resource type="Animation" id="Animation_7obff"]
 resource_name = "idle"
 length = 2.0
@@ -26,25 +41,25 @@ tracks/0/keys = {
 "values": [Vector2(0, -280), Vector2(0, -240)]
 }
 
-[sub_resource type="Animation" id="Animation_rl551"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rl551"]
+_data = {
+&"RESET": SubResource("Animation_rl551"),
+&"idle": SubResource("Animation_7obff")
+}
+
+[sub_resource type="Animation" id="Animation_3ge22"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Arrow:position")
+tracks/0/path = NodePath("Sprite2D:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, -280)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_rl551"]
-_data = {
-&"RESET": SubResource("Animation_rl551"),
-&"idle": SubResource("Animation_7obff")
+"values": [Vector2(0.8, 0.8)]
 }
 
 [sub_resource type="Animation" id="Animation_2b8l4"]
@@ -61,21 +76,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(2, 0.5, 1),
 "update": 0,
 "values": [Vector2(0.8, 0.8), Vector2(0.8, 0.7), Vector2(0.8, 0.8)]
-}
-
-[sub_resource type="Animation" id="Animation_3ge22"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0.8, 0.8)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3c2ov"]
