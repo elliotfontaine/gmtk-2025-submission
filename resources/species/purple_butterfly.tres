@@ -1,6 +1,8 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://4poc24i3gor2"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=5 format=3 uid="uid://4poc24i3gor2"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_t3i4h"]
+[ext_resource type="AudioStream" uid="uid://e0wjpfefy8bl" path="res://assets/audio/sfx/placed/ButterflyPlaced.wav" id="2_dk7om"]
+[ext_resource type="AudioStream" uid="uid://dtbt8hr4g5x3b" path="res://assets/audio/sfx/eat/eat_hi.wav" id="2_dokj1"]
 [ext_resource type="Texture2D" uid="uid://c7vd42ge5yum5" path="res://assets/sprites/creatures/purple_butterfly.png" id="2_pcivo"]
 
 [resource]
@@ -18,4 +20,6 @@ score_reward_2 = 0
 money_reward_1 = 0
 money_reward_2 = 0
 base_price = 1
+sfx_placed = ExtResource("2_dk7om")
+sfx_eat = ExtResource("2_dokj1")
 metadata/_custom_type_script = "uid://mow41h46xu2s"

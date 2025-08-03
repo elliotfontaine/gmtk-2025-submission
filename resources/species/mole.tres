@@ -1,7 +1,9 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=3 format=3 uid="uid://cojsgmm6yoiww"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=5 format=3 uid="uid://cojsgmm6yoiww"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_gxx6k"]
 [ext_resource type="Texture2D" uid="uid://bwjmpumrvbqm4" path="res://assets/sprites/creatures/mole.png" id="2_3nfw5"]
+[ext_resource type="AudioStream" uid="uid://dvt8ipe4lww0m" path="res://assets/audio/sfx/eat/eat_med.wav" id="2_x5s0s"]
+[ext_resource type="AudioStream" uid="uid://vxxqgvckbkb1" path="res://assets/audio/sfx/placed/MolePlaced.wav" id="3_tkdnr"]
 
 [resource]
 script = ExtResource("1_gxx6k")
@@ -18,4 +20,6 @@ score_reward_2 = 0
 money_reward_1 = 0
 money_reward_2 = 0
 base_price = 1
+sfx_placed = ExtResource("3_tkdnr")
+sfx_eat = ExtResource("2_x5s0s")
 metadata/_custom_type_script = "uid://mow41h46xu2s"
