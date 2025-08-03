@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="SpeciesResource" load_steps=4 format=3 uid="uid://d0md786intacq"]
+[gd_resource type="Resource" script_class="SpeciesResource" load_steps=5 format=3 uid="uid://d0md786intacq"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_ekxkp"]
 [ext_resource type="AudioStream" uid="uid://1ofi1k2qvqyq" path="res://assets/audio/sfx/placed/BeePlaced.wav" id="2_0wroy"]
 [ext_resource type="Texture2D" uid="uid://bkbhl7vsgf12k" path="res://assets/sprites/creatures/bee.png" id="2_eq1e0"]
+[ext_resource type="AudioStream" uid="uid://dtbt8hr4g5x3b" path="res://assets/audio/sfx/eat/eat_hi.wav" id="2_sklku"]
 
 [resource]
 script = ExtResource("1_ekxkp")
@@ -20,4 +21,5 @@ money_reward_1 = 0
 money_reward_2 = 0
 base_price = 1
 sfx_placed = ExtResource("2_0wroy")
+sfx_eat = ExtResource("2_sklku")
 metadata/_custom_type_script = "uid://mow41h46xu2s"
