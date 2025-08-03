@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://tcckc601ceki"]
+[gd_scene load_steps=14 format=3 uid="uid://tcckc601ceki"]
 
 [ext_resource type="Script" uid="uid://bg8gi7qa4s4qq" path="res://scenes/world.gd" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://bxhthg1im0w32" path="res://scenes/floating_creature.tscn" id="2_036b0"]
@@ -12,6 +12,8 @@
 [ext_resource type="AudioStream" uid="uid://dm5knn6xtsp0n" path="res://assets/audio/sfx/buttons/Click.wav" id="5_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://t4yejuuqutgx" path="res://assets/sprites/ui/money.png" id="8_4mrxx"]
 [ext_resource type="Script" path="res://audio/sound_button.gd" id="10_e3hyu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q5onr"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -52,6 +54,33 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 metadata/_edit_lock_ = true
+
+[node name="HBoxTutorial" type="HBoxContainer" parent="UI/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BlankSpace" type="Panel" parent="UI/MarginContainer/HBoxTutorial"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_q5onr")
+
+[node name="LabelTutorial" type="Label" parent="UI/MarginContainer/HBoxTutorial"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "CLICK ON ORGANISMS IN THE SHOP, THEN CLICK IN THE CENTER 
+OF THE SCREEN TO DROP THEM INTO YOUR CIRCLE.
+
+AFTERWARDS, PRESS RUN LOOP!
+
+YOUR CREATURES TAKE THEIR ACTIONS ONE BY ONE AND
+RELY ON ONE ANOTHER TO THRIVE.
+
+THINK CAREFULLY ABOUT THEIR PLACEMENT, ORDER MATTERS!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/MarginContainer"]
 layout_mode = 2

@@ -32,6 +32,7 @@ const final_level: int = 20
 @onready var victory_ui: Control = %VictoryScreen
 @onready var victory_loop_label: Label = %VictoryLoopLabel
 @onready var label_loop: Label = %LabelLoop
+@onready var h_box_tutorial: HBoxContainer = %HBoxTutorial
 
 ##placeholder system: length of wait times 
 const game_speeds: Array[float] = [0.8, 0.6, 0.4, 0.2]
@@ -68,6 +69,7 @@ func _ready() -> void:
 
 ##to call whenever you affect the number of creatures in the loop 
 func update_creature_positions(show_empty_slots: bool = false) -> void:
+	h_box_tutorial.hide()
 	for slot in empty_slots:
 		slot.queue_free()
 	empty_slots.clear()
