@@ -27,7 +27,7 @@ config/name="The Circle of Life"
 config/description="Grow and balance the perfect ecosystem."
 run/main_scene="uid://cjpe1y1myvqbb"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://s68xm1tdvjvd"
 
 [audio]
 
