@@ -7,6 +7,12 @@
 export.cfg
 export_credentials.cfg
 
+# Exports
+export/web
+export/macos
+export/linux
+export/windows
+
 # Imported translations (automatically generated from CSV files)
 *.translation
 
