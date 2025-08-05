@@ -23,7 +23,7 @@ resources_spreadsheet_view/freeze_first_column=true
 
 [application]
 
-config/name="The Circle of Life"
+config/name="Circle of Life"
 config/description="Grow and balance the perfect ecosystem."
 run/main_scene="uid://cjpe1y1myvqbb"
 config/features=PackedStringArray("4.4", "GL Compatibility")
