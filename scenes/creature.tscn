@@ -93,6 +93,9 @@ scale = Vector2(0.8, 0.8)
 texture = ExtResource("2_rl551")
 
 [node name="Area2D" type="Area2D" parent="Sprite2D"]
+collision_mask = 0
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
 shape = SubResource("CircleShape2D_bvms0")
@@ -109,7 +112,8 @@ text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SFX_Player" type="AudioStreamPlayer2D" parent="."]
+[node name="SFX_Player" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 visible = false
@@ -135,6 +139,5 @@ libraries = {
 &"": SubResource("AnimationLibrary_3c2ov")
 }
 
-[connection signal="area_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="mouse_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_exited"]

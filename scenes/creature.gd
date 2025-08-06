@@ -4,7 +4,7 @@ signal mouse_entered
 signal mouse_exited
 
 @onready var tween_pos :Tween
-@onready var _sfx_player: AudioStreamPlayer2D = $SFX_Player
+@onready var _sfx_player: AudioStreamPlayer = $SFX_Player
 @onready var arrow: Sprite2D = %Arrow
 @onready var animation_player_bop: AnimationPlayer = %AnimationPlayerBop
 
