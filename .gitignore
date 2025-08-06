@@ -12,6 +12,7 @@ export/web
 export/macos
 export/linux
 export/windows
+export/android
 
 # Imported translations (automatically generated from CSV files)
 *.translation
