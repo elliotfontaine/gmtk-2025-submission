@@ -38,6 +38,7 @@ buses/default_bus_layout="res://audio/default_bus_layout.tres"
 [autoload]
 
 SceneChanger="*res://autoloads/scene_changer.tscn"
+CursorManager="*res://autoloads/cursor_manager.gd"
 
 [display]
 
