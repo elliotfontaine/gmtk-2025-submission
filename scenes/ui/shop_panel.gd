@@ -34,7 +34,7 @@ func _on_item_hovered(item: ShopItem) -> void:
 	if not item.sold:
 		item_hovered.emit(item.species)
 
-func _on_item_exited(item: ShopItem) -> void:
+func _on_item_exited() -> void:
 	item_exited.emit()
 
 func _on_item_pressed(item: ShopItem) -> void:
@@ -79,7 +79,7 @@ func create_new_shop_item(id: int) -> void:
 	new_item.price = int((base_price + base_price * (level / 20.0)) * randf_range(0.85, 1.15))
 	add_shop_item(new_item)
 	new_item.mouse_entered.connect(_on_item_hovered.bind(new_item))
-	new_item.mouse_exited.connect(_on_item_exited.bind(new_item))
+	new_item.mouse_exited.connect(_on_item_exited)
 	new_item.pressed.connect(_on_item_pressed.bind(new_item))
 
 func populate_creative_shop() -> void:
@@ -120,7 +120,7 @@ func populate_shop() -> void:
 func get_species_by_rarity(rarity: Array[Constants.RARITIES], amount: int = 0) -> Array[Constants.SPECIES]:
 	var queried_species: Array[Constants.SPECIES]
 	
-	for specie: Constants.SPECIES in Constants.SPECIES.size():
+	for specie: Constants.SPECIES in Constants.SPECIES.values():
 		if Constants.get_species_by_id(specie).rarity in rarity:
 			queried_species.append(specie)
 	
