@@ -65,6 +65,7 @@ var currently_looping: bool = false
 
 var money: int = 50:
 	set(val):
+		assert(val >= 0)
 		money = val
 		currency_count.text = str(money)
 
@@ -722,7 +723,7 @@ func unset_floating_creature() -> void:
 
 func _on_shop_panel_floating_creature_asked(item: ShopItem) -> void:
 	if not currently_looping:
-		if money > item.price:
+		if money >= item.price:
 			current_held_item = item
 			current_item_price = item.price
 			set_floating_creature(item.species)
@@ -754,11 +755,11 @@ var reroll_price: int = reroll_base_price
 
 func _on_shop_panel_rerolled() -> void:
 	if not currently_looping:
-		if money > reroll_price:
+		if money >= reroll_price:
 			money -= reroll_price
 			shop_panel.do_reroll()
 			
-			reroll_price += (reroll_price / 5)
+			reroll_price = int(reroll_price * 1.2)
 			shop_panel.re_roll.text = "REROLL:" + str(reroll_price)
 
 #endregion
