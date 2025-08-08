@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="SpeciesResource" load_steps=5 format=3 uid="uid://nbxne507vtar"]
 
 [ext_resource type="Script" uid="uid://mow41h46xu2s" path="res://resources/_base_classes/species_resource.gd" id="1_mylwq"]
-[ext_resource type="Texture2D" uid="uid://dpbdl0v86liqx" path="res://assets/sprites/creatures/hedgehog.png" id="2_mylwq"]
+[ext_resource type="Texture2D" uid="uid://rqdd1plv2vbu" path="res://assets/sprites/creatures/hedgehog.png" id="2_mylwq"]
 [ext_resource type="AudioStream" uid="uid://deegnhxh2f58n" path="res://assets/audio/sfx/placed/HedgehogPlaced.wav" id="2_ofaf3"]
 [ext_resource type="AudioStream" uid="uid://dtbt8hr4g5x3b" path="res://assets/audio/sfx/eat/eat_hi.wav" id="2_y15g6"]
 
@@ -14,7 +14,7 @@ rarity = 2
 title = "Hedgehog"
 texture = ExtResource("2_mylwq")
 default_range = 1
-effect_text = "If small plant in range: eat it and score 3 [img={20, 20}]res://assets/sprites/ui/trophy.svg[/img].
+effect_text = "If small plant in range: eat it and score 3 [img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img].
 Cannot be eaten."
 score_reward_1 = 3
 score_reward_2 = 0
