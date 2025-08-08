@@ -1,6 +1,5 @@
 @tool
-extends Control
-class_name ShopItem
+class_name ShopItem extends Control
 
 const no_bg = preload("res://assets/sprites/ui/creature_background.png")
 const common_bg = preload("res://assets/sprites/ui/rarity_common.png")

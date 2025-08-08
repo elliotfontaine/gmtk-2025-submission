@@ -734,7 +734,7 @@ func _on_slot_pressed(index: int) -> void:
 	if not currently_looping:
 		if floating_creature.species != null:
 			money -= current_item_price
-			if current_held_item:
+			if current_held_item and not shop_panel.creative:
 				current_held_item.sold = true
 				print(current_held_item.sold)
 			add_creature(1, floating_creature.species.id, index, empty_slots[index - 1].position)

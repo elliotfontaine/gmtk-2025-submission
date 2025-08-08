@@ -1,5 +1,4 @@
-extends PanelContainer
-class_name ShopPanel
+class_name ShopPanel extends PanelContainer
 
 signal floating_creature_asked(item: ShopItem)
 signal item_hovered(species: SpeciesResource)
@@ -8,8 +7,6 @@ signal rerolled
 
 ## Creative for the shop means you can add any registered creature for free
 @export var creative: bool = false
-## Should the creature count stop at the 6 first instead of all registered
-@export var stop_at_six: bool = false
 
 @onready var grid_container := %GridContainer
 @onready var sfx_click: AudioStreamPlayer = %SFX_Click
@@ -19,15 +16,6 @@ const ITEM_SCENE := preload("res://scenes/ui/shop_item.tscn")
 
 var level: int
 
-func _ready() -> void:
-	if creative:
-		clear_items()
-		populate_creative_shop()
-	else:
-		pass # World will trigger shop populating
-		#populate_shop()
-		# TODO: iDK, I guess maybe it should me managed by the World Scene, since
-		# it's gonna fill it mutiple times.
 
 func _on_item_hovered(item: ShopItem) -> void:
 	# TODO: show "- Price" after currency count
@@ -48,76 +36,84 @@ func _on_re_roll_pressed() -> void:
 func do_reroll() -> void:
 	populate_shop()
 
-func add_shop_item(shop_item: Control) -> void:
-	grid_container.add_child(shop_item)
+func populate_shop() -> void:
+	clear_items()
+	var species_list: Array[Constants.SPECIES] = generate_species_list()
+	for id in species_list:
+		add_shop_item(generate_item_from_species_id(id))
 
-func get_shop_items() -> Array[Node]:
-	return grid_container.get_children()
+func add_shop_item(shop_item: ShopItem) -> void:
+	grid_container.add_child(shop_item)
+	shop_item.mouse_entered.connect(_on_item_hovered.bind(shop_item))
+	shop_item.mouse_exited.connect(_on_item_exited)
+	shop_item.pressed.connect(_on_item_pressed.bind(shop_item))
+
+func get_shop_items() -> Array[ShopItem]:
+	var items: Array[ShopItem]
+	items.assign(grid_container.get_children())
+	return items
 
 func clear_items() -> void:
-	print_debug("clear")
-	for item: ShopItem in grid_container.get_children():
+	for item: ShopItem in get_shop_items():
 		grid_container.remove_child(item)
 		item.queue_free()
 
-func create_new_shop_item(id: int) -> void:
-	var species: SpeciesResource = Constants.get_species_by_id(id)
-	var new_item: Control = ITEM_SCENE.instantiate()
+func generate_item_from_species_id(species_id: int) -> ShopItem:
+	var species: SpeciesResource = Constants.get_species_by_id(species_id)
+	var new_item: ShopItem = ITEM_SCENE.instantiate()
 	new_item.species = species
-	var base_price: int = 10
-	match new_item.species.rarity:
-		Constants.RARITIES.COMMON:
-			base_price = 20
-		Constants.RARITIES.UNCOMMON:
-			base_price = 28
-		Constants.RARITIES.RARE:
-			base_price = 36
-		Constants.RARITIES.EPIC:
-			base_price = 44
-		#Constants.RARITIES.LEGENDARY:
-			#base_price = 40
-	new_item.price = int((base_price + base_price * (level / 20.0)) * randf_range(0.85, 1.15))
-	add_shop_item(new_item)
-	new_item.mouse_entered.connect(_on_item_hovered.bind(new_item))
-	new_item.mouse_exited.connect(_on_item_exited)
-	new_item.pressed.connect(_on_item_pressed.bind(new_item))
-
-func populate_creative_shop() -> void:
-	print_debug("populate in debug mode")
-	for id in Constants.SPECIES.values():
-		if stop_at_six and get_shop_items().size() >= 6:
-			break
-		create_new_shop_item(id)
-
-func populate_shop() -> void:
-	clear_items()
-	var shop_items: Array[Constants.SPECIES]
-	
-	if level == 1:
-		re_roll.hide()
-		shop_items = [Constants.SPECIES.GRASS]
-	elif level == 2:
-		shop_items = [Constants.SPECIES.BUNNY]
-	elif level <= 3:
-		re_roll.show()
-		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON], 6)
-	elif level <= 5:
-		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON], 5) + get_species_by_rarity([Constants.RARITIES.UNCOMMON], 1)
-	elif level <= 6:
-		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON], 4) + get_species_by_rarity([Constants.RARITIES.UNCOMMON], 1) + get_species_by_rarity([Constants.RARITIES.RARE], 1)
-	elif level <= 8:
-		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON], 3) + get_species_by_rarity([Constants.RARITIES.UNCOMMON], 2) + get_species_by_rarity([Constants.RARITIES.RARE], 1)
-	elif level <= 10:
-		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON], 2) + get_species_by_rarity([Constants.RARITIES.UNCOMMON], 2) + get_species_by_rarity([Constants.RARITIES.RARE], 2)
+	if creative:
+		new_item.price = 0
 	else:
-		shop_items = get_species_by_rarity([Constants.RARITIES.COMMON], 2) + get_species_by_rarity([Constants.RARITIES.UNCOMMON], 2) + get_species_by_rarity([Constants.RARITIES.RARE], 2)
+		var base_price: int
+		match new_item.species.rarity:
+			Constants.RARITIES.COMMON:
+				base_price = 20
+			Constants.RARITIES.UNCOMMON:
+				base_price = 28
+			Constants.RARITIES.RARE:
+				base_price = 36
+			Constants.RARITIES.EPIC:
+				base_price = 44
+			#Constants.RARITIES.LEGENDARY:
+				#base_price = 40
+			_:
+				base_price = 0
+		new_item.price = int((base_price + base_price * (level / 20.0)) * randf_range(0.85, 1.15))
+	return new_item
+
+func generate_species_list() -> Array[Constants.SPECIES]:
+	var species_list: Array[Constants.SPECIES]
 	
-	shop_items.shuffle()
-	for id in shop_items:
-		create_new_shop_item(id)
+	if creative:
+		species_list.assign(Constants.SPECIES.values()) # assign to avoid static typing issue (bug?)
+		return species_list
+	
+	match level:
+		1:
+			re_roll.hide()
+			species_list = [Constants.SPECIES.GRASS]
+		2:
+			species_list = [Constants.SPECIES.BUNNY]
+		3:
+			re_roll.show()
+			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 6)
+		4, 5:
+			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 5) + pick_species_by_rarity([Constants.RARITIES.UNCOMMON], 1)
+		6:
+			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 4) + pick_species_by_rarity([Constants.RARITIES.UNCOMMON], 1) + pick_species_by_rarity([Constants.RARITIES.RARE], 1)
+		7, 8:
+			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 3) + pick_species_by_rarity([Constants.RARITIES.UNCOMMON], 2) + pick_species_by_rarity([Constants.RARITIES.RARE], 1)
+		9, 10:
+			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 2) + pick_species_by_rarity([Constants.RARITIES.UNCOMMON], 2) + pick_species_by_rarity([Constants.RARITIES.RARE], 2)
+		_:
+			print("WHAT")
+			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 2) + pick_species_by_rarity([Constants.RARITIES.UNCOMMON], 2) + pick_species_by_rarity([Constants.RARITIES.RARE], 2)
+	
+	species_list.shuffle()
+	return species_list
 
-
-func get_species_by_rarity(rarity: Array[Constants.RARITIES], amount: int = 0) -> Array[Constants.SPECIES]:
+func pick_species_by_rarity(rarity: Array[Constants.RARITIES], amount: int = 0) -> Array[Constants.SPECIES]:
 	var queried_species: Array[Constants.SPECIES]
 	
 	for specie: Constants.SPECIES in Constants.SPECIES.values():
