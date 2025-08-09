@@ -49,7 +49,7 @@ var style := Style.HIDDEN:
 				visible = false
 			Style.VISIBLE_COMPACT, Style.VISIBLE_DETAILED:
 				visible = true
-				frame_number.visible = style == Style.VISIBLE_DETAILED
+				$DebugMenu/VBoxContainer/FrameNumberLine.visible = style == Style.VISIBLE_DETAILED
 				$DebugMenu/VBoxContainer/FrameTimeHistory.visible = style == Style.VISIBLE_DETAILED
 				$DebugMenu/VBoxContainer/FPSGraph.visible = style == Style.VISIBLE_DETAILED
 				$DebugMenu/VBoxContainer/TotalGraph.visible = style == Style.VISIBLE_DETAILED
@@ -458,7 +458,7 @@ func _process(_delta: float) -> void:
 			if not vsync_string.is_empty():
 				frame_time.text += " (" + vsync_string + ")"
 
-		frame_number.text = "Frame: " + str(Engine.get_frames_drawn())
+		frame_number.text = str(Engine.get_frames_drawn())
 
 	last_tick = Time.get_ticks_usec()
 

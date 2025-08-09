@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cggqb75a8w8r"]
 
-[ext_resource type="Script" path="res://addons/debug_menu/debug_menu.gd" id="1_p440y"]
+[ext_resource type="Script" uid="uid://3i847dofthcc" path="res://addons/debug_menu/debug_menu.gd" id="1_p440y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ki0n8"]
 bg_color = Color(0, 0, 0, 0.25098)
@@ -10,7 +10,7 @@ layer = 128
 script = ExtResource("1_p440y")
 fps = NodePath("DebugMenu/VBoxContainer/FPS")
 frame_time = NodePath("DebugMenu/VBoxContainer/FrameTime")
-frame_number = NodePath("DebugMenu/VBoxContainer/FrameNumber")
+frame_number = NodePath("DebugMenu/VBoxContainer/FrameNumberLine/FrameNumber")
 frame_history_total_avg = NodePath("DebugMenu/VBoxContainer/FrameTimeHistory/TotalAvg")
 frame_history_total_min = NodePath("DebugMenu/VBoxContainer/FrameTimeHistory/TotalMin")
 frame_history_total_max = NodePath("DebugMenu/VBoxContainer/FrameTimeHistory/TotalMax")
@@ -59,36 +59,51 @@ theme_override_constants/separation = 0
 [node name="FPS" type="Label" parent="DebugMenu/VBoxContainer"]
 modulate = Color(0, 1, 0, 1)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 5
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/line_spacing = 0
-theme_override_font_sizes/font_size = 18
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 32
 text = "60 FPS"
 horizontal_alignment = 2
 
 [node name="FrameTime" type="Label" parent="DebugMenu/VBoxContainer"]
 modulate = Color(0, 1, 0, 1)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "16.67 mspf (cap: 123 FPS + Adaptive V-Sync)"
 horizontal_alignment = 2
 
-[node name="FrameNumber" type="Label" parent="DebugMenu/VBoxContainer"]
+[node name="FrameNumberLine" type="HBoxContainer" parent="DebugMenu/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="FrameNumberHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameNumberLine"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
-text = "Frame: 1234"
+theme_override_font_sizes/font_size = 26
+text = "Frame:"
+horizontal_alignment = 2
+
+[node name="FrameNumber" type="Label" parent="DebugMenu/VBoxContainer/FrameNumberLine"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 26
+text = "1234"
 horizontal_alignment = 2
 
 [node name="FrameTimeHistory" type="GridContainer" parent="DebugMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 mouse_filter = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
 columns = 5
 
 [node name="Spacer" type="Control" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
@@ -99,45 +114,45 @@ mouse_filter = 2
 [node name="AvgHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "Average"
 horizontal_alignment = 2
 
 [node name="MinHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "Best"
 horizontal_alignment = 2
 
 [node name="MaxHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "Worst"
 horizontal_alignment = 2
 
 [node name="LastHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "Last"
 horizontal_alignment = 2
 
 [node name="TotalHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "Total:"
 horizontal_alignment = 2
 
@@ -145,9 +160,9 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "123.45"
 horizontal_alignment = 2
 
@@ -155,9 +170,9 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "123.45"
 horizontal_alignment = 2
 
@@ -165,9 +180,9 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "123.45"
 horizontal_alignment = 2
 
@@ -175,18 +190,18 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "123.45"
 horizontal_alignment = 2
 
 [node name="CPUHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "CPU:"
 horizontal_alignment = 2
 
@@ -194,9 +209,9 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "123.45"
 horizontal_alignment = 2
 
@@ -204,9 +219,9 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "12.34"
 horizontal_alignment = 2
 
@@ -214,9 +229,9 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "123.45"
 horizontal_alignment = 2
 
@@ -224,18 +239,18 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "123.45"
 horizontal_alignment = 2
 
 [node name="GPUHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "GPU:"
 horizontal_alignment = 2
 
@@ -243,9 +258,9 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "123.45"
 horizontal_alignment = 2
 
@@ -253,9 +268,9 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "1.23"
 horizontal_alignment = 2
 
@@ -263,9 +278,9 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "123.45"
 horizontal_alignment = 2
 
@@ -273,9 +288,9 @@ horizontal_alignment = 2
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "123.45"
 horizontal_alignment = 2
 
@@ -288,9 +303,9 @@ alignment = 2
 custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "FPS: ↑"
 vertical_alignment = 1
 
@@ -310,9 +325,9 @@ alignment = 2
 custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "Total: ↓"
 vertical_alignment = 1
 
@@ -332,9 +347,9 @@ alignment = 2
 custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "CPU: ↓"
 vertical_alignment = 1
 
@@ -354,9 +369,9 @@ alignment = 2
 custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "GPU: ↓"
 vertical_alignment = 1
 
@@ -370,9 +385,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ki0n8")
 [node name="Information" type="Label" parent="DebugMenu/VBoxContainer"]
 modulate = Color(1, 1, 1, 0.752941)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "12th Gen Intel(R) Core(TM) i0-1234K
 Windows 12 64-bit (double precision), Vulkan 1.2.34
 NVIDIA GeForce RTX 1234, 123.45.67"
@@ -381,9 +396,9 @@ horizontal_alignment = 2
 [node name="Settings" type="Label" parent="DebugMenu/VBoxContainer"]
 modulate = Color(0.8, 0.84, 1, 0.752941)
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 26
 text = "Project Version: 1.2.3
 Rendering Method: Forward+
 Window: 1234×567, Viewport: 1234×567
