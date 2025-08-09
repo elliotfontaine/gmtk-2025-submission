@@ -39,6 +39,7 @@ buses/default_bus_layout="res://audio/default_bus_layout.tres"
 
 SceneChanger="*res://autoloads/scene_changer.tscn"
 CursorManager="*res://autoloads/cursor_manager.gd"
+DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
 [display]
 
@@ -49,12 +50,20 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/resources_spreadsheet_view/plugin.cfg")
+enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg")
 
 [gui]
 
 theme/custom="uid://ckb78edq3a5hf"
 theme/custom_font="uid://8c018rcht6qu"
+
+[input]
+
+cycle_debug_menu={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194334,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
 
 [rendering]
 
