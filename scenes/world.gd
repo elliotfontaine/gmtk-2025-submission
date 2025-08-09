@@ -334,6 +334,10 @@ func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL and to_be_eaten.species.size != Constants.SIZES.TINY:
 						if get_distance_between_two_creatures(creature, to_be_eaten) <= creature.current_range:
 							triggered_creatures.append(creature)
+				## ant duplicates if the eaten one is an adjacent ant
+				Constants.SPECIES.ANT:
+					if to_be_eaten.species.id == Constants.SPECIES.ANT and to_be_eaten in get_neighbours_in_range(creature, 1):
+						triggered_creatures.append(creature)
 				##crow makes points whenever an animal dies in its long long range:
 				Constants.SPECIES.CROW:
 					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL and to_be_eaten.species.size != Constants.SIZES.TINY:
@@ -357,6 +361,8 @@ func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 			Constants.SPECIES.WORM:
 				if not check_neighbours_species(creature, 1, [Constants.SPECIES.WORM]):
 					await duplicate_creature(creature)
+			Constants.SPECIES.ANT:
+				await duplicate_creature(creature)
 			Constants.SPECIES.CROW:
 				score_current += creature.species.score_reward_1
 				await get_tree().create_timer(game_speed / 2).timeout
