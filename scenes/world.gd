@@ -329,7 +329,7 @@ func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 		##actions for when something else is eaten:
 		if not creature == to_be_eaten:
 			match creature.species.id:
-				##worm duplicates whenever an animal dies in its long range if not already adjacent to a worm:
+				##worm duplicates whenever an animal dies in range:
 				Constants.SPECIES.WORM:
 					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL and to_be_eaten.species.size != Constants.SIZES.TINY:
 						if get_distance_between_two_creatures(creature, to_be_eaten) <= creature.current_range:
@@ -359,8 +359,7 @@ func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 	for creature in triggered_creatures:
 		match creature.species.id:
 			Constants.SPECIES.WORM:
-				if not check_neighbours_species(creature, 1, [Constants.SPECIES.WORM]):
-					await duplicate_creature(creature)
+				await duplicate_creature(creature)
 			Constants.SPECIES.ANT:
 				await duplicate_creature(creature)
 			Constants.SPECIES.CROW:
