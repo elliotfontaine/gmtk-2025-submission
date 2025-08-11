@@ -61,6 +61,7 @@ theme = SubResource("Theme_0agqf")
 theme_override_constants/separation = 3
 
 [node name="Range" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/MiddleLine"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 4
 
