@@ -36,8 +36,11 @@ const base_income: int = 50
 @onready var victory_ui: Control = %VictoryScreen
 @onready var victory_loop_label: Label = %VictoryLoopLabel
 @onready var label_loop: Label = %LabelLoop
+@onready var labelprevscore: Label = %Labelprevscore
 @onready var h_box_tutorial: HBoxContainer = %HBoxTutorial
 @onready var settings_menu: Control = %SettingsMenu
+@onready var animation_player_score_bar: AnimationPlayer = %AnimationPlayerScoreBar
+
 
 ##placeholder system: length of wait times 
 const game_speeds: Array[float] = [0.8, 0.4, 0.2, 0.1]
@@ -683,6 +686,11 @@ var score_current: int:
 
 func next_level():
 	level += 1
+	if score_current > 0:
+		labelprevscore.show()
+		labelprevscore.text = "previous score: " + str(score_current)
+	else:
+		labelprevscore.hide()
 	score_current = 0
 	score_target = level * 1 * maxi(level / 3.0, 1) + maxi(0, (level - 2) * 3)
 	progress_bar_score.max_value = score_target
@@ -695,7 +703,11 @@ func next_level():
 
 func update_score_display() -> void:
 	label_score.text = "SCORE: %s / %s" % [score_current, score_target]
-	progress_bar_score.value = score_current
+	progress_bar_score.value = score_current #would be nice to add some lerp to this
+	if score_current > score_target:
+		animation_player_score_bar.play("winning")
+	else:
+		animation_player_score_bar.play("RESET")
 
 #endregion
 
