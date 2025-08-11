@@ -39,7 +39,7 @@ func _set_species(sp: SpeciesResource) -> void:
 		%CreatureTitle.text = sp.title
 		%Size.text = Constants.size_strings[sp.size]
 		%Family.text = Constants.family_strings[sp.family]
-		%Effect.text = convert_text(sp.effect_text)
+		%Effect.text = enhance_text(sp.effect_text,sp)
 		if sp.default_range != 0:
 			%RangeValue.text = str(sp.default_range)
 			%RangeIcon.show()
@@ -51,7 +51,7 @@ func _set_species(sp: SpeciesResource) -> void:
 
 
 ##takes in description text and converts keywords into icons
-func convert_text(text:String) -> String:
+func enhance_text(text:String,sp:SpeciesResource=null) -> String:
 	if text == "":
 		return text
 	
@@ -65,6 +65,10 @@ func convert_text(text:String) -> String:
 		
 		if word == "trophies":
 			enhanced_text += "[img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img]"
+		elif word == "range":
+			if sp:
+				enhanced_text += str(sp.default_range)
+			enhanced_text += "[img={20, 20}]res://assets/sprites/ui/small_eye.png[/img]"
 		else:
 			enhanced_text += word
 		
