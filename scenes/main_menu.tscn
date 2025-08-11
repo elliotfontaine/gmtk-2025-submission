@@ -268,8 +268,6 @@ position = Vector2(320, 520)
 scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_68b7m")
 autoplay = "default"
-frame = 22
-frame_progress = 1.0
 script = ExtResource("9_jk1qb")
 
 [node name="GameTitle" type="TextureRect" parent="."]
