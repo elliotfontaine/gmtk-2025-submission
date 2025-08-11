@@ -77,6 +77,7 @@ horizontal_alignment = 2
 
 [node name="FrameNumberLine" type="HBoxContainer" parent="DebugMenu/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 2
 
@@ -112,7 +113,7 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="AvgHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
@@ -121,7 +122,7 @@ text = "Average"
 horizontal_alignment = 2
 
 [node name="MinHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
@@ -130,7 +131,7 @@ text = "Best"
 horizontal_alignment = 2
 
 [node name="MaxHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
@@ -139,7 +140,7 @@ text = "Worst"
 horizontal_alignment = 2
 
 [node name="LastHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 3
