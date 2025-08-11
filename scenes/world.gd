@@ -40,7 +40,7 @@ const base_income: int = 50
 @onready var settings_menu: Control = %SettingsMenu
 
 ##placeholder system: length of wait times 
-const game_speeds: Array[float] = [0.8, 0.6, 0.4, 0.2]
+const game_speeds: Array[float] = [0.8, 0.4, 0.2, 0.1]
 var game_speed: float = game_speeds[0]
 
 var creatures: Array[Creature]
@@ -196,11 +196,11 @@ func toggle_loop_button_text(active: bool) -> void:
 			game_speeds[0]:
 				next_loop_button.text = "x1"
 			game_speeds[1]:
-				next_loop_button.text = "x1.5"
-			game_speeds[2]:
 				next_loop_button.text = "x2"
-			game_speeds[3]:
+			game_speeds[2]:
 				next_loop_button.text = "x4"
+			game_speeds[3]:
+				next_loop_button.text = "x8"
 
 func win() -> void:
 	victory_loop_label.text = "Loop reached: %s" % [level]
@@ -316,6 +316,11 @@ func do_action(creature: Creature) -> void:
 					furthest_small_plant_in_range = neighbour
 			if furthest_small_plant_in_range:
 				pull_to_creature(creature, furthest_small_plant_in_range)
+		
+		##if creature doesn't do anything: skip right away instead of extra wait time
+		_:
+			return
+	
 	await get_tree().create_timer(game_speed).timeout
 	return
 
