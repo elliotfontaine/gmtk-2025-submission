@@ -40,7 +40,7 @@ const base_income: int = 50
 @onready var settings_menu: Control = %SettingsMenu
 
 ##placeholder system: length of wait times 
-const game_speeds: Array[float] = [0.8, 0.6, 0.4, 0.2]
+const game_speeds: Array[float] = [0.8, 0.4, 0.2, 0.1]
 var game_speed: float = game_speeds[0]
 
 var creatures: Array[Creature]
@@ -196,11 +196,11 @@ func toggle_loop_button_text(active: bool) -> void:
 			game_speeds[0]:
 				next_loop_button.text = "x1"
 			game_speeds[1]:
-				next_loop_button.text = "x1.5"
-			game_speeds[2]:
 				next_loop_button.text = "x2"
-			game_speeds[3]:
+			game_speeds[2]:
 				next_loop_button.text = "x4"
+			game_speeds[3]:
+				next_loop_button.text = "x8"
 
 func win() -> void:
 	victory_loop_label.text = "Loop reached: %s" % [level]
@@ -316,6 +316,11 @@ func do_action(creature: Creature) -> void:
 					furthest_small_plant_in_range = neighbour
 			if furthest_small_plant_in_range:
 				pull_to_creature(creature, furthest_small_plant_in_range)
+		
+		##if creature doesn't do anything: skip right away instead of extra wait time
+		_:
+			return
+	
 	await get_tree().create_timer(game_speed).timeout
 	return
 
@@ -329,7 +334,7 @@ func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 		##actions for when something else is eaten:
 		if not creature == to_be_eaten:
 			match creature.species.id:
-				##worm duplicates whenever an animal dies in range:
+				##worm duplicates whenever an animal dies in its long range if not already adjacent to a worm:
 				Constants.SPECIES.WORM:
 					if to_be_eaten.species.family == Constants.FAMILIES.ANIMAL and to_be_eaten.species.size != Constants.SIZES.TINY:
 						if get_distance_between_two_creatures(creature, to_be_eaten) <= creature.current_range:
@@ -359,7 +364,8 @@ func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 	for creature in triggered_creatures:
 		match creature.species.id:
 			Constants.SPECIES.WORM:
-				await duplicate_creature(creature)
+				if not check_neighbours_species(creature, 1, [Constants.SPECIES.WORM]):
+					await duplicate_creature(creature)
 			Constants.SPECIES.ANT:
 				await duplicate_creature(creature)
 			Constants.SPECIES.CROW:
