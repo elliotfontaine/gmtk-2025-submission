@@ -109,5 +109,6 @@ theme_override_font_sizes/bold_font_size = 20
 bbcode_enabled = true
 text = "Hover over a creature to view its information."
 scroll_active = false
-horizontal_alignment = 3
+horizontal_alignment = 1
+vertical_alignment = 1
 justification_flags = 35

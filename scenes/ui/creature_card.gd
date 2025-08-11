@@ -39,7 +39,7 @@ func _set_species(sp: SpeciesResource) -> void:
 		%CreatureTitle.text = sp.title
 		%Size.text = Constants.size_strings[sp.size]
 		%Family.text = Constants.family_strings[sp.family]
-		%Effect.text = sp.effect_text
+		%Effect.text = convert_text(sp.effect_text)
 		if sp.default_range != 0:
 			%RangeValue.text = str(sp.default_range)
 			%RangeIcon.show()
@@ -48,3 +48,29 @@ func _set_species(sp: SpeciesResource) -> void:
 			%RangeIcon.hide()
 		%CreatureTitle.show()
 		%MiddleLine.show()
+
+
+##takes in description text and converts keywords into icons
+func convert_text(text:String) -> String:
+	if text == "":
+		return text
+	
+	var enhanced_text :String = ""
+	
+	for word in text.split(" ",false):
+		var stored_puncuation :String
+		if word[-1] in [".", ",", "!", "?", ":", ";"]:
+			stored_puncuation = word[-1]
+			word = word.left(word.length() - 1)
+		
+		if word == "trophies":
+			enhanced_text += "[img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img]"
+		else:
+			enhanced_text += word
+		
+		if stored_puncuation:
+			enhanced_text += stored_puncuation
+		enhanced_text += " "
+	
+	
+	return enhanced_text
