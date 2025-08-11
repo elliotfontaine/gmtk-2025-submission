@@ -89,29 +89,59 @@ func generate_species_list() -> Array[Constants.SPECIES]:
 		species_list.assign(Constants.SPECIES.values()) # assign to avoid static typing issue (bug?)
 		return species_list
 	
+	var rarities_and_weights := {}
+	
 	match level:
 		1:
 			re_roll.hide()
-			species_list = [Constants.SPECIES.GRASS]
+			return [Constants.SPECIES.GRASS]
 		2:
-			species_list = [Constants.SPECIES.BUNNY]
+			return [Constants.SPECIES.BUNNY]
 		3:
 			re_roll.show()
-			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 6)
+			rarities_and_weights = {Constants.RARITIES.COMMON: 1.0}
 		4, 5:
-			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 5) + pick_species_by_rarity([Constants.RARITIES.UNCOMMON], 1)
+			rarities_and_weights = {Constants.RARITIES.COMMON: 0.80, Constants.RARITIES.UNCOMMON: 0.20}
 		6:
-			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 4) + pick_species_by_rarity([Constants.RARITIES.UNCOMMON], 1) + pick_species_by_rarity([Constants.RARITIES.RARE], 1)
+			rarities_and_weights = {Constants.RARITIES.COMMON: 0.70, Constants.RARITIES.UNCOMMON: 0.20, Constants.RARITIES.RARE: 0.10}
 		7, 8:
-			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 3) + pick_species_by_rarity([Constants.RARITIES.UNCOMMON], 2) + pick_species_by_rarity([Constants.RARITIES.RARE], 1)
+			rarities_and_weights = {Constants.RARITIES.COMMON: 0.55, Constants.RARITIES.UNCOMMON: 0.30, Constants.RARITIES.RARE: 0.15}
 		9, 10:
-			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 2) + pick_species_by_rarity([Constants.RARITIES.UNCOMMON], 2) + pick_species_by_rarity([Constants.RARITIES.RARE], 2)
+			rarities_and_weights = {Constants.RARITIES.COMMON: 0.50, Constants.RARITIES.UNCOMMON: 0.25, Constants.RARITIES.RARE: 0.25}
 		_:
-			print("WHAT")
-			species_list = pick_species_by_rarity([Constants.RARITIES.COMMON], 2) + pick_species_by_rarity([Constants.RARITIES.UNCOMMON], 2) + pick_species_by_rarity([Constants.RARITIES.RARE], 2)
+			rarities_and_weights = {Constants.RARITIES.COMMON: 0.50, Constants.RARITIES.UNCOMMON: 0.25, Constants.RARITIES.RARE: 0.25}
 	
+	species_list = pick_species_randomly(rarities_and_weights, 6)
 	species_list.shuffle()
 	return species_list
+
+##takes in a dictionary of weights associated to rarities, then rolls to pick one
+func pick_species_randomly(rarities_and_weights: Dictionary, amount: int) -> Array[Constants.SPECIES]:
+	var species_list: Array[Constants.SPECIES] = []
+	var rarities_dict := {}
+	
+	var cumulative_weights := []
+	var total_weight := 0.0
+
+	for rarity in rarities_and_weights.keys():
+		total_weight += rarities_and_weights[rarity]
+		cumulative_weights.append(total_weight)
+
+	for i in range(amount):
+		
+		var roll = randf() * total_weight
+		
+		for id in range(cumulative_weights.size()):
+			if roll <= cumulative_weights[id]:
+				var rarity = rarities_and_weights.keys()[id]
+				rarities_dict[rarity] = rarities_dict.get(rarity, 0) + 1
+				break
+
+	for rarity in rarities_dict.keys():
+		species_list.append_array(pick_species_by_rarity([rarity], rarities_dict[rarity]))
+
+	return species_list
+
 
 func pick_species_by_rarity(rarity: Array[Constants.RARITIES], amount: int = 0) -> Array[Constants.SPECIES]:
 	var queried_species: Array[Constants.SPECIES]
