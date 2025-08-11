@@ -36,6 +36,7 @@ const base_income: int = 50
 @onready var victory_ui: Control = %VictoryScreen
 @onready var victory_loop_label: Label = %VictoryLoopLabel
 @onready var label_loop: Label = %LabelLoop
+@onready var labelprevscore: Label = %Labelprevscore
 @onready var h_box_tutorial: HBoxContainer = %HBoxTutorial
 @onready var settings_menu: Control = %SettingsMenu
 
@@ -683,6 +684,11 @@ var score_current: int:
 
 func next_level():
 	level += 1
+	if score_current > 0:
+		labelprevscore.show()
+		labelprevscore.text = "previous score: " + str(score_current)
+	else:
+		labelprevscore.hide()
 	score_current = 0
 	score_target = level * 1 * maxi(level / 3.0, 1) + maxi(0, (level - 2) * 3)
 	progress_bar_score.max_value = score_target
