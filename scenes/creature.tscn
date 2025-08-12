@@ -1,12 +1,22 @@
-[gd_scene load_steps=12 format=3 uid="uid://cvcjduc4ty1ob"]
+[gd_scene load_steps=13 format=3 uid="uid://cvcjduc4ty1ob"]
 
 [ext_resource type="Script" uid="uid://cc7s164bddvqi" path="res://scenes/creature.gd" id="1_fd6ru"]
-[ext_resource type="Texture2D" uid="uid://bps01wgl8tq26" path="res://assets/godot.svg" id="2_nugsn"]
-[ext_resource type="Texture2D" uid="uid://rqdd1plv2vbu" path="res://assets/sprites/creatures/hedgehog.png" id="2_rl551"]
+[ext_resource type="Texture2D" uid="uid://c7gb4nomyx1kp" path="res://assets/sprites/creatures/bunny.png" id="2_7obff"]
 [ext_resource type="Texture2D" uid="uid://cm3jb42f7lo6f" path="res://assets/sprites/arrow.png" id="3_7obff"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bvms0"]
 radius = 180.0
+
+[sub_resource type="Gradient" id="Gradient_7obff"]
+offsets = PackedFloat32Array(0.465909, 0.466)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rl551"]
+gradient = SubResource("Gradient_7obff")
+width = 500
+height = 500
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="Animation" id="Animation_rl551"]
 length = 0.001
@@ -90,7 +100,7 @@ script = ExtResource("1_fd6ru")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("2_rl551")
+texture = ExtResource("2_7obff")
 
 [node name="Area2D" type="Area2D" parent="Sprite2D"]
 collision_mask = 0
@@ -99,6 +109,12 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
 shape = SubResource("CircleShape2D_bvms0")
+
+[node name="Shadow" type="Sprite2D" parent="Sprite2D"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.333333)
+show_behind_parent = true
+texture = SubResource("GradientTexture2D_rl551")
 
 [node name="Label" type="Label" parent="."]
 unique_name_in_owner = true
@@ -114,11 +130,6 @@ vertical_alignment = 1
 
 [node name="SFX_Player" type="AudioStreamPlayer" parent="."]
 bus = &"SFX"
-
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("2_nugsn")
 
 [node name="Arrow" type="Sprite2D" parent="."]
 unique_name_in_owner = true
