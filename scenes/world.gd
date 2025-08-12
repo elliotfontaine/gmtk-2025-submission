@@ -706,16 +706,18 @@ func update_score_display() -> void:
 func add_score_with_popup(increment: int, start_position: Vector2) -> void:
 	score_current += increment
 	var popup = FLOATING_POINT.instantiate()
-	add_child(popup)
 	popup.position = start_position
-	popup.set_points(increment, popup.PointTypes.SCORE)
+	popup.points_count = increment
+	popup.point_type = popup.PointTypes.SCORE
+	add_child(popup)
 
 func add_money_with_popup(increment: int, start_position: Vector2) -> void:
 	money += increment
 	var popup = FLOATING_POINT.instantiate()
-	add_child(popup)
 	popup.position = start_position
-	popup.set_points(increment, popup.PointTypes.MONEY)
+	popup.points_count = increment
+	popup.point_type = popup.PointTypes.MONEY
+	add_child(popup)
 
 #endregion
 
