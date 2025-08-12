@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cp6mom83ob31g" path="res://assets/sprites/ui/game_title.png" id="6_rtw2f"]
 [ext_resource type="PackedScene" uid="uid://b5v2jtkaohm20" path="res://scenes/ui/settings.tscn" id="7_oa1go"]
 [ext_resource type="Texture2D" uid="uid://bpg5uldv01ebw" path="res://assets/sprites/mole_sprite_sheet.png" id="8_tbmy8"]
-[ext_resource type="Script" path="res://scenes/tunneling_mole.gd" id="9_jk1qb"]
+[ext_resource type="Script" uid="uid://b8fc3rag55rnx" path="res://scenes/tunneling_mole.gd" id="9_jk1qb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lgwnu"]
 atlas = ExtResource("8_tbmy8")
