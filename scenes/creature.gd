@@ -6,12 +6,21 @@ signal mouse_exited
 @onready var tween_pos :Tween
 @onready var _sfx_player: AudioStreamPlayer = $SFX_Player
 @onready var arrow: Sprite2D = %Arrow
+@onready var shadow: Sprite2D = %Shadow
 @onready var animation_player_bop: AnimationPlayer = %AnimationPlayerBop
 
 var species: SpeciesResource:
 	set(value):
 		current_range = value.default_range
 		%Sprite2D.texture = value.texture
+		if value.shadow_x_scale == 0.0 or value.shadow_y_scale == 0.0:
+			%Shadow.hide()
+		else:
+			%Shadow.scale.x = value.shadow_x_scale
+			%Shadow.scale.y = value.shadow_y_scale
+			%Shadow.position.x = value.shadow_x_offset
+			%Shadow.position.y = value.shadow_y_offset
+			
 		species = value
 		#_sprite.position.y -= tex.get_height() * _sprite.scale.y /4
 

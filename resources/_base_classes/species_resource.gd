@@ -7,7 +7,6 @@ extends Resource
 @export var rarity: Constants.RARITIES = Constants.RARITIES.COMMON
 
 @export var title: String
-@export var texture: CompressedTexture2D
 ##creatures that have no effects that use range have a range of 0:
 @export_range(0, 5) var default_range: int
 @export_multiline var effect_text: String = "No effect text."
@@ -17,6 +16,14 @@ extends Resource
 @export var money_reward_2: int = 0
 @export var base_price: int = 1
 
+@export_category("Visuals")
+@export var texture: CompressedTexture2D
+@export var shadow_x_scale: float = 1.0
+@export var shadow_y_scale: float = 1.0
+@export var shadow_x_offset: float = 0.0
+@export var shadow_y_offset: float = 0.0
+
+@export_category("Audio")
 @export var sfx_placed :AudioStream
 @export var sfx_eat :AudioStream
 #@export var sfx_death :AudioStream
