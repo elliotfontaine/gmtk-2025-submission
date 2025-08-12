@@ -23,9 +23,7 @@ const base_income: int = 50
 
 @onready var camera: Camera2D = %Camera2D
 @onready var floating_creature: Sprite2D = %FloatingCreature
-@onready var label_score: Label = %LabelScore
 @onready var creature_card: CreatureCard = %CreatureCard
-@onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var sfx_player: AudioStreamPlayer = $SFX_Player
 @onready var initial_camera_zoom: float = camera.zoom.x
 @onready var currency_count: Label = %CurrencyCount
@@ -39,7 +37,7 @@ const base_income: int = 50
 @onready var labelprevscore: Label = %Labelprevscore
 @onready var h_box_tutorial: HBoxContainer = %HBoxTutorial
 @onready var settings_menu: Control = %SettingsMenu
-@onready var animation_player_score_bar: AnimationPlayer = %AnimationPlayerScoreBar
+@onready var score_bar_container: ScoreBarContainer = %ScoreBarContainer
 
 
 ##placeholder system: length of wait times 
@@ -693,7 +691,7 @@ func next_level():
 		labelprevscore.hide()
 	score_current = 0
 	score_target = level * 1 * maxi(level / 3.0, 1) + maxi(0, (level - 2) * 3)
-	progress_bar_score.max_value = score_target
+	score_bar_container.score_target = score_target
 	update_score_display()
 	
 	shop_panel.level = level
@@ -702,14 +700,7 @@ func next_level():
 	shop_panel.populate_shop()
 
 func update_score_display() -> void:
-	label_score.text = "SCORE: %s / %s" % [score_current, score_target]
-	progress_bar_score.value = score_current # would be nice to add some lerp to this
-	if score_current >= score_target and score_current != 0:
-		if animation_player_score_bar.assigned_animation not in [&"winning", &"winning_idle"]:
-			animation_player_score_bar.play(&"winning")
-			animation_player_score_bar.queue(&"winning_idle")
-	else:
-		animation_player_score_bar.play(&"RESET", 0.5)
+	score_bar_container.score_current = score_current
 
 #endregion
 
