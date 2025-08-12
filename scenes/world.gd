@@ -129,6 +129,8 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 	camera.offset.x = (-480 / 2) * (1 / camera.zoom.x)
 
 func _on_next_loop_button_pressed() -> void:
+	if floating_creature.species != null:
+		unset_floating_creature()
 	sfx_player.stream = sfx_next_loop
 	sfx_player.play()
 	if not currently_looping:
@@ -202,6 +204,8 @@ func toggle_loop_button_text(active: bool) -> void:
 				next_loop_button.text = "x8"
 
 func win() -> void:
+	if floating_creature.species != null:
+		unset_floating_creature()
 	victory_loop_label.text = "Loop reached: %s" % [level]
 	victory_ui.show()
 	sfx_player.stream = sfx_game_over
@@ -209,6 +213,8 @@ func win() -> void:
 	pass
 
 func defeat() -> void:
+	if floating_creature.species != null:
+		unset_floating_creature()
 	defeat_loop_label.text = "Loop reached: %s" % [level]
 	defeat_ui.show()
 	sfx_player.stream = sfx_game_over
@@ -787,6 +793,8 @@ var current_held_item: ShopItem
 var reroll_price: int = reroll_base_price
 
 func _on_shop_panel_rerolled() -> void:
+	if floating_creature.species != null:
+		unset_floating_creature()
 	if not currently_looping:
 		if money >= reroll_price:
 			money -= reroll_price
@@ -810,6 +818,8 @@ func do_no_action():
 	sfx_player.play()
 
 func _on_settings_button_pressed() -> void:
+	if floating_creature.species != null:
+		unset_floating_creature()
 	settings_menu.show()
 
 func _on_timer_bop_timeout() -> void:
