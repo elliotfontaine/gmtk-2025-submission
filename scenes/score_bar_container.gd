@@ -34,10 +34,10 @@ func _process(delta: float) -> void:
 		
 		var lerp_speed :float
 		if score_display < score_current:
-			lerp_speed = 2.0
+			lerp_speed = 3.0
 		else:
 			lerp_speed = 6.0
 		score_display = lerp(score_display, float(score_current), lerp_speed * delta)
 		
-		label_score.text = "SCORE: %s / %s" % [int(score_display), score_target]
+		label_score.text = "SCORE: %s / %s" % [roundi(score_display), score_target]
 		progress_bar_score.value = int(score_display)
