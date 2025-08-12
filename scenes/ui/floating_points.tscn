@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://w68tauhcj6p6" path="res://assets/sprites/ui/small_trophy.png" id="2_304a0"]
 
 [node name="FloatingPoints" type="Control"]
+z_index = 10
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
