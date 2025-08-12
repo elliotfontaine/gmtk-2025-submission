@@ -11,7 +11,7 @@ class_name ScoreBarContainer
 		score_target = val
 		_update_display()
 
-var score_display :float
+var score_display :float = 0.0
 
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var label_score: Label = %LabelScore
@@ -32,8 +32,12 @@ func _update_display() -> void:
 func _process(delta: float) -> void:
 	if score_display != score_current:
 		
-		#score_display = score_current
-		score_display = lerp(score_display, float(score_current), 5.0 * delta)
+		var lerp_speed :float
+		if score_display < score_current:
+			lerp_speed = 3.0
+		else:
+			lerp_speed = 6.0
+		score_display = lerp(score_display, float(score_current), lerp_speed * delta)
 		
-		label_score.text = "SCORE: %s / %s" % [int(score_display), score_target]
+		label_score.text = "SCORE: %s / %s" % [roundi(score_display), score_target]
 		progress_bar_score.value = int(score_display)
