@@ -7,19 +7,19 @@ const POINT_ICONS: Dictionary = {
 	PointTypes.MONEY: preload("res://assets/sprites/ui/money.png")
 }
 
-@export var move_distance: float = 50.0
+@export_group("Points")
+@export var points_count: int = 1
+@export var point_type: PointTypes = PointTypes.SCORE
+@export_group("Animation")
+@export var move_distance: float = 100.0
 @export var duration: float = 1.5
-@export var default_icon: Texture2D
 
 @onready var label: Label = %Label
 @onready var icon: TextureRect = %Icon
 
-
-func set_points(points: int, point_type: PointTypes = PointTypes.SCORE) -> void:
-	label.text = "+%d" % points
-	icon.texture = POINT_ICONS[point_type]
-
 func _ready() -> void:
+	label.text = "+%d" % points_count
+	icon.texture = POINT_ICONS[point_type]
 	modulate.a = 1.0
 	var tween = create_tween()
 	tween.tween_property(self, "position:y", position.y - move_distance, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
