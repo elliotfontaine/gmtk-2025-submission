@@ -123,13 +123,16 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 	## Adaptative zoom (smooth)
 	var zoom_target: float = (get_viewport().get_visible_rect().size.y / 2.0) / radius * zoom_factor
 	zoom_target = clampf(zoom_target, 0.0, 0.8)
-
+	
 	var offset_target_x: float = (-480 / 2.0) * (1.0 / zoom_target)
-
+	
+	if currently_looping and zoom_target > camera.zoom.x:
+		return
+	
 	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(camera, "zoom", Vector2(zoom_target, zoom_target), 0.5)
-	tween.parallel().tween_property(camera, "offset:x", offset_target_x, 0.5)
+	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(camera, "zoom", Vector2(zoom_target, zoom_target), 1.5)
+	tween.parallel().tween_property(camera, "offset:x", offset_target_x, 1.5)
 
 func _on_next_loop_button_pressed() -> void:
 	if floating_creature.species != null:
@@ -153,6 +156,7 @@ func _on_next_loop_button_pressed() -> void:
 				win()
 			else:
 				next_level()
+				update_creature_positions()
 				
 				toggle_loop_button_text(true)
 				next_loop_button_pressable = false
