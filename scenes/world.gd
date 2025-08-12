@@ -703,11 +703,13 @@ func next_level():
 
 func update_score_display() -> void:
 	label_score.text = "SCORE: %s / %s" % [score_current, score_target]
-	progress_bar_score.value = score_current #would be nice to add some lerp to this
-	if score_current > score_target:
-		animation_player_score_bar.play("winning")
+	progress_bar_score.value = score_current # would be nice to add some lerp to this
+	if score_current >= score_target and score_current != 0:
+		if animation_player_score_bar.assigned_animation not in [&"winning", &"winning_idle"]:
+			animation_player_score_bar.play(&"winning")
+			animation_player_score_bar.queue(&"winning_idle")
 	else:
-		animation_player_score_bar.play("RESET")
+		animation_player_score_bar.play(&"RESET", 0.5)
 
 #endregion
 
