@@ -119,14 +119,16 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 				new_slot.position.y = radius * sin(angle + (PI / creature_amount))
 				empty_slots.append(new_slot)
 	
-	##adaptative zoom:
-	var zoom: float = (get_viewport().get_visible_rect().size.y / 2.0) / radius * zoom_factor
-	zoom = clampf(zoom, 0.0, 0.8)
-	camera.zoom = Vector2(zoom, zoom)
-	##screen is 1920, minus about 480 for the left panel.  Therefore the offset for the camera if screen is 1920 is (-480/2) = -240.
-	##however is the camera's zoom is 0.5, then the offset should be (-480/2) * (1/0.5) = -480
-	##therefore: camera.offset = (-480/2) * (1/camera.zoom)
-	camera.offset.x = (-480 / 2) * (1 / camera.zoom.x)
+	## Adaptative zoom (smooth)
+	var zoom_target: float = (get_viewport().get_visible_rect().size.y / 2.0) / radius * zoom_factor
+	zoom_target = clampf(zoom_target, 0.0, 0.8)
+
+	var offset_target_x: float = (-480 / 2.0) * (1.0 / zoom_target)
+
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(camera, "zoom", Vector2(zoom_target, zoom_target), 0.5)
+	tween.parallel().tween_property(camera, "offset:x", offset_target_x, 0.5)
 
 func _on_next_loop_button_pressed() -> void:
 	if floating_creature.species != null:
