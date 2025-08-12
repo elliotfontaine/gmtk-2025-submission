@@ -376,7 +376,7 @@ func do_on_duplicate_actions(duplicator: Creature) -> void:
 
 ##called on loop start for start of loop effects
 func do_on_loop_start_actions() -> void:
-	SceneChanger.set_action_music()
+	SceneChanger.adaptive_music_player.tween_intensity(1.0)
 	var triggered_creatures: Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
@@ -422,7 +422,7 @@ func do_on_loop_end_actions() -> void:
 			await update_creature_positions()
 			await get_tree().create_timer(game_speed).timeout
 
-	SceneChanger.set_calm_music()
+	SceneChanger.adaptive_music_player.tween_intensity(0.5)
 
 #endregion
 

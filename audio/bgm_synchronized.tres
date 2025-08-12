@@ -11,4 +11,4 @@ stream_0/volume = 0.0
 stream_1/stream = ExtResource("2_btott")
 stream_1/volume = 0.0
 stream_2/stream = ExtResource("3_s2i6u")
-stream_2/volume = -30.0
+stream_2/volume = -60.0
