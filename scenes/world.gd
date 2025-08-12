@@ -64,6 +64,7 @@ var creature_tracker: int = 0
 var hovered_creature: Creature
 
 var currently_looping: bool = false
+var next_loop_button_pressable :bool = true
 
 var money: int = 50:
 	set(val):
@@ -135,10 +136,15 @@ func _on_next_loop_button_pressed() -> void:
 		unset_floating_creature()
 	sfx_player.stream = sfx_next_loop
 	sfx_player.play()
+	
+	if not next_loop_button_pressable:
+		return
+	
 	if not currently_looping:
 		currently_looping = true
 		toggle_loop_button_text(false)
 		shop_panel.modulate = Color.DIM_GRAY
+		
 		await run_loop()
 		if score_current >= score_target:
 			currently_looping = false
@@ -146,9 +152,12 @@ func _on_next_loop_button_pressed() -> void:
 			if level == final_level:
 				win()
 			else:
-				toggle_loop_button_text(true)
-				shop_panel.modulate = Color.WHITE
 				next_level()
+				
+				toggle_loop_button_text(true)
+				next_loop_button_pressable = false
+				shop_panel.modulate = Color.WHITE
+				get_tree().create_timer(1.0).timeout.connect(_delay_before_starting_next_loop)
 		else:
 			defeat()
 	
@@ -162,13 +171,18 @@ func _on_next_loop_button_pressed() -> void:
 		else:
 			print("what??")
 		toggle_loop_button_text(false)
-	
+
+
+func _delay_before_starting_next_loop() -> void:
+	next_loop_button_pressable = true
+
+
 func _on_continue_pressed() -> void:
 	victory_ui.hide()
 	toggle_loop_button_text(true)
 	shop_panel.modulate = Color.WHITE
 	next_level()
-	
+
 func run_loop() -> void:
 	await do_on_loop_start_actions()
 	
