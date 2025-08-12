@@ -26,7 +26,7 @@ const base_income: int = 50
 @onready var label_score: Label = %LabelScore
 @onready var creature_card: CreatureCard = %CreatureCard
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
-@onready var sfx_player: AudioStreamPlayer2D = $SFX_Player
+@onready var sfx_player: AudioStreamPlayer = $SFX_Player
 @onready var initial_camera_zoom: float = camera.zoom.x
 @onready var currency_count: Label = %CurrencyCount
 @onready var shop_panel: ShopPanel = %ShopPanel
@@ -385,7 +385,7 @@ func do_on_duplicate_actions(duplicator: Creature) -> void:
 
 ##called on loop start for start of loop effects
 func do_on_loop_start_actions() -> void:
-	SceneChanger.set_action_music()
+	SceneChanger.adaptive_music_player.tween_intensity(1.0)
 	var triggered_creatures: Array[Creature]
 	for creature in creatures:
 		match creature.species.id:
@@ -431,7 +431,7 @@ func do_on_loop_end_actions() -> void:
 			await update_creature_positions()
 			await get_tree().create_timer(game_speed).timeout
 
-	SceneChanger.set_calm_music()
+	SceneChanger.adaptive_music_player.tween_intensity(0.5)
 
 #endregion
 

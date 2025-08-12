@@ -444,7 +444,7 @@ text = "Exit"
 script = ExtResource("10_e3hyu")
 click_sound = ExtResource("5_w7kh3")
 
-[node name="SFX_Player" type="AudioStreamPlayer2D" parent="."]
+[node name="SFX_Player" type="AudioStreamPlayer" parent="."]
 bus = &"SFX"
 
 [node name="TimerBop" type="Timer" parent="."]

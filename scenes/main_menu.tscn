@@ -372,7 +372,7 @@ script = ExtResource("3_8ln24")
 click_sound = ExtResource("4_rtw2f")
 metadata/_edit_use_anchors_ = true
 
-[node name="SFX_Accept" type="AudioStreamPlayer2D" parent="."]
+[node name="SFX_Accept" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ekxnf")
 bus = &"SFX"
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://scmmi6idwkln"]
 
 [ext_resource type="Script" uid="uid://btjktrfq6182i" path="res://autoloads/scene_changer.gd" id="1_qy64d"]
-[ext_resource type="AudioStream" uid="uid://5be1mr2mtmhi" path="res://audio/bgm_synchronized.tres" id="2_gqvob"]
+[ext_resource type="Script" uid="uid://dpaf1505lu23p" path="res://classes/adaptive_music_player.gd" id="2_gqvob"]
 
 [sub_resource type="Animation" id="Animation_573uw"]
 length = 0.001
@@ -51,9 +51,12 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"_set_music_intensity"
+}, {
 "args": [],
 "method": &"_change_scene_deferred"
 }]
@@ -81,7 +84,6 @@ _data = {
 process_mode = 3
 layer = 100
 script = ExtResource("1_qy64d")
-background_music = ExtResource("2_gqvob")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
@@ -99,7 +101,8 @@ libraries = {
 &"": SubResource("AnimationLibrary_0josc")
 }
 
-[node name="BGMPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AdaptiveMusicPlayer" type="Node" parent="."]
 unique_name_in_owner = true
-volume_db = -15.0
-bus = &"Music"
+script = ExtResource("2_gqvob")
+bus = 1
+metadata/_custom_type_script = "uid://dpaf1505lu23p"
