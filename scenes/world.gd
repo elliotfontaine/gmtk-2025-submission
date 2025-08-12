@@ -3,6 +3,7 @@ extends Node2D
 
 const CREATURE = preload("res://scenes/creature.tscn")
 const EMPTY_SLOT = preload("res://scenes/empty_slot.tscn")
+const FLOATING_POINT = preload("res://scenes/ui/floating_points.tscn")
 
 ##change this value to dictate the creature size you want:
 const initial_radius: float = 1.0 / 7
@@ -173,9 +174,6 @@ func run_loop() -> void:
 		print("%s's turn" % [creature.name])
 		creature.show_arrow(true)
 		
-		##do creature's actions here:
-		#await get_tree().create_timer(game_speed / 2).timeout
-		#score_current += 1
 		await get_tree().create_timer(game_speed).timeout
 		await do_action(creature)
 		
@@ -224,13 +222,13 @@ func do_action(creature: Creature) -> void:
 		Constants.SPECIES.GRASS:
 			if not check_neighbours_types(creature, creature.current_range, [Constants.FAMILIES.PLANT]):
 				await duplicate_creature(creature)
-				score_current += creature.species.score_reward_1
+				add_score_with_popup(creature.species.score_reward_1, creature.position)
 			else:
 				do_no_action()
 		##bunbun eats a plant then duplicates, if no plant, suicides
 		Constants.SPECIES.BUNNY:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
-				score_current += creature.species.score_reward_1
+				add_score_with_popup(creature.species.score_reward_1, creature.position)
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
@@ -242,7 +240,7 @@ func do_action(creature: Creature) -> void:
 		##fox eats a neighbouring small animal :) yum
 		Constants.SPECIES.FOX:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
-				score_current += creature.species.score_reward_1
+				add_score_with_popup(creature.species.score_reward_1, creature.position)
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
@@ -253,7 +251,7 @@ func do_action(creature: Creature) -> void:
 		## hedgehog eats a plant. and cannot be eaten! (see exception in eat method)
 		Constants.SPECIES.HEDGEHOG:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
-				score_current += creature.species.score_reward_1
+				add_score_with_popup(creature.species.score_reward_1, creature.position)
 				await update_creature_positions()
 				await get_tree().create_timer(game_speed).timeout
 			else:
@@ -281,7 +279,7 @@ func do_action(creature: Creature) -> void:
 			var eaten: bool
 			for neighbour in get_neighbours_in_range(creature, creature.current_range):
 				if await attempt_to_eat_target(creature, neighbour, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
-					score_current += creature.species.score_reward_1
+					add_score_with_popup(creature.species.score_reward_1, creature.position)
 					eaten = true
 					await get_tree().create_timer(game_speed).timeout
 					await update_creature_positions()
@@ -290,7 +288,8 @@ func do_action(creature: Creature) -> void:
 		##wolf is the basic medium generator, but may also be all-ined on to maximum its "pack" flavor bonus
 		Constants.SPECIES.WOLF:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
-				score_current += creature.species.score_reward_1 * (count_how_many_in_loop(Constants.SPECIES.WOLF))
+				var score_increment = creature.species.score_reward_1 * (count_how_many_in_loop(Constants.SPECIES.WOLF))
+				add_score_with_popup(score_increment, creature.position)
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 			else:
@@ -298,15 +297,17 @@ func do_action(creature: Creature) -> void:
 		##tiger is the basic large predator - eats a medium dude in 2 range
 		Constants.SPECIES.TIGER:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.MEDIUM]):
-				score_current += creature.species.score_reward_1
+				add_score_with_popup(creature.species.score_reward_1, creature.position)
 				await get_tree().create_timer(game_speed).timeout
 				await update_creature_positions()
 			else:
 				do_no_action()
 		Constants.SPECIES.ANT:
-			score_current += creature.species.score_reward_1 * count_how_many_connected(creature, creature.species.id)
+			var score_increment = creature.species.score_reward_1 * count_how_many_connected(creature, creature.species.id)
+			add_score_with_popup(score_increment, creature.position)
 		Constants.SPECIES.VIPER:
-			money += creature.species.money_reward_1 * count_how_many_in_loop(Constants.SPECIES.EGG)
+			var money_increment = creature.species.money_reward_1 * count_how_many_in_loop(Constants.SPECIES.EGG)
+			add_money_with_popup(money_increment, creature.position)
 		Constants.SPECIES.OAK:
 			await create_in_a_random_space_in_range(creature, Constants.SPECIES.ACORN, creature.species.default_range)
 		Constants.SPECIES.SQUIRREL:
@@ -317,6 +318,7 @@ func do_action(creature: Creature) -> void:
 					furthest_small_plant_in_range = neighbour
 			if furthest_small_plant_in_range:
 				pull_to_creature(creature, furthest_small_plant_in_range)
+				add_money_with_popup(creature.species.money_reward_1, creature.position)
 		
 		##if creature doesn't do anything: skip right away instead of extra wait time
 		_:
@@ -354,9 +356,9 @@ func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 			##when eaten, egg gives extra yum!:
 			match creature.species.id:
 				Constants.SPECIES.EGG:
-					score_current += creature.species.score_reward_1
+					add_score_with_popup(creature.species.score_reward_1, creature.position)
 				Constants.SPECIES.BERRY:
-					score_current += creature.species.score_reward_1
+					add_score_with_popup(creature.species.score_reward_1, creature.position)
 	
 	remove(to_be_eaten)
 	await get_tree().create_timer(game_speed / 2).timeout
@@ -370,7 +372,7 @@ func do_on_eat_actions(eater: Creature, to_be_eaten: Creature) -> void:
 			Constants.SPECIES.ANT:
 				await duplicate_creature(creature)
 			Constants.SPECIES.CROW:
-				score_current += creature.species.score_reward_1
+				add_score_with_popup(creature.species.score_reward_1, creature.position)
 				await get_tree().create_timer(game_speed / 2).timeout
 
 ##whenever a creature duplicates, trigger _on_duplicate effects
@@ -379,7 +381,7 @@ func do_on_duplicate_actions(duplicator: Creature) -> void:
 		match creature.species.id:
 			##Badger scores on duplicate
 			Constants.SPECIES.BADGER:
-				score_current += creature.species.score_reward_1
+				add_score_with_popup(creature.species.score_reward_1, creature.position)
 
 ##called on loop start for start of loop effects
 func do_on_loop_start_actions() -> void:
@@ -403,8 +405,7 @@ func do_on_loop_start_actions() -> void:
 				##known issue: the mole may pick its own position, but eh whatever I don't wanna risk new bugs
 				await move_to(creature, randi() % creatures.size())
 				await get_tree().create_timer(game_speed).timeout
-				money += creature.species.money_reward_1
-				
+				add_money_with_popup(creature.species.money_reward_1, creature.position)
 
 ##called on loop end for end of loop effects
 func do_on_loop_end_actions() -> void:
@@ -417,7 +418,7 @@ func do_on_loop_end_actions() -> void:
 			Constants.SPECIES.BERRY:
 				remove_queue.append(creature)
 			Constants.SPECIES.ACORN:
-				score_current += creature.species.score_reward_1
+				add_score_with_popup(creature.species.score_reward_1, creature.position)
 				remove_queue.append(creature)
 				await get_tree().create_timer(game_speed / 4).timeout
 	
@@ -701,6 +702,20 @@ func next_level():
 
 func update_score_display() -> void:
 	score_bar_container.score_current = score_current
+
+func add_score_with_popup(increment: int, start_position: Vector2) -> void:
+	score_current += increment
+	var popup = FLOATING_POINT.instantiate()
+	add_child(popup)
+	popup.position = start_position
+	popup.set_points(increment, popup.PointTypes.SCORE)
+
+func add_money_with_popup(increment: int, start_position: Vector2) -> void:
+	money += increment
+	var popup = FLOATING_POINT.instantiate()
+	add_child(popup)
+	popup.position = start_position
+	popup.set_points(increment, popup.PointTypes.MONEY)
 
 #endregion
 

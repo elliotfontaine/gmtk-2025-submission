@@ -1,4 +1,4 @@
-class_name FloatingPoint extends Control
+extends Control
 
 enum PointTypes {SCORE, MONEY}
 
@@ -8,7 +8,7 @@ const POINT_ICONS: Dictionary = {
 }
 
 @export var move_distance: float = 50.0
-@export var duration: float = 1.0
+@export var duration: float = 1.5
 @export var default_icon: Texture2D
 
 @onready var label: Label = %Label
