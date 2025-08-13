@@ -40,4 +40,4 @@ func _process(delta: float) -> void:
 		score_display = lerp(score_display, float(score_current), lerp_speed * delta)
 		
 		label_score.text = "SCORE: %s / %s" % [roundi(score_display), score_target]
-		progress_bar_score.value = int(score_display)
+		progress_bar_score.value = roundi(score_display)
