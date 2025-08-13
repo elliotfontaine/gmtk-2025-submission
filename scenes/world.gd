@@ -243,6 +243,8 @@ func defeat() -> void:
 #region creature action matchers
 
 func do_action(creature: Creature) -> void:
+	var did_nothing :bool = false
+	
 	match creature.species.id:
 		##if grass has no plant neighbours, it duplicates
 		Constants.SPECIES.GRASS:
@@ -251,6 +253,7 @@ func do_action(creature: Creature) -> void:
 				add_score_with_popup(creature.species.score_reward_1, creature.position)
 			else:
 				do_no_action()
+				did_nothing = true
 		##bunbun eats a plant then duplicates, if no plant, suicides
 		Constants.SPECIES.BUNNY:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
@@ -274,6 +277,7 @@ func do_action(creature: Creature) -> void:
 					await duplicate_creature(creature)
 			else:
 				do_no_action()
+				did_nothing = true
 		## hedgehog eats a plant. and cannot be eaten! (see exception in eat method)
 		Constants.SPECIES.HEDGEHOG:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.PLANT], [Constants.SIZES.SMALL]):
@@ -282,6 +286,7 @@ func do_action(creature: Creature) -> void:
 				await get_tree().create_timer(game_speed).timeout
 			else:
 				do_no_action()
+				did_nothing = true
 		##chimkin consumes an insect, if succesful creates an egg
 		Constants.SPECIES.CHICKEN:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.TINY]):
@@ -291,6 +296,7 @@ func do_action(creature: Creature) -> void:
 					create(creature, Constants.SPECIES.EGG)
 			else:
 				do_no_action()
+				did_nothing = true
 		##songbird eats an insect in a bigger range, if succesful he creates an egg and places it far away
 		Constants.SPECIES.SONGBIRD:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.TINY]):
@@ -300,6 +306,7 @@ func do_action(creature: Creature) -> void:
 				create(creature, Constants.SPECIES.EGG, 3)
 			else:
 				do_no_action()
+				did_nothing = true
 		##lynx eats both of its neighbours if possible :3 yum
 		Constants.SPECIES.LYNX:
 			var eaten: bool
@@ -311,6 +318,7 @@ func do_action(creature: Creature) -> void:
 					await update_creature_positions()
 			if !eaten:
 				do_no_action()
+				did_nothing = true
 		##wolf is the basic medium generator, but may also be all-ined on to maximum its "pack" flavor bonus
 		Constants.SPECIES.WOLF:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.SMALL]):
@@ -320,6 +328,7 @@ func do_action(creature: Creature) -> void:
 				await update_creature_positions()
 			else:
 				do_no_action()
+				did_nothing = true
 		##tiger is the basic large predator - eats a medium dude in 2 range
 		Constants.SPECIES.TIGER:
 			if await eat_something_in_range(creature, creature.current_range, [Constants.FAMILIES.ANIMAL], [Constants.SIZES.MEDIUM]):
@@ -328,6 +337,7 @@ func do_action(creature: Creature) -> void:
 				await update_creature_positions()
 			else:
 				do_no_action()
+				did_nothing = true
 		Constants.SPECIES.ANT:
 			var score_increment = creature.species.score_reward_1 * count_how_many_connected(creature, creature.species.id)
 			add_score_with_popup(score_increment, creature.position)
@@ -345,12 +355,15 @@ func do_action(creature: Creature) -> void:
 			if furthest_small_plant_in_range:
 				pull_to_creature(creature, furthest_small_plant_in_range)
 				add_money_with_popup(creature.species.money_reward_1, creature.position)
+				await get_tree().create_timer(game_speed).timeout
 		
 		##if creature doesn't do anything: skip right away instead of extra wait time
 		_:
 			return
 	
-	await get_tree().create_timer(game_speed).timeout
+	if not did_nothing:
+		await get_tree().create_timer(game_speed).timeout
+	
 	return
 
 ##whenever a creature is to be eaten, run this method to trigger all _on_eat effects after eating it
