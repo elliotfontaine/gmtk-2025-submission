@@ -731,7 +731,6 @@ func next_level():
 		labelprevscore.hide()
 	score_current = 0
 	score_target = level * 1 * maxi(level / 3.0, 1) + maxi(0, (level - 2) * 3)
-	score_bar_container.score_target = score_target
 	update_score_display()
 	
 	shop_panel.level = level
@@ -741,6 +740,7 @@ func next_level():
 
 func update_score_display() -> void:
 	score_bar_container.score_current = score_current
+	score_bar_container.score_target = score_target
 
 func add_score_with_popup(increment: int, start_position: Vector2) -> void:
 	if increment == 0: return
