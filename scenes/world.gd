@@ -739,8 +739,8 @@ func next_level():
 	shop_panel.populate_shop()
 
 func update_score_display() -> void:
-	score_bar_container.score_current = score_current
-	score_bar_container.score_target = score_target
+	score_bar_container.current_score = score_current
+	score_bar_container.max_score = score_target
 
 func add_score_with_popup(increment: int, start_position: Vector2) -> void:
 	if increment == 0: return

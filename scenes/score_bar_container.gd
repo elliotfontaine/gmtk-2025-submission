@@ -1,28 +1,25 @@
 extends CenterContainer
 class_name ScoreBarContainer
 
-@export var score_current :int:
+@export var current_score :int:
 	set(val):
-		score_current = val
-		_update_display()
+		current_score = val
+		_update_trophy_state()
 
-@export var score_target :int:
+@export var max_score :int:
 	set(val):
-		score_target = val
-		_update_display()
+		max_score = val
+		_update_trophy_state()
 
-var score_display :float = 0.0
+## value between 0 and 100
+var _score_display :float = 0.0
 
 @onready var progress_bar_score: ProgressBar = %ProgressBarScore
 @onready var label_score: Label = %LabelScore
 @onready var animation_player_score_bar: AnimationPlayer = %AnimationPlayerScoreBar
 
-func _update_display() -> void:
-	progress_bar_score.max_value = score_target
-	#label_score.text = "SCORE: %s / %s" % [score_current, score_target]
-	#progress_bar_score.value = score_current
-	
-	if score_current >= score_target and score_current != 0:
+func _update_trophy_state() -> void:
+	if current_score >= max_score and current_score != 0:
 		if animation_player_score_bar.assigned_animation not in [&"winning", &"winning_idle"]:
 			animation_player_score_bar.play(&"winning")
 			animation_player_score_bar.queue(&"winning_idle")
@@ -30,14 +27,15 @@ func _update_display() -> void:
 		animation_player_score_bar.play(&"RESET", 0.5)
 
 func _process(delta: float) -> void:
-	if score_display != score_current:
+	var display_target = clamp((current_score / float(max_score)) * 100.0, 0.0, 100.0)
+	if _score_display != display_target:
 		
 		var lerp_speed :float
-		if score_display < score_current:
+		if _score_display < display_target:
 			lerp_speed = 3.0
 		else:
 			lerp_speed = 6.0
-		score_display = lerp(score_display, float(score_current), lerp_speed * delta)
+		_score_display = lerp(_score_display, float(display_target), lerp_speed * delta)
 		
-		label_score.text = "SCORE: %s / %s" % [roundi(score_display), score_target]
-		progress_bar_score.value = roundi(score_display)
+		label_score.text = "SCORE: %s / %s" % [roundi(current_score), max_score]
+		progress_bar_score.value = roundi(_score_display)

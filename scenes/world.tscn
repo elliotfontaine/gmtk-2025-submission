@@ -242,7 +242,6 @@ custom_minimum_size = Vector2(380, 50)
 layout_mode = 2
 mouse_filter = 2
 step = 1.0
-value = 50.0
 show_percentage = false
 
 [node name="LabelScore" type="Label" parent="UI/MarginContainer/HBoxContainer/VBoxContainer/ScoreBarContainer"]
