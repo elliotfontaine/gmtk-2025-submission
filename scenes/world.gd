@@ -743,6 +743,7 @@ func update_score_display() -> void:
 	score_bar_container.score_current = score_current
 
 func add_score_with_popup(increment: int, start_position: Vector2) -> void:
+	if increment == 0: return
 	score_current += increment
 	var popup = FLOATING_POINT.instantiate()
 	popup.position = start_position
@@ -752,6 +753,7 @@ func add_score_with_popup(increment: int, start_position: Vector2) -> void:
 	add_child(popup)
 
 func add_money_with_popup(increment: int, start_position: Vector2) -> void:
+	if increment == 0: return
 	money += increment
 	var popup = FLOATING_POINT.instantiate()
 	popup.position = start_position
