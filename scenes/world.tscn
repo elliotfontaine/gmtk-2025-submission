@@ -472,6 +472,7 @@ wait_time = 2.0
 autostart = true
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
+z_index = -100
 scale = Vector2(2, 2)
 repeat_size = Vector2(1920, 1080)
 repeat_times = 5
