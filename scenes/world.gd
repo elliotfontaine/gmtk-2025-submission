@@ -64,7 +64,7 @@ var creature_tracker: int = 0
 var hovered_creature: Creature
 
 var currently_looping: bool = false
-var next_loop_button_pressable :bool = true
+var next_loop_button_pressable: bool = true
 
 var money: int = 50:
 	set(val):
@@ -243,7 +243,7 @@ func defeat() -> void:
 #region creature action matchers
 
 func do_action(creature: Creature) -> void:
-	var did_nothing :bool = false
+	var did_nothing: bool = false
 	
 	match creature.species.id:
 		##if grass has no plant neighbours, it duplicates
@@ -748,6 +748,7 @@ func add_score_with_popup(increment: int, start_position: Vector2) -> void:
 	popup.position = start_position
 	popup.points_count = increment
 	popup.point_type = popup.PointTypes.SCORE
+	popup.scale = Vector2(1.0 / camera.zoom.x, 1.0 / camera.zoom.y) / 2
 	add_child(popup)
 
 func add_money_with_popup(increment: int, start_position: Vector2) -> void:
