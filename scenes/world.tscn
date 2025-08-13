@@ -267,7 +267,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_lakw3")
 }
 
-[node name="LabelLoop" type="Label" parent="UI/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="ScoreBarFooter" type="HBoxContainer" parent="UI/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="LabelLoop" type="Label" parent="UI/MarginContainer/HBoxContainer/VBoxContainer/ScoreBarFooter"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -278,7 +282,7 @@ theme_override_constants/outline_size = 9
 theme_override_font_sizes/font_size = 20
 text = "Loop #1"
 
-[node name="Labelprevscore" type="Label" parent="UI/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Labelprevscore" type="Label" parent="UI/MarginContainer/HBoxContainer/VBoxContainer/ScoreBarFooter"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -286,7 +290,7 @@ size_flags_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 9
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 20
 text = "previous score: "
 
 [node name="ButtonAdd" type="Button" parent="UI/MarginContainer/HBoxContainer"]
@@ -477,9 +481,11 @@ z_index = -100
 scale = Vector2(2, 2)
 repeat_size = Vector2(1920, 1080)
 repeat_times = 5
+metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
 texture = ExtResource("2_qfnet")
+metadata/_edit_lock_ = true
 
 [connection signal="floating_creature_asked" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_floating_creature_asked"]
 [connection signal="item_exited" from="UI/MarginContainer/HBoxContainer/LeftSideUI/ShopPanel" to="." method="_on_shop_panel_item_exited"]
