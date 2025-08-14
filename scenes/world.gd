@@ -8,7 +8,7 @@ const FLOATING_POINT = preload("res://scenes/ui/floating_points.tscn")
 ##change this value to dictate the creature size you want:
 const initial_radius: float = 1.0 / 7
 ##change this value to dictate how much space the loop should take:
-const zoom_factor: float = 0.7
+const zoom_factor: float = 0.6
 const base_creature_distance: int = 60
 
 const reroll_base_price: int = 10
