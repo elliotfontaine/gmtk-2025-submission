@@ -479,7 +479,7 @@ autostart = true
 z_index = -100
 scale = Vector2(2, 2)
 repeat_size = Vector2(1920, 1080)
-repeat_times = 5
+repeat_times = 15
 metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
