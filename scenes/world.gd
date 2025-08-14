@@ -743,22 +743,24 @@ func update_score_display() -> void:
 	score_bar_container.max_score = score_target
 
 func add_score_with_popup(increment: int, start_position: Vector2) -> void:
-	if increment == 0: return
-	score_current += increment
-	var popup = FLOATING_POINT.instantiate()
-	popup.position = start_position
-	popup.points_count = increment
-	popup.point_type = popup.PointTypes.SCORE
-	popup.scale = Vector2(1.0 / camera.zoom.x, 1.0 / camera.zoom.y) / 2
-	add_child(popup)
+	_add_point_with_popup(increment, start_position, "score")
 
 func add_money_with_popup(increment: int, start_position: Vector2) -> void:
-	if increment == 0: return
-	money += increment
+	_add_point_with_popup(increment, start_position, "money")
+
+func _add_point_with_popup(increment: int, start_position: Vector2, point_type: String = "score"):
+	if increment == 0 or point_type not in ["score", "money"]: return
 	var popup = FLOATING_POINT.instantiate()
-	popup.position = start_position
 	popup.points_count = increment
-	popup.point_type = popup.PointTypes.MONEY
+	popup.position = start_position
+	popup.scale = Vector2(1.0 / camera.zoom.x, 1.0 / camera.zoom.y) / 2
+	popup.move_distance = 50.0 / camera.zoom.x
+	if point_type == "money":
+		popup.point_type = popup.PointTypes.MONEY
+		money += increment
+	else:
+		popup.point_type = popup.PointTypes.SCORE
+		score_current += increment
 	add_child(popup)
 
 #endregion
