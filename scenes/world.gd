@@ -40,6 +40,7 @@ const base_income: int = 50
 @onready var settings_menu: Control = %SettingsMenu
 @onready var score_bar_container: ScoreBarContainer = %ScoreBarContainer
 
+@onready var tween_camera :Tween
 
 ##placeholder system: length of wait times 
 const game_speeds: Array[float] = [0.8, 0.4, 0.2, 0.1]
@@ -120,6 +121,9 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 				new_slot.position.y = radius * sin(angle + (PI / creature_amount))
 				empty_slots.append(new_slot)
 	
+	if show_empty_slots: #fix to camera resetting its lerp even with no loop size change when called to display the placement markers
+		return
+	
 	## Adaptative zoom (smooth)
 	var zoom_target: float = (get_viewport().get_visible_rect().size.y / 2.0) / radius * zoom_factor
 	zoom_target = clampf(zoom_target, 0.0, 0.8)
@@ -129,10 +133,12 @@ func update_creature_positions(show_empty_slots: bool = false) -> void:
 	if currently_looping and zoom_target > camera.zoom.x:
 		return
 	
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(camera, "zoom", Vector2(zoom_target, zoom_target), 1.5)
-	tween.parallel().tween_property(camera, "offset:x", offset_target_x, 1.5)
+	if tween_camera and tween_camera.is_running():
+		tween_camera.kill()
+	tween_camera = create_tween()
+	tween_camera.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween_camera.tween_property(camera, "zoom", Vector2(zoom_target, zoom_target), 1.5)
+	tween_camera.parallel().tween_property(camera, "offset:x", offset_target_x, 1.5)
 
 func _on_next_loop_button_pressed() -> void:
 	if floating_creature.species != null:
