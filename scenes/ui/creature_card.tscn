@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bbetjgrjbsdi8"]
+[gd_scene load_steps=5 format=3 uid="uid://bbetjgrjbsdi8"]
 
 [ext_resource type="Script" uid="uid://k63iphdos8jf" path="res://scenes/ui/creature_card.gd" id="1_6615u"]
 [ext_resource type="Texture2D" uid="uid://dxubv1qlao35k" path="res://assets/sprites/ui/creature_background.png" id="1_nx1no"]
@@ -6,8 +6,6 @@
 
 [sub_resource type="Theme" id="Theme_0agqf"]
 Label/font_sizes/font_size = 16
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ptfb3"]
 
 [node name="CreatureCardPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 200)
@@ -79,11 +77,6 @@ visible = false
 layout_mode = 2
 texture = ExtResource("3_h6b8u")
 expand_mode = 3
-
-[node name="NegativeSpace" type="Panel" parent="HBoxContainer/VBoxContainer/MiddleLine"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_ptfb3")
 
 [node name="Size" type="Label" parent="HBoxContainer/VBoxContainer/MiddleLine"]
 unique_name_in_owner = true
