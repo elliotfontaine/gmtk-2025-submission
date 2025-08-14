@@ -65,7 +65,7 @@ func enhance_text(text:String,sp:SpeciesResource=null) -> String:
 		
 		if word == "trophies":
 			enhanced_text += "[img={20, 20}]res://assets/sprites/ui/small_trophy.png[/img]"
-		if word == "biomass":
+		elif word == "biomass":
 			enhanced_text += "[img={20, 20}]res://assets/sprites/ui/money.png[/img]"
 		elif word == "range":
 			if sp:
@@ -77,6 +77,5 @@ func enhance_text(text:String,sp:SpeciesResource=null) -> String:
 		if stored_puncuation:
 			enhanced_text += stored_puncuation
 		enhanced_text += " "
-	
 	
 	return enhanced_text
