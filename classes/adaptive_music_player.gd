@@ -1,5 +1,10 @@
 @tool
 class_name AdaptiveMusicPlayer extends Node
+# WARNING: With the current state, only _StreamTypes.SYNC is used because
+# _StreamTypes.THREE produces desynch after a while.
+# _StreamTypes.THREE was an attempt at fixing the garble occuring on web on
+# lower-end devices.
+
 
 ## This AudioStreamSynchronized should have 3 tracks, ordered that way: [br]
 ## - "always playing" [br]
@@ -68,7 +73,8 @@ var _current_stream_type: _StreamTypes
 	
 
 func _ready() -> void:
-	_current_stream_type = _StreamTypes.THREE if OS.has_feature("web") else _StreamTypes.SYNC
+	#_current_stream_type = _StreamTypes.THREE if OS.has_feature("web") else _StreamTypes.SYNC
+	_current_stream_type = _StreamTypes.SYNC
 	if _current_stream_type == _StreamTypes.THREE:
 		_add_three_children()
 	else:
